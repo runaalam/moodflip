@@ -80,7 +80,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
 .loadpath
 
 # External tool builders
@@ -105,11 +104,7 @@ local.properties
 #### SPRING & HIBERNATE ####
 ############################
 
-/.classpath
 /.clover
-/.project
-/.settings
-/.springBeans
 /.metadata
 /target
 /bin
