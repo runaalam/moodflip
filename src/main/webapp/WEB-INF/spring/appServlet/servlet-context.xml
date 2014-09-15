@@ -69,4 +69,20 @@
 		<beans:property name="successView" value="hello.htm"/>
 		<beans:property name="productManager" ref="productManager"/>
 	</beans:bean>
+	
+	<beans:bean name="/cardGame.htm" class="au.moodflip.web.CardGameController">
+	</beans:bean>
+	
+	<beans:bean name="/moodTracking.htm" class="au.moodflip.web.MoodTrackingController">
+	</beans:bean>
+	
+	<beans:bean name="/communication.htm" class="au.moodflip.web.CommunicationController">
+	</beans:bean>
+	
+	<beans:bean name="/personalisation.htm" class="au.moodflip.web.PersonalisationController">
+	</beans:bean>
+	
+	<beans:bean name="/userHomepage.htm" class="au.moodflip.web.UserHomepageController">
+	</beans:bean>
+	
 </beans:beans>
