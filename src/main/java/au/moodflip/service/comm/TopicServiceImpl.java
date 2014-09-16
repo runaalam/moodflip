@@ -1,4 +1,4 @@
-package au.moodflip.comm.service;
+package au.moodflip.service.comm;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import au.moodflip.comm.dao.TopicDao;
-import au.moodflip.comm.model.Topic;
+import au.moodflip.dao.comm.TopicDao;
+import au.moodflip.model.comm.Topic;
 
 @Service
 public class TopicServiceImpl implements TopicService {

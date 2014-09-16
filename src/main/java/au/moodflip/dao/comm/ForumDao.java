@@ -1,19 +1,19 @@
-package au.moodflip.comm.service;
+package au.moodflip.dao.comm;
 
 import java.util.List;
 
-import au.moodflip.comm.model.Forum;
+import au.moodflip.model.comm.Forum;
 
-public interface ForumService {
+public interface ForumDao {
 
 	public void addForum(Forum forum);
 
 	public List<Forum> listForum();
 	
 	public Forum getForumById(Long id);
-
+	
 	public void editForum(Forum forum);
-
+	
 	public void removeForum(Long id);
 
 }

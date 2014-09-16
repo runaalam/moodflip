@@ -1,4 +1,4 @@
-package au.moodflip.comm.controller;
+package au.moodflip.controller.comm;
 
 import java.util.Date;
 import java.util.List;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.moodflip.comm.model.Forum;
-import au.moodflip.comm.model.Topic;
-import au.moodflip.comm.service.ForumService;
-import au.moodflip.comm.service.TopicService;
+import au.moodflip.model.comm.Forum;
+import au.moodflip.model.comm.Topic;
+import au.moodflip.service.comm.ForumService;
+import au.moodflip.service.comm.TopicService;
 
 @Controller
 @RequestMapping(value = "/forum/{forumId}")
