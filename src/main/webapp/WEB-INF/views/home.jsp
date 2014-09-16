@@ -10,7 +10,7 @@
 
 	<h3><a href="<c:url value="/card-game"/>">Card Game</a></h3>
 
-	<h3><a href="<c:url value="/mood-tracking"/>">mood tracking system</a></h3>
+	<h3><a href="<c:url value="/mood-tracking"/>">mood system</a></h3>
 	
 	<h3><a href="<c:url value="/forum" />">Forum</a></h3>
 
