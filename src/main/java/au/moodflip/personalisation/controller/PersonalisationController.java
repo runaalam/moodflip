@@ -1,4 +1,4 @@
-package au.mooflip.personalisation.controller;
+package au.moodflip.personalisation.controller;
 
 import java.util.Locale;
 
