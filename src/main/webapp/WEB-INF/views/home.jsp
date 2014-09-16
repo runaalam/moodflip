@@ -1,20 +1,22 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ include file="/WEB-INF/views/include.jsp"%>
 <html>
 <head>
-	<title>Home</title>
+<title><fmt:message key="title" /></title>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
+	<h1>
+		<fmt:message key="heading" />
+	</h1>
 
-<P>  The time on the server is ${serverTime}. </P>
-<a href="<c:url value="cardGame.htm"/>">card game</a>
-<a href="<c:url value="moodTracking.htm"/>">mood tracking system</a>
-<a href="<c:url value="communication.htm"/>">communication system</a>
-<a href="<c:url value="personalisation.htm"/>">personalisation for different user classes</a>
-<a href="<c:url value="userHomepage.htm"/>">user homepage, status, activity, survey</a>
+	<h3><a href="<c:url value="/card-game"/>">Card Game</a></h3>
 
+	<h3><a href="<c:url value="/mood-tracking"/>">mood tracking system</a></h3>
+	
+	<h3><a href="<c:url value="/forum" />">Forum</a></h3>
+
+	<h3><a href="<c:url value="/personalisation"/>">personalisation for different user classes</a></h3>
+
+	<h3><a href="<c:url value="/user-homepage"/>">user homepage, status, activity, survey</a></h3>
+	
 </body>
 </html>

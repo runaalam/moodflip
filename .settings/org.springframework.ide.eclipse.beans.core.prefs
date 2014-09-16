@@ -33,7 +33,7 @@
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/task=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/tx=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/util=
-//org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/au.moodflip.web-services=
+//org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/web-services=
 //org.springframework.ide.eclipse.beans.core.default.version.http\://www.springframework.org/schema/webflow-config=
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.osgi.org/xmlns/blueprint/v1.0.0=bp
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/aop=aop
@@ -69,7 +69,7 @@
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/task=task
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/tx=tx
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/util=util
-//org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/au.moodflip.web-services=ws
+//org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/web-services=ws
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/webflow-config=flow
 eclipse.preferences.version=1
 org.springframework.ide.eclipse.beans.core.default.version.check.classpath=true
