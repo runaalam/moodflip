@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="au.usyd.elec5619">
+	<logger name="au.moodflip">
 		<level value="info" />
 	</logger>
 	
