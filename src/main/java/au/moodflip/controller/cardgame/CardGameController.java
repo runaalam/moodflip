@@ -1,4 +1,4 @@
-package au.moodflip.cardgame.controller;
+package au.moodflip.controller.cardgame;
 
 import java.util.Locale;
 

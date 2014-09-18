@@ -1,4 +1,4 @@
-package au.moodflip.moodtrack.controller;
+package au.moodflip.controller.userpage;
 
 import java.util.Locale;
 
@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/mood-tracking")
-public class MoodTrackingController {
+@RequestMapping(value = "/user-homepage")
+public class UserHomepageController {
 	private static final Logger logger = LoggerFactory
-			.getLogger(MoodTrackingController.class);
+			.getLogger(UserHomepageController.class);
 
-	private final String FOLDER = "mood-tracking";
+	private final String FOLDER = "user-homepage";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
-		logger.info("Welcome to the mood tracking system!");
-		ModelAndView mav = new ModelAndView(FOLDER + "/moodTracking");
+		logger.info("Welcome to the user home page system!");
+		ModelAndView mav = new ModelAndView(FOLDER + "/userHomepage");
 		return mav;
 	}
 

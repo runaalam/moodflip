@@ -1,4 +1,4 @@
-package au.moodflip.comm.dao;
+package au.moodflip.dao.comm;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import au.moodflip.comm.model.Forum;
+import au.moodflip.model.comm.Forum;
 
 @Repository
 public class ForumDaoImpl implements ForumDao {

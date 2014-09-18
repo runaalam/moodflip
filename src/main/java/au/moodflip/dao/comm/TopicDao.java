@@ -1,8 +1,8 @@
-package au.moodflip.comm.dao;
+package au.moodflip.dao.comm;
 
 import java.util.List;
 
-import au.moodflip.comm.model.Topic;
+import au.moodflip.model.comm.Topic;
 
 public interface TopicDao {
 	

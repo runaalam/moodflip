@@ -1,9 +1,11 @@
-package au.moodflip.comm.dao;
+package au.moodflip.dao.comm;
 
 import java.util.List;
 
 
-import au.moodflip.comm.model.Forum;
+
+import au.moodflip.model.comm.Forum;
+
 
 public interface ForumDao {
 
