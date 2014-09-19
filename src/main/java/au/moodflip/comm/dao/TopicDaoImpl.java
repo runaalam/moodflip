@@ -1,4 +1,4 @@
-package au.moodflip.dao.comm;
+package au.moodflip.comm.dao;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import au.moodflip.model.comm.Topic;
+import au.moodflip.comm.model.Topic;
 
 @Repository
 public class TopicDaoImpl implements TopicDao {

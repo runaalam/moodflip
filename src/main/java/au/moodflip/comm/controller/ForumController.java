@@ -1,6 +1,8 @@
-package au.moodflip.controller.comm;
+package au.moodflip.comm.controller;
 
 import java.util.List;
+
+
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.moodflip.model.comm.Forum;
-import au.moodflip.service.comm.ForumService;
+import au.moodflip.comm.model.Forum;
+import au.moodflip.comm.service.ForumService;
 
 @Controller
 @RequestMapping(value = "/forum")

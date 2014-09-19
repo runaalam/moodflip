@@ -1,4 +1,4 @@
-package au.moodflip.controller.personalisation;
+package au.moodflip.userpage.controller;
 
 import java.util.Locale;
 
@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/personalisation")
-public class PersonalisationController {
+@RequestMapping(value = "/user-homepage")
+public class UserHomepageController {
 	private static final Logger logger = LoggerFactory
-			.getLogger(PersonalisationController.class);
+			.getLogger(UserHomepageController.class);
 
-	private final String FOLDER = "personalisation";
+	private final String FOLDER = "user-homepage";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
-		logger.info("Welcome to the personalisation system!");
-		ModelAndView mav = new ModelAndView(FOLDER + "/personalisation");
+		logger.info("Welcome to the user home page system!");
+		ModelAndView mav = new ModelAndView(FOLDER + "/userHomepage");
 		return mav;
 	}
 

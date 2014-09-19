@@ -1,4 +1,4 @@
-package au.moodflip.controller.moodtrack;
+package au.moodflip.personalisation.controller;
 
 import java.util.Locale;
 
@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value = "/mood-tracking")
-public class MoodTrackingController {
+@RequestMapping(value = "/personalisation")
+public class PersonalisationController {
 	private static final Logger logger = LoggerFactory
-			.getLogger(MoodTrackingController.class);
+			.getLogger(PersonalisationController.class);
 
-	private final String FOLDER = "mood-tracking";
+	private final String FOLDER = "personalisation";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
-		logger.info("Welcome to the mood tracking system!");
-		ModelAndView mav = new ModelAndView(FOLDER + "/moodTracking");
+		logger.info("Welcome to the personalisation system!");
+		ModelAndView mav = new ModelAndView(FOLDER + "/personalisation");
 		return mav;
 	}
 

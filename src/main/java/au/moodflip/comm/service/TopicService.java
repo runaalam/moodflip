@@ -1,8 +1,8 @@
-package au.moodflip.service.comm;
+package au.moodflip.comm.service;
 
 import java.util.List;
 
-import au.moodflip.model.comm.Topic;
+import au.moodflip.comm.model.Topic;
 
 public interface TopicService {
 	

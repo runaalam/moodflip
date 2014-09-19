@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Controller
+//@Controller
 @SessionAttributes("command")
 public class ReportsController{
 

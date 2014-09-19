@@ -22,7 +22,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+		logger.info("Welcome home!");
 		ModelAndView mav = new ModelAndView("home");
 		return mav;
 	}

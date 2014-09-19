@@ -1,4 +1,4 @@
-package au.moodflip.model.comm;
+package au.moodflip.comm.model;
 
 import java.io.Serializable;
 import java.util.Date;
