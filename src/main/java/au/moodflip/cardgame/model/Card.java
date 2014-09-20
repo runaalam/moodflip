@@ -1,54 +1,53 @@
 package au.moodflip.cardgame.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
+
 
 @Entity
 @Table(name="Cards")
 public class Card implements Serializable{
 	public enum Symptom{
-//		SADNESS, LOSS_OF_INTEREST, APPETITE, SLEEP, THINKING, GUILT, TIRED, MOVEMENT, SUICIDAL_IDEATION;
-		SADNESS("SADNESS", "Sadness"), 
-		LOSS_OF_INTEREST("LOSS_OF_INTEREST", "Loss of interest"),
-		APPETITE("APPETITE", "Appetite"),
-		SLEEP("SLEEP", "Sleep"),
-		THINKING("THINKING", "Thinking / Concentration"),
-		GUILT("GUILT", "Guilt / worthlessness"),
-		TIRED("TIRED", "Tired"),
-		MOVEMENT("MOVEMENT", "Movement"),
-		SUICIDAL_IDEATION("SUICIDAL_IDEATION", "Suicidal ideation");
+		SADNESS("Sadness"), 
+		LOSS_OF_INTEREST("Loss of interest"),
+		APPETITE("Appetite"),
+		SLEEP("Sleep"),
+		THINKING("Thinking / Concentration"),
+		GUILT("Guilt / worthlessness"),
+		TIRED("Tired"),
+		MOVEMENT("Movement"),
+		SUICIDAL_IDEATION("Suicidal ideation");
 		
 		private final String text;
-		private final String id;
-		
-		private Symptom(final String id, final String text){
-			this.id = id;
+
+		private Symptom(final String text){
 			this.text = text;
 		}
 
 		public String getText() {
 			return text;
 		}
-
-		public String getId() {
-			return id;
-		}
 	}
 	
 //	public static void main(String[] args) {
 //		Symptom s = Symptom.APPETITE;
 //		Symptom ret = Symptom.valueOf("APPETITE");
-//		System.out.println("return " + ret);
+//		System.out.println("return " + ret + " toString:" + Symptom.GUILT);
 //	}
 	
 	@Id
@@ -60,12 +59,16 @@ public class Card implements Serializable{
 	private long userId;
 	
 	@Column(name="title")
+	@NotBlank
+	@Size(max=50)
 	private String title;
 	
 	@Column(name="symptom")
+	@NotNull
 	private Symptom symptom;
 	
 	@Column(name="level")
+	@Min(1) @Max(7)
 	private int level;
 	
 	@Column(name="completions")
@@ -75,9 +78,11 @@ public class Card implements Serializable{
 	private long attempts;
 	
 	@Column(name="intro")
+	@NotBlank
 	private String intro;
 	
 	@Column(name="outro")
+	@NotBlank
 	private String outro;
 	
 	@Column(name="average_rating")
@@ -176,5 +181,12 @@ public class Card implements Serializable{
 		buffer.append("Attempts: " + attempts + ";");
 		buffer.append("Completions: " + completions + ";");
 		return buffer.toString();
+	}
+	
+	@Bean
+	public MessageSource messageSource(){
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("messages");
+		return messageSource;
 	}
 }

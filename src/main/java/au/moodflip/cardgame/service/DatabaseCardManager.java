@@ -24,6 +24,22 @@ public class DatabaseCardManager implements CardManager{
 	public List<Card> getCards() {
 		return sessionFactory.getCurrentSession().createQuery("from Card").list();
 	}
+
+	@Override
+	public Card getCardById(long id) {
+		return (Card)sessionFactory.getCurrentSession().get(Card.class, id);
+	}
+
+	@Override
+	public void updateCard(Card card) {
+		sessionFactory.getCurrentSession().merge(card);
+	}
+
+	@Override
+	public void deleteCard(long id) {
+		Card c = getCardById(id);
+		sessionFactory.getCurrentSession().delete(c);
+	}
 	
 	
 }
