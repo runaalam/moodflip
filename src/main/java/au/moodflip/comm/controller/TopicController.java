@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +22,7 @@ import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
 
 @Controller
+@SessionAttributes(value = {"forum", "topic", "comment"})
 @RequestMapping(value = "/forum/{forumId}")
 public class TopicController {
 
@@ -34,38 +36,35 @@ public class TopicController {
 
 	@Autowired
 	private ForumService forumService;
-
-	private Long forumId;
-	private Forum forum;
+	
+	@ModelAttribute("forum")
+	public Forum getForum(@PathVariable("forumId") Long forumId) {
+	    return forumService.getForumById(forumId);
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getAllTopics(@PathVariable("forumId") Long forumId) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/listTopics");
-		this.forumId = forumId;
-		forum = forumService.getForumById(forumId);
-		List<Topic> topics = topicService.listTopicByForumId(this.forumId);
+		List<Topic> topics = topicService.listTopicByForumId(forumId);
 		mav.addObject("topics", topics);
-		mav.addObject("forumId", this.forumId);
-		mav.addObject("forumName", forum.getForumName());
 		return mav;
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/topic/{id}", method = RequestMethod.GET)
 	public ModelAndView show(@PathVariable("id") Long id) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/showTopic");
 		Topic topic = topicService.getTopicById(id);
 		mav.addObject("topic", topic);
 		mav.addObject("comments", topicCommentService.listCommentByTopicId(id));
-		mav.addObject("forumId", this.forumId);
-		mav.addObject("forumName", forum.getForumName());
 		
 		TopicComment comment = new TopicComment();
 		mav.getModelMap().put("comment", comment);
 		return mav;
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
-	public String create(@PathVariable("id") Long id,
+	// TopicComment POST method
+	@RequestMapping(value = "/topic/{id}", method = RequestMethod.POST)
+	public String createComment(@PathVariable("id") Long id,
 			@ModelAttribute("comment") TopicComment comment, BindingResult result,
 			SessionStatus status) {
 		// validator.validate(contact, result);
@@ -78,10 +77,10 @@ public class TopicController {
 
 		topicCommentService.createComment(comment);
 		status.setComplete();
-		return "redirect:/forum/{forumId}/{id}";
+		return "redirect:/forum/{forumId}/topic/{id}";
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@RequestMapping(value = "/topic/create", method = RequestMethod.GET)
 	public ModelAndView newForumForm() {
 		ModelAndView mav = new ModelAndView(FOLDER + "/newTopic");
 		Topic topic = new Topic();
@@ -89,7 +88,7 @@ public class TopicController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/topic/create", method = RequestMethod.POST)
 	public String create(@PathVariable("forumId") Long forumId,
 			@ModelAttribute("topic") Topic topic, BindingResult result,
 			SessionStatus status) {
@@ -98,8 +97,7 @@ public class TopicController {
 		// return "newContact";
 		// }
 
-		// prevent direct HTTP POST with different "forum" object
-		topic.setForum(forum);
+		topic.setForum(forumService.getForumById(forumId));
 		topic.setCreatedAt(new Date());
 
 		topicService.createTopic(topic);
@@ -108,7 +106,7 @@ public class TopicController {
 		return "redirect:/forum/{forumId}";
 	}
 
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/topic/edit/{id}", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable("id") Long id) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/editTopic");
 		Topic topic = topicService.getTopicById(id);
@@ -116,42 +114,88 @@ public class TopicController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String update(@PathVariable("forumId") Long forumId,
-			@ModelAttribute("topic") Topic topic, BindingResult result,
+	@RequestMapping(value = "/topic/edit/{id}", method = RequestMethod.POST)
+	public String update(@ModelAttribute("topic") Topic topic, BindingResult result,
 			SessionStatus status) {
 		// validator.validate(contact, result);
 		// if (result.hasErrors()) {
 		// return "editContact";
 		// }
 
-		// prevent direct HTTP POST with different "forum" object
-		topic.setForum(forum);
 		topic.setEditedAt(new Date());
 
 		topicService.editTopic(topic);
 		status.setComplete();
-		return "redirect:/forum/{forumId}";
+		return "redirect:/forum/{forumId}/topic/{id}";
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/topic/delete/{id}", method = RequestMethod.GET)
 	public ModelAndView delete(@PathVariable("id") Long id) {
 		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}");
 		topicService.removeTopic(id);
 		return mav;
 	}
 
-	@RequestMapping(value = "/up_vote/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/topic/up_vote/{id}", method = RequestMethod.GET)
 	public ModelAndView upVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}/{id}");
+		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}/topic/{id}");
 		topicService.upVoteTopic(id);
 		return mav;
 	}
 
-	@RequestMapping(value = "/down_vote/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/topic/down_vote/{id}", method = RequestMethod.GET)
 	public ModelAndView downVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}/{id}");
+		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}/topic/{id}");
 		topicService.downVoteTopic(id);
+		return mav;
+	}
+	
+	/**
+	 * TopicComment
+	 */
+	
+	@RequestMapping(value = "/topic/{id}/comment/edit/{commentId}", method = RequestMethod.GET)
+	public ModelAndView editComment(@PathVariable("commentId") Long commentId) {
+		ModelAndView mav = new ModelAndView(FOLDER + "/editComment");
+		TopicComment comment = topicCommentService.getCommentById(commentId);
+		mav.addObject("comment", comment);
+		return mav;
+	}
+
+	@RequestMapping(value = "/topic/{id}/comment/edit/{commentId}", method = RequestMethod.POST)
+	public String updateComment(@PathVariable("id") Long id,
+			@ModelAttribute("comment") TopicComment comment, BindingResult result,
+			SessionStatus status) {
+		// validator.validate(contact, result);
+		// if (result.hasErrors()) {
+		// return "editContact";
+		// }
+
+		comment.setEditedAt(new Date());
+
+		topicCommentService.editComment(comment);
+		status.setComplete();
+		return "redirect:/forum/{forumId}/topic/{id}";
+	}
+	
+	@RequestMapping(value = "/topic/{id}/comment/delete/{commentId}", method = RequestMethod.GET)
+	public ModelAndView deleteComment(@PathVariable("commentId") Long commentId) {
+		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}/topic/{id}");
+		topicCommentService.removeComment(commentId);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/topic/{id}/comment/up_vote/{commentId}", method = RequestMethod.GET)
+	public ModelAndView upVoteComment(@PathVariable("commentId") Long commentId) {
+		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}/topic/{id}");
+		topicCommentService.upVoteComment(commentId);
+		return mav;
+	}
+
+	@RequestMapping(value = "/topic/{id}/comment/down_vote/{commentId}", method = RequestMethod.GET)
+	public ModelAndView downVoteComment(@PathVariable("commentId") Long commentId) {
+		ModelAndView mav = new ModelAndView("redirect:/forum/{forumId}/topic/{id}");
+		topicCommentService.downVoteComment(commentId);
 		return mav;
 	}
 

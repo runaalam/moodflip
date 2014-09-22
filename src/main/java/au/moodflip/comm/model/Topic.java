@@ -56,7 +56,7 @@ public class Topic implements Serializable {
 	@ManyToOne
 	private Forum forum;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "comment_id")
 	private Set<TopicComment> topicComments;
 

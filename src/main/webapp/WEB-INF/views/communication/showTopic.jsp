@@ -13,7 +13,7 @@
 	</h1>
 	<h3>
 		<a href="<c:url value="/forum" />">Forum</a> > <a
-			href="<c:url value="/forum/${forumId}" />">${forumName}</a> >
+			href="<c:url value="/forum/${forum.id}" />">${forum.forumName}</a> >
 		${topic.name}
 	</h3>
 	<h2><c:out value="${topic.name}" /></h2>
@@ -26,14 +26,19 @@
 	<br>
 	<pre><c:out value="${topic.content}" /></pre>
 	<br>
-	Up Vote <c:out value="${topic.upVote}" /><a href="<c:url value="/forum/${forumId}/up_vote/${topic.id}"/>">+</a>
+	<a href="<c:url value="/forum/${forum.id}/topic/edit/${topic.id}"/>">Edit</a>
+	<a href="<c:url value="/forum/${forum.id}/topic/delete/${topic.id}"/>">Delete</a>
 	<br>
-	Down Vote <c:out value="${topic.downVote}" /><a href="<c:url value="/forum/${forumId}/down_vote/${topic.id}"/>">-</a>
+	Up Vote <c:out value="${topic.upVote}" /><a href="<c:url value="/forum/${forum.id}/topic/up_vote/${topic.id}"/>">+</a>
+	<br>
+	Down Vote <c:out value="${topic.downVote}" /><a href="<c:url value="/forum/${forum.id}/topic/down_vote/${topic.id}"/>">-</a>
 	
 	<h2>Comments</h2>
 	
 	<hr>
 
+	<c:choose>
+	<c:when test="${!empty comments}">
 	<c:forEach items="${comments}" var="comment">
 		User: <c:out value="${comment.userId}" />
 		<br>
@@ -44,12 +49,21 @@
 		<pre><c:out value="${comment.content}" /></pre>
 		
 		<br>
-		<a href="<c:url value="/forum/${forumId}/edit/${topic.id}"/>">Edit</a>
-		<a href="<c:url value="/forum/${forumId}/delete/${topic.id}"/>">Delete</a>
+		<a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/edit/${comment.id}"/>">Edit</a>
+		<a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/delete/${comment.id}"/>">Delete</a>
+		<br>
+		Up Vote <c:out value="${comment.upVote}" /><a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/up_vote/${comment.id}"/>">+</a>
+		<br>
+		Down Vote <c:out value="${comment.downVote}" /><a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/down_vote/${comment.id}"/>">-</a>
 		
 	<hr>
 	
 	</c:forEach>
+	</c:when>
+	<c:when test="${empty comments}">
+	There is no comment.
+	</c:when>
+	</c:choose>
 	
 	<h2>Reply</h2>
 	<form:form id="replyForm" modelAttribute="comment" method="post">
