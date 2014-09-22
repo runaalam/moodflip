@@ -5,10 +5,10 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Edit an old product on this page</title>
+		<title>Edit Forum</title>
 	</head>
 	<body>
-		<h1>You can edit the product shown below</h1>
+		<h1>Edit Forum</h1>
 		<form:form method="post" modelAttribute="forum">
 			<fieldset>
 				<table>

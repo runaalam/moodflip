@@ -8,5 +8,7 @@
 </head>
 <body>
 Card game page
+<br/>
+<a href="<c:url value="/card-game/customCards"/>">Custom cards</a>
 </body>
 </html>

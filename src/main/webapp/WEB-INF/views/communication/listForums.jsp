@@ -8,7 +8,8 @@
 		<fmt:message key="heading" />
 	</h1>
 	<h3>Forum</h3>
-	<c:if test="${!empty forums}">
+	<c:choose>
+	<c:when test="${!empty forums}">
 		<table border="1">
 			<tr>
 				<th>Forum</th>
@@ -22,7 +23,11 @@
 				</tr>
 			</c:forEach>
 		</table>
-	</c:if>
+	</c:when>
+	<c:when test="${empty forums}">
+	There is no forum.
+	</c:when>
+	</c:choose>
 
 	<br>
 	<a href="<c:url value="/forum/create"/>">Create Forum</a>

@@ -17,7 +17,7 @@
 			</tr>
 			<tr>
 				<td><form:label path="content">Content</form:label></td>
-				<td><form:textarea path="content" /></td>
+				<td><form:textarea style="width: 300px; height: 100px;" path="content" /></td>
 			</tr>
 			<tr>
 				<td></td>
