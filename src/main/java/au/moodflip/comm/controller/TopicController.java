@@ -15,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.comm.model.Forum;
 import au.moodflip.comm.model.Topic;
+import au.moodflip.comm.model.TopicComment;
 import au.moodflip.comm.service.ForumService;
+import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
 
 @Controller
@@ -26,6 +28,9 @@ public class TopicController {
 
 	@Autowired
 	private TopicService topicService;
+	
+	@Autowired
+	private TopicCommentService topicCommentService;
 
 	@Autowired
 	private ForumService forumService;
@@ -50,9 +55,30 @@ public class TopicController {
 		ModelAndView mav = new ModelAndView(FOLDER + "/showTopic");
 		Topic topic = topicService.getTopicById(id);
 		mav.addObject("topic", topic);
+		mav.addObject("comments", topicCommentService.listCommentByTopicId(id));
 		mav.addObject("forumId", this.forumId);
 		mav.addObject("forumName", forum.getForumName());
+		
+		TopicComment comment = new TopicComment();
+		mav.getModelMap().put("comment", comment);
 		return mav;
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
+	public String create(@PathVariable("id") Long id,
+			@ModelAttribute("comment") TopicComment comment, BindingResult result,
+			SessionStatus status) {
+		// validator.validate(contact, result);
+		// if (result.hasErrors()) {
+		// return "newContact";
+		// }
+
+		comment.setTopic(topicService.getTopicById(id));
+		comment.setCreatedAt(new Date());
+
+		topicCommentService.createComment(comment);
+		status.setComplete();
+		return "redirect:/forum/{forumId}/{id}";
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -72,12 +98,12 @@ public class TopicController {
 		// return "newContact";
 		// }
 
-		// prevent direct HTTP POST with different forumId
+		// prevent direct HTTP POST with different "forum" object
 		topic.setForum(forum);
 		topic.setCreatedAt(new Date());
 
 		topicService.createTopic(topic);
-		;
+		
 		status.setComplete();
 		return "redirect:/forum/{forumId}";
 	}
@@ -99,7 +125,7 @@ public class TopicController {
 		// return "editContact";
 		// }
 
-		// prevent direct HTTP POST with different forumId
+		// prevent direct HTTP POST with different "forum" object
 		topic.setForum(forum);
 		topic.setEditedAt(new Date());
 
