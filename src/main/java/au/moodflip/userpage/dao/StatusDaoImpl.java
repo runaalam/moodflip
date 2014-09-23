@@ -20,6 +20,7 @@ public class StatusDaoImpl implements StatusDao {
 		sessionFactory.getCurrentSession().save(status);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Status> listStatus() {
 		return sessionFactory.getCurrentSession().createCriteria(Status.class).list();
