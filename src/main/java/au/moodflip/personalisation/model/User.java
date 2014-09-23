@@ -89,6 +89,9 @@ public class User implements Serializable {
 	public void setBanned(boolean banned){
 		this.banned = banned;
 	}
+	public String getName(){
+		return this.name;
+	}
 	
 	public void setName(String name){
 		this.name = name;

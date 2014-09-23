@@ -7,20 +7,26 @@ import javax.validation.Valid;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.comm.model.Forum;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
 
 
 @Controller
-@RequestMapping(value="/user/**")
+@SessionAttributes(value = {"user"})
+@RequestMapping(value="/user")
 public class UserController {
 	
 	@Autowired
@@ -49,28 +55,29 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
-	public String editUser(@PathVariable("id") Long id, Model uiModel) {
+	public ModelAndView editUser(@PathVariable("id") Long id) {
+
+		ModelAndView mav = new ModelAndView("personalisation/editUser");
+		User user = userManager.getUserById(id);
+		mav.addObject("user", user);
 		
-		User user = this.userManager.getUserById(id);
-		uiModel.addAttribute("user", user);
-		
-		return "edit";
+		return mav;
 	}
 	
-	@RequestMapping(value="/edit/**", method=RequestMethod.POST)
-	public String editUser(@Valid User user) {
+	@RequestMapping(value="/edit/{id}", method=RequestMethod.POST)
+	public String editUser(@ModelAttribute("user") User user,BindingResult result) {
 		
-		this.userManager.updateUser(user);
+		userManager.updateUser(user);
 		System.out.println(user.getId());
 		
-		return "redirect:/.htm";
+		return "redirect:/personalisation.htm";
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
-	public String deleteUser(@PathVariable("id") Long id) {
+	public ModelAndView deleteUser(@PathVariable("id") Long id) {
 		
-		this.userManager.deleteUser(id);
-		
-		return "redirect:/home.htm";
+		userManager.deleteUser(id);
+
+		return new ModelAndView("redirect:/personalisation.htm");
 	}
 }
