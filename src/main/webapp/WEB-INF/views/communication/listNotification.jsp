@@ -31,6 +31,12 @@
 	There is no notification.
 	</c:when>
 	</c:choose>
+	
+	<br>
+	<br>
+	Example
+	<br>
+	http://localhost:8080/moodflip/notification/create?message="Test message"&url="/forum"&userId=1
 
 </body>
 </html>
