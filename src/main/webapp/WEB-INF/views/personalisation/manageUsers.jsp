@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
-
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -11,19 +10,12 @@
 Personalisation page
 <h3>Users</h3>
 		<c:forEach items="${users}" var="user">
-		<table border="1">
 			<tr>
-				<td>Username</td>
-				<td>Banned Status</td>
+				<i><c:out value="${user.username}" /></i>
+<i><c:out value="${user.user_level}" /></i>
+			<br>
+			<br>
 			</tr>
-			<tr>
-				<td><c:out value="${user.username}" /></td>
-				
-				<td><c:out value="${user.banned}" />
-			</tr>
-			
-			
-				
 		</c:forEach>
 <a href = "<c:url value = "/user/register"/>">register</a>
 </body>
