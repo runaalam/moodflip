@@ -1,8 +1,7 @@
 package au.moodflip.userpage.controller;
 
-import java.util.Locale;
-
-import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.userpage.model.Question;
 import au.moodflip.userpage.model.Status;
+import au.moodflip.userpage.service.AssessmentService;
 import au.moodflip.userpage.service.StatusService;
-
-
 
 
 @Controller
@@ -30,6 +28,9 @@ public class UserHomepageController {
 			.getLogger(UserHomepageController.class);
 
 	private final String FOLDER = "user-homepage";
+	
+	@Autowired
+	private AssessmentService assessmentService;	
 
 	@Autowired
 	StatusService statusService;
@@ -55,8 +56,12 @@ public class UserHomepageController {
 	}
 	
 	@RequestMapping(value = "/depression-assessment", method = RequestMethod.GET)
-	public ModelAndView assessment() {
-		ModelAndView mav = new ModelAndView(FOLDER + "/depressionAssessment");
+
+	public ModelAndView assessmentSurvey(Map<String, Object> model) {
+
+		List<Question> quesList = assessmentService.getQuestions();
+		model.put("quesList", quesList);
+		ModelAndView mav = new ModelAndView(FOLDER + "/questions");
 		return mav;
 	}
 	
