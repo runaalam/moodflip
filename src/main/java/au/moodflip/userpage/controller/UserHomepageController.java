@@ -101,10 +101,10 @@ public class UserHomepageController {
 		
 		String testStatus = "I have just completed my assesment test with individual score of (" 
 							+ assessment.getResponseList().get(0).getAnswerId() + "+"
-							+ assessment.getResponseList().get(0).getAnswerId() + "+"
-							+ assessment.getResponseList().get(0).getAnswerId() + "+"
-							+ assessment.getResponseList().get(0).getAnswerId() + "+"
-							+ assessment.getResponseList().get(0).getAnswerId() + ")";
+							+ assessment.getResponseList().get(1).getAnswerId() + "+"
+							+ assessment.getResponseList().get(2).getAnswerId() + "+"
+							+ assessment.getResponseList().get(3).getAnswerId() + "+"
+							+ assessment.getResponseList().get(4).getAnswerId() + ")";
 		Status newStatus = new Status();
 		newStatus.setContent(testStatus);
 		newStatus.setSubmitDate(new Date());

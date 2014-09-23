@@ -83,6 +83,7 @@
 					<tr><td><form:textarea path="content" id="statusInput" rows="4" cols="50"></form:textarea></td></tr>
 					<tr><td><input type="submit" value="Post"/>
 					<br><br><br>
+					<h2>My Activity</h2>
 					<c:choose>
        					<c:when test="${!empty statusList}">
                			<table>
@@ -97,7 +98,7 @@
                			</table>
       				 </c:when>
        				<c:when test="${empty statusList}">
-				       There is no past status
+				       There is no past status or activity
 				       </c:when>
 				       </c:choose>
 				</table>
