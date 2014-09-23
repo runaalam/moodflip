@@ -6,5 +6,10 @@ import au.moodflip.userpage.model.Question;
 
 public interface AssessmentDao {
 	List<Question> getQuestions();
-	public static final String[] answers = {"Always", "Sometimes", "Rarely", "Never", "N/A"};
+	public static final String[] answers = {"Not at all or less than 1 day last week", 
+											"One or two days last week", 
+											"Three to four days last week", 
+											"Five to seven days last week", 
+											"Nearly every day for two weeks"};
+	
 }

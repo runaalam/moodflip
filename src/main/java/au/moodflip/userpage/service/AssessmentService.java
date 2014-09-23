@@ -8,4 +8,6 @@ import au.moodflip.userpage.model.Question;
 public interface AssessmentService {
 	
 	List<Question> getQuestions();
+	
+	List<String> getAnswers();
 }

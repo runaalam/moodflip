@@ -1,5 +1,6 @@
 package au.moodflip.userpage.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -9,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +20,9 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.comm.model.Forum;
+import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
+import au.moodflip.userpage.model.Response;
 import au.moodflip.userpage.model.Status;
 import au.moodflip.userpage.service.AssessmentService;
 import au.moodflip.userpage.service.StatusService;
@@ -61,20 +66,41 @@ public class UserHomepageController {
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
 			return FOLDER + "/userHomepage";
 		}
-		statusService.addStatus(status);
+		statusService.saveStatus(status);
 		sessionStatus.setComplete();
 		return "redirect:/user-homepage";
 	}
 	
 	@RequestMapping(value = "/depression-assessment", method = RequestMethod.GET)
+	public ModelAndView assessmentSurvey() {
 
-	public ModelAndView assessmentSurvey(Map<String, Object> model) {
 
-		List<Question> quesList = assessmentService.getQuestions();
-		model.put("quesList", quesList);
 		ModelAndView mav = new ModelAndView(FOLDER + "/questions");
+		List<Question> quesList = assessmentService.getQuestions();
+		mav.addObject("quesList", quesList);
+		List<String> answerList = assessmentService.getAnswers();
+		mav.addObject("ansList", answerList);
+//		Response response = new Response();
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Assessment assessment = new Assessment();
+//		List<Response> responseList = new AutoPopulatingList<Response>(Response.class);
+//		assessment.setResponseList(responseList);
+		mav.addObject("assessment", assessment);
 		return mav;
 	}
+
+	@RequestMapping(value = "/depression-assessment", method = RequestMethod.POST)
+	public String create(@ModelAttribute("assessment") Assessment assessment,
+			BindingResult result, SessionStatus status) {
+		if (result.hasErrors()) {
+			//logger
+			
+            return FOLDER + "/questions";
+        }
+//		forumService.addForum(forum);
+		status.setComplete();
+		return "redirect:/user-homepage";
+	}	
 	
 	@RequestMapping(value = "/assessment-result", method = RequestMethod.GET)
 	public ModelAndView assessmentResult() {

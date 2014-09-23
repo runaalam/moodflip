@@ -90,7 +90,7 @@
 	                       <c:forEach items="${statusList}" var="status">
 	                               <tr>
 	<%--                                         <td><c:out value="${status.userId}" /></td>   --%>
-	                                       <td><c:out value="${status.content}" /></td>
+	                                       <td><c:out value="${status.content}" /> - </td>
 	                                       <td><c:out value="${status.submitDate}" /></td>                                        
 	                               </tr>
 	                       </c:forEach>

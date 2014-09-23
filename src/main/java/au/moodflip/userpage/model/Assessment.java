@@ -1,6 +1,7 @@
 package au.moodflip.userpage.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +34,10 @@ public class Assessment{
 	
 	@Column(name = "score")
 	private int score;
+	
+	@OneToMany
+	@JoinColumn(name = "response_id")
+	private List<Response> responseList;
 
 	public int getId() {
 		return id;
@@ -64,4 +70,13 @@ public class Assessment{
 	public void setScore(int score) {
 		this.score = score;
 	}
+
+	public List<Response> getResponseList() {
+		return responseList;
+	}
+
+	public void setResponseList(List<Response> responseList) {
+		this.responseList = responseList;
+	}
+
 }

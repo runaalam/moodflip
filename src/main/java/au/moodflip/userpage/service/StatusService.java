@@ -6,7 +6,7 @@ import au.moodflip.userpage.model.Status;
 
 public interface StatusService {
 	
-	public void addStatus(Status status);
+	public void saveStatus(Status status);
 
 	public List<Status> listStatus();
 	

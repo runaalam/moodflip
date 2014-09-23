@@ -1,5 +1,7 @@
 package au.moodflip.userpage.service;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +20,10 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public List<Question> getQuestions() {
 		return assesmentDao.getQuestions();
+	}
+
+	@Override
+	public List<String> getAnswers() {
+		return Arrays.asList(AssessmentDao.answers);
 	}	
 }

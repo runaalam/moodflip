@@ -24,6 +24,22 @@ public class AssessmentDaoImpl implements AssessmentDao {
 		qus.setId(2);
 		qus.setText("I could not shake off the blues.");
 		quesList.add(qus);
+		
+		qus = new Question();
+		qus.setId(3);
+		qus.setText("I had trouble keeping my mind on what I was doing.");
+		quesList.add(qus);
+
+		qus = new Question();
+		qus.setId(4);
+		qus.setText("I felt depressed.");
+		quesList.add(qus);
+		
+		qus = new Question();
+		qus.setId(5);
+		qus.setText("My sleep was restless.");
+		quesList.add(qus);		
+		
 		return quesList;
 	}
 

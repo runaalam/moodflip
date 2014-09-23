@@ -1,5 +1,9 @@
 package au.moodflip.userpage.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +20,20 @@ public class StatusServiceImpl implements StatusService {
 	private StatusDao statusDao;
 	
 	@Transactional
-	public void addStatus(Status status) {
+	public void saveStatus(Status status) {
+		status.setSubmitDate(new Date());
 		statusDao.addStatus(status);
 	}
 
 	@Transactional
 	public List<Status> listStatus() {
-		// TODO Auto-generated method stub
-		return statusDao.listStatus();
+		 ArrayList<Status> list = (ArrayList<Status>) statusDao.listStatus();
+		 Collections.reverse((List<?>) list);
+		 return list;
 	}
 
 	@Transactional
 	public Status getStatusById(Long id) {
-		// TODO Auto-generated method stub
 		return statusDao.getStatusById(id);
 	}
 }

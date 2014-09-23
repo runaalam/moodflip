@@ -1,5 +1,6 @@
 package au.moodflip.userpage.dao;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
