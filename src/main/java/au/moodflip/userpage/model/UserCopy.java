@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class UserOld {
+public class UserCopy {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,7 @@ public class UserOld {
 	@Column(name = "active")
 	private boolean active;
 	
-	@OneToMany
-	@JoinColumn(name = "id")
+	@OneToMany(mappedBy = "user")
 	private List<Assessment> assessments = new LinkedList<Assessment>();
 
 	public int getId() {

@@ -23,8 +23,8 @@ public class Assessment{
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "id")
-	private UserOld user;
+	@JoinColumn(name = "user_id")
+	private UserCopy user;
 	
 	@Column(name = "date")
 	@Temporal(TemporalType.DATE)
@@ -41,11 +41,11 @@ public class Assessment{
 		this.id = id;
 	}
 
-	public UserOld getUser() {
+	public UserCopy getUser() {
 		return user;
 	}
 
-	public void setUser(UserOld user) {
+	public void setUser(UserCopy user) {
 		this.user = user;
 	}
 

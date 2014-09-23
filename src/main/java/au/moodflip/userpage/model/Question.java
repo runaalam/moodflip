@@ -23,7 +23,7 @@ public class Question {
 	
 
 	@ManyToOne
-	@JoinColumn(name="id") 
+	@JoinColumn(name="category_id") 
 	private Category category;
 
 

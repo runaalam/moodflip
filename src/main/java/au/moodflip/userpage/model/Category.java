@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Category")
+@Table(name = "category")
 public class Category {
 
 	@Id
@@ -24,7 +24,7 @@ public class Category {
 	@Column(name = "desc")
 	private String desc;
 	
-	@OneToMany(mappedBy = "question")
+	@OneToMany(mappedBy = "category")
 	private List<Question> questions = new LinkedList<Question>();
 
 	public int getId() {
