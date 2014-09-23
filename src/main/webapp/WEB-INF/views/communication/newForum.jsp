@@ -6,12 +6,22 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Forum - New Forum</title>
+		<style>
+			.error {
+    			color: #ff0000;
+    			font-style: italic;
+    			font-weight: bold;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>New Forum</h1>
-		<form action="create" method="post">
-			Name: <input type="text" name="forumName"/>
+		<form:form modelAttribute="forum" method="post">
+			Name: <form:input path="forumName"/>
+			<form:errors path="forumName" cssClass="error" />
+			<br>
+			<br>
 			<input type="submit" value="Create"/>
-		</form>
+		</form:form>
 	</body>
 </html>

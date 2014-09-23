@@ -6,6 +6,13 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Edit Comment</title>
+		<style>
+			.error {
+    			color: #ff0000;
+    			font-style: italic;
+    			font-weight: bold;
+			}
+		</style>
 	</head>
 	<body>
 		<h1>Edit Comment</h1>
@@ -14,7 +21,8 @@
 				<table>
 					<tr>
 						<th><form:label path="content">Content:</form:label></th>
-						<td><form:textarea path="content" value="${comment.content}"/></td>
+						<td><form:textarea path="content" /></td>
+						<td><form:errors path="content" cssClass="error" /></td>
 					</tr>
 					<tr>
 						<td><input type="button" value="Cancel" onclick="window.location='../'" /></td>

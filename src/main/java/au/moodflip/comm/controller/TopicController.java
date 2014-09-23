@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
 
 @Controller
-@SessionAttributes(value = {"forum", "topic", "comment"})
+@SessionAttributes(value = {"forum", "topic", "comments", "comment"})
 @RequestMapping(value = "/forum/{forumId}")
 public class TopicController {
 
@@ -65,12 +66,13 @@ public class TopicController {
 	// TopicComment POST method
 	@RequestMapping(value = "/topic/{id}", method = RequestMethod.POST)
 	public String createComment(@PathVariable("id") Long id,
-			@ModelAttribute("comment") TopicComment comment, BindingResult result,
+			@ModelAttribute("comment") @Validated TopicComment comment, BindingResult result,
 			SessionStatus status) {
-		// validator.validate(contact, result);
-		// if (result.hasErrors()) {
-		// return "newContact";
-		// }
+		if (result.hasErrors()) {
+			//logger
+
+            return FOLDER + "/showTopic";
+        }
 
 		comment.setTopic(topicService.getTopicById(id));
 		comment.setCreatedAt(new Date());
@@ -90,12 +92,13 @@ public class TopicController {
 
 	@RequestMapping(value = "/topic/create", method = RequestMethod.POST)
 	public String create(@PathVariable("forumId") Long forumId,
-			@ModelAttribute("topic") Topic topic, BindingResult result,
+			@ModelAttribute("topic") @Validated Topic topic, BindingResult result,
 			SessionStatus status) {
-		// validator.validate(contact, result);
-		// if (result.hasErrors()) {
-		// return "newContact";
-		// }
+		if (result.hasErrors()) {
+			//logger
+
+            return FOLDER + "/newTopic";
+        }
 
 		topic.setForum(forumService.getForumById(forumId));
 		topic.setCreatedAt(new Date());
@@ -115,12 +118,13 @@ public class TopicController {
 	}
 
 	@RequestMapping(value = "/topic/edit/{id}", method = RequestMethod.POST)
-	public String update(@ModelAttribute("topic") Topic topic, BindingResult result,
+	public String update(@ModelAttribute("topic") @Validated Topic topic, BindingResult result,
 			SessionStatus status) {
-		// validator.validate(contact, result);
-		// if (result.hasErrors()) {
-		// return "editContact";
-		// }
+		if (result.hasErrors()) {
+			//logger
+
+            return FOLDER + "/editTopic";
+        }
 
 		topic.setEditedAt(new Date());
 
@@ -164,12 +168,13 @@ public class TopicController {
 
 	@RequestMapping(value = "/topic/{id}/comment/edit/{commentId}", method = RequestMethod.POST)
 	public String updateComment(@PathVariable("id") Long id,
-			@ModelAttribute("comment") TopicComment comment, BindingResult result,
+			@ModelAttribute("comment") @Validated TopicComment comment, BindingResult result,
 			SessionStatus status) {
-		// validator.validate(contact, result);
-		// if (result.hasErrors()) {
-		// return "editContact";
-		// }
+		if (result.hasErrors()) {
+			//logger
+
+            return FOLDER + "/editComment";
+        }
 
 		comment.setEditedAt(new Date());
 

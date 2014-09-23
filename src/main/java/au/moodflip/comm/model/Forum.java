@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "Forum")
 public class Forum implements Serializable {
@@ -24,6 +26,7 @@ public class Forum implements Serializable {
 	private long id;
 
 	@Column(name = "forumName")
+	@NotBlank
 	private String forumName;
 
 	@OneToMany(cascade = CascadeType.ALL)

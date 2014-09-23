@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TopicComment")
@@ -24,6 +25,7 @@ public class TopicComment implements Serializable {
 
 	@Column(name = "content")
 	@Type(type="text")
+	@NotBlank
 	private String content;
 
 	// **TO BE CHANGED**

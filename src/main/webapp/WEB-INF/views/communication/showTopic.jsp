@@ -6,6 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="title" /></title>
+<style>
+.error {
+	color: #ff0000;
+	font-style: italic;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 	<h1>
@@ -71,6 +78,7 @@
 			<tr>
 				<td><form:label path="content"></form:label></td>
 				<td><form:textarea style="width: 300px; height: 100px;" path="content" /></td>
+				<td><form:errors path="content" cssClass="error" /></td>
 			</tr>
 			<tr>
 				<td></td>

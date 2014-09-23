@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "Topic")
@@ -28,10 +29,12 @@ public class Topic implements Serializable {
 	private long id;
 
 	@Column(name = "name")
+	@NotBlank
 	private String name;
 
 	@Column(name = "content")
 	@Type(type="text")
+	@NotBlank
 	private String content;
 
 	// **TO BE CHANGED**
