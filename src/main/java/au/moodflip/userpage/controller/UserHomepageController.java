@@ -1,6 +1,7 @@
 package au.moodflip.userpage.controller;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.comm.model.Forum;
 import au.moodflip.userpage.model.Question;
 import au.moodflip.userpage.model.Status;
 import au.moodflip.userpage.service.AssessmentService;
@@ -35,15 +37,24 @@ public class UserHomepageController {
 	@Autowired
 	StatusService statusService;
 	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView home(Locale locale) {
+            logger.info("Welcome home!, " + "Locale: " + locale);
+            ModelAndView mav = new ModelAndView("userHomepage");
+            return mav;
+    }
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Model model) {
 		logger.info("Welcome to the user home page system!");
 		model.addAttribute(new Status());
+		List<Status> statusList = statusService.listStatus();
+		model.addAttribute("statusList", statusList);
 		ModelAndView mav = new ModelAndView(FOLDER + "/userHomepage");
 		return mav;
 	}
 	
-	@RequestMapping(value = "/user-homepage", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public String statusPost(@ModelAttribute Status status, BindingResult bindingResult, SessionStatus sessionStatus) {
 		logger.info("Save new status");
 		if (bindingResult.hasErrors()){
@@ -52,7 +63,7 @@ public class UserHomepageController {
 		}
 		statusService.addStatus(status);
 		sessionStatus.setComplete();
-		return FOLDER + "/userHomepage";
+		return "redirect:/user-homepage";
 	}
 	
 	@RequestMapping(value = "/depression-assessment", method = RequestMethod.GET)
