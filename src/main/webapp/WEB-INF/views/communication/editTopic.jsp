@@ -6,6 +6,13 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Edit Topic</title>
+<style>
+.error {
+	color: #ff0000;
+	font-style: italic;
+	font-weight: bold;
+}
+</style>
 	</head>
 	<body>
 		<h1>Edit Topic</h1>
@@ -14,11 +21,13 @@
 				<table>
 					<tr>
 						<th><form:label path="name">Name:</form:label></th>
-						<td><form:input path="name" value="${topic.name}"/></td>
+						<td><form:input path="name" /></td>
+						<td><form:errors path="name" cssClass="error" /></td>
 					</tr>
 					<tr>
 						<th><form:label path="content">Content:</form:label></th>
-						<td><form:textarea path="content" value="${topic.content}"/></td>
+						<td><form:textarea path="content" /></td>
+						<td><form:errors path="content" cssClass="error" /></td>
 					</tr>
 					<tr>
 						<td><input type="button" value="Cancel" onclick="window.location='../'" /></td>

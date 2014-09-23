@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,17 +37,18 @@ public class ForumController {
 	public ModelAndView newForumForm() {
 		ModelAndView mav = new ModelAndView(FOLDER + "/newForum");
 		Forum forum = new Forum();
-		mav.getModelMap().put("newForum", forum);
+		mav.getModelMap().put("forum", forum);
 		return mav;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String create(@ModelAttribute("newForum") Forum forum,
+	public String create(@ModelAttribute("forum") @Validated Forum forum,
 			BindingResult result, SessionStatus status) {
-		// validator.validate(contact, result);
-		// if (result.hasErrors()) {
-		// return "newContact";
-		// }
+		if (result.hasErrors()) {
+			//logger
+			
+            return FOLDER + "/newForum";
+        }
 		forumService.addForum(forum);
 		status.setComplete();
 		return "redirect:/forum";
@@ -61,12 +63,13 @@ public class ForumController {
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String update(@ModelAttribute("editForum") Forum forum,
+	public String update(@ModelAttribute("forum") @Validated Forum forum,
 			BindingResult result, SessionStatus status) {
-		// validator.validate(contact, result);
-		// if (result.hasErrors()) {
-		// return "editContact";
-		// }
+		if (result.hasErrors()) {
+			//logger
+
+            return FOLDER + "/editForum";
+        }
 		forumService.editForum(forum);
 		status.setComplete();
 		return "redirect:/forum";

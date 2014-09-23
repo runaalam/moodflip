@@ -1,37 +1,33 @@
 package au.moodflip.userpage.controller;
 
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.userpage.model.Question;
+import au.moodflip.userpage.service.AssessmentService;
 
 @Controller
-//@SessionAttributes("assessment")
 public class AssessmentController {
+		
+	private final String FOLDER = "user-homepage";
 	
+	@Autowired
+	private AssessmentService assessmentService;
+	
+	@RequestMapping("/depression-assessment")
+	public ModelAndView showQuestionList(Map<String, Object> model) {
 
-	/*@RequestMapping("/depression-assessment")
-	public String showQuestionList(Map<String, Object> model) {
-		ArrayList<Question> quesList = new ArrayList<Question>();
-		
-		Question qus = new Question();
-		qus.setId(1);
-		qus.setText("￼My appetite was poor.");
-		quesList.add(qus);
-		
-		qus = new Question();
-		qus.setId(2);
-		qus.setText("I could not shake off the blues.");
-		quesList.add(qus);
-		
+		List<Question> quesList = assessmentService.getQuestions();
 		model.put("quesList", quesList);
-		return "depression-assessment/quesList";
-	}*/
+		ModelAndView mav = new ModelAndView(FOLDER + "questions");
+		return mav;
+	}
 	
 }
 	
