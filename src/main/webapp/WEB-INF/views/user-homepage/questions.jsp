@@ -24,8 +24,8 @@
                 			id="${status.expression}" value="${question.id}" />
 				
         				<td>
-            			<form:radiobuttons path="${status.expression}" delimiter="<br>"
-                			items="${ansList}"/>
+            			<form:radiobuttons path="responseList[${row.index}].answerId" delimiter="<br>"
+                			items="${ansList}" itemLabel="text" itemValue="id"/>
                 		</td>
 					</tr>
 				</c:forEach>

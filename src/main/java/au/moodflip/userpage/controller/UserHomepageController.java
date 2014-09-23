@@ -1,5 +1,6 @@
 package au.moodflip.userpage.controller;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.comm.model.Forum;
+import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
 import au.moodflip.userpage.model.Response;
@@ -78,13 +80,10 @@ public class UserHomepageController {
 		ModelAndView mav = new ModelAndView(FOLDER + "/questions");
 		List<Question> quesList = assessmentService.getQuestions();
 		mav.addObject("quesList", quesList);
-		List<String> answerList = assessmentService.getAnswers();
+		List<Answer> answerList = assessmentService.getAnswers();
 		mav.addObject("ansList", answerList);
-//		Response response = new Response();
-		@SuppressWarnings({ "unchecked", "rawtypes" })
+
 		Assessment assessment = new Assessment();
-//		List<Response> responseList = new AutoPopulatingList<Response>(Response.class);
-//		assessment.setResponseList(responseList);
 		mav.addObject("assessment", assessment);
 		return mav;
 	}
@@ -99,6 +98,17 @@ public class UserHomepageController {
         }
 //		forumService.addForum(forum);
 		status.setComplete();
+		
+		String testStatus = "I have just completed my assesment test with individual score of (" 
+							+ assessment.getResponseList().get(0).getAnswerId() + "+"
+							+ assessment.getResponseList().get(0).getAnswerId() + "+"
+							+ assessment.getResponseList().get(0).getAnswerId() + "+"
+							+ assessment.getResponseList().get(0).getAnswerId() + "+"
+							+ assessment.getResponseList().get(0).getAnswerId() + ")";
+		Status newStatus = new Status();
+		newStatus.setContent(testStatus);
+		newStatus.setSubmitDate(new Date());
+		statusService.saveStatus(newStatus);
 		return "redirect:/user-homepage";
 	}	
 	
