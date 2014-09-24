@@ -5,16 +5,24 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Edit an old product on this page</title>
+		<title>Edit Forum</title>
+		<style>
+			.error {
+    			color: #ff0000;
+    			font-style: italic;
+    			font-weight: bold;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>You can edit the product shown below</h1>
+		<h1>Edit Forum</h1>
 		<form:form method="post" modelAttribute="forum">
 			<fieldset>
 				<table>
 					<tr>
 						<th><form:label path="forumName">Name:</form:label></th>
-						<td><form:input path="forumName" value="${editForum.forumName}"/></td>
+						<td><form:input path="forumName" /></td>
+						<td><form:errors path="forumName" cssClass="error" /></td>
 					</tr>
 					<tr>
 						<td><input type="button" value="Cancel" onclick="window.location='../'" /></td>

@@ -1,0 +1,82 @@
+package au.moodflip.userpage.model;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "assessment")
+public class Assessment{
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private UserCopy user;
+	
+	@Column(name = "date")
+	@Temporal(TemporalType.DATE)
+	private Date date;
+	
+	@Column(name = "score")
+	private int score;
+	
+	@OneToMany
+	@JoinColumn(name = "response_id")
+	private List<Response> responseList;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public UserCopy getUser() {
+		return user;
+	}
+
+	public void setUser(UserCopy user) {
+		this.user = user;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Response> getResponseList() {
+		return responseList;
+	}
+
+	public void setResponseList(List<Response> responseList) {
+		this.responseList = responseList;
+	}
+
+}
