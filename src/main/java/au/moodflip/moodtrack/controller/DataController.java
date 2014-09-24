@@ -1,7 +1,5 @@
 package au.moodflip.moodtrack.controller;
 
-
-
 import au.moodflip.moodtrack.service.DataService;
 import au.moodflip.moodtrack.model.Data;
 
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +41,19 @@ public class DataController {
         dataService.save(data);
 
         return FOLDER + "/data";
+        
     }
-
+    
+    @RequestMapping(value="/reports", method = RequestMethod.GET)
+	public ModelAndView getAllData() {
+    	List<Data> data = dataService.listData();
+		ModelAndView mav = new ModelAndView(FOLDER + "/reports");
+		
+		mav.addObject("data", data);
+		
+		return mav;
+	}
+   
     @ModelAttribute("dropDownValues")
     public List<Integer> getDropDownValues() {
         List<Integer> values = new ArrayList<Integer>();

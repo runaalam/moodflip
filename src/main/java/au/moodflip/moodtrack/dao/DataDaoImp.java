@@ -1,5 +1,9 @@
 package au.moodflip.moodtrack.dao;
 
+import java.util.List;
+
+
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,5 +24,10 @@ public class DataDaoImp implements DataDao{
 	@Override
 	public Data update(Data data){
 		return (Data) sessionFactory.getCurrentSession().merge(data);
+	}
+	@Override
+	public List<Data> listData() {
+		return sessionFactory.getCurrentSession().createCriteria(Data.class)
+				.list();
 	}
 }

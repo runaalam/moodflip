@@ -17,8 +17,8 @@
 				<tr>
 					<td><a href="<c:url value="/forum/${forum.id}"/>"><c:out
 								value="${forum.forumName}" /></a></td>
-					<td><a href="<c:url value="/forum/edit/${forum.id}"/>">Edit</a>
-						<a href="<c:url value="/forum/delete/${forum.id}"/>">Delete</a></td>
+					<!--<td><a href="<c:url value="/forum/edit/${forum.id}"/>">Edit</a>
+						<a href="<c:url value="/forum/delete/${forum.id}"/>">Delete</a></td>-->
 				</tr>
 			</c:forEach>
 		</table>
