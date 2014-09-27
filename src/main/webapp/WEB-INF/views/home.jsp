@@ -7,6 +7,27 @@
 	<h1>
 		<fmt:message key="heading" />
 	</h1>
+	
+	<security:authorize access="!isAuthenticated()">
+		<h2>
+			<a href="<c:url value="/login"/>">Login</a>
+		</h2>
+	</security:authorize>
+	<security:authorize access="isAuthenticated()">
+		<h2>
+			<a href="<c:url value="/logout"/>">Logout</a>
+		</h2>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ROLE_ADMIN')">
+		<h3>You are logged in as an ADMIN</h3>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ROLE_USER')">
+		<h3>You are logged in as an USER</h3>
+	</security:authorize>
+
+	<hr>
 
 	<h3><a href="<c:url value="/card-game"/>">Card Game</a></h3>
 

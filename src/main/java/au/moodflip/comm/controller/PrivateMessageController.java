@@ -1,5 +1,6 @@
 package au.moodflip.comm.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.comm.model.PrivateMessage;
 import au.moodflip.comm.service.PrivateMessageService;
+import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.service.UserManager;
 
 @Controller
 @RequestMapping(value = "/pm")
@@ -25,29 +28,31 @@ public class PrivateMessageController {
 
 	@Autowired
 	private PrivateMessageService pMessageService;
+	
+	@Autowired
+	private UserManager userManager;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getNotifications(
-			@RequestParam(value = "userId", required = false) Long userId) {
+	public ModelAndView getNotifications(Principal principal) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/listPM");
-		List<PrivateMessage> privateMessages = (userId == null ? pMessageService
-				.listPrivateMessage() : pMessageService
-				.listPrivateMessageByUserId(userId));
+		User user = userManager.getUserByUsername(principal.getName());
+		List<PrivateMessage> privateMessages = pMessageService.listPrivateMessageByUserId(user.getId());
 		mav.addObject("privateMessages", privateMessages);
-		
+
 		mav.getModelMap().put("privateMessage", new PrivateMessage());
-		
+
 		return mav;
 	}
-	
-	@RequestMapping(method = RequestMethod.POST)
-	public String createComment(@ModelAttribute("privateMessage") @Validated PrivateMessage pMessage, BindingResult result,
-			SessionStatus status) {
-		if (result.hasErrors()) {
-			//logger
 
-            return FOLDER + "/listPM";
-        }
+	@RequestMapping(method = RequestMethod.POST)
+	public String createComment(
+			@ModelAttribute("privateMessage") @Validated PrivateMessage pMessage,
+			BindingResult result, SessionStatus status) {
+		if (result.hasErrors()) {
+			// logger
+
+			return FOLDER + "/listPM";
+		}
 
 		pMessage.setCreatedAt(new Date());
 

@@ -2,17 +2,22 @@ package au.moodflip.personalisation.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import au.moodflip.personalisation.annotation.UniqueUsername;
 
 @Entity
 @Table(name = "User")
@@ -26,12 +31,13 @@ public class User implements Serializable {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "username")
+	@Size(min = 3, message = "Name must be at least 3 characters!")
+	@Column(name = "username", unique = true)
+	@UniqueUsername(message = "Such username already exists!")
 	private String username;
 	
 	@Column(name = "password")
 	private String password;
-
 
 	@Column(name = "banned")
 	private boolean banned;
@@ -39,16 +45,13 @@ public class User implements Serializable {
 	@Column(name = "created_at")
 	private Date createdAt;
 	
-	@Column(name = "user_level")
-	private int userLevel;
-	
 	@Column(name = "privacy_setting")
 	private String privacySetting;
-
 	
-
-	//@ManyToOne
-//private Forum forum;
+	@ManyToMany
+	@JoinTable
+	@Fetch(FetchMode.SELECT)
+	private Set<Role> roles;
 
 	public long getId() {
 		return id;
@@ -68,10 +71,6 @@ public class User implements Serializable {
 	
 	public Date createAt(){
 		return createdAt;
-	}
-	
-	public int userLevel(){
-		return userLevel;
 	}
 	
 	public String getPrivacySetting(){
@@ -104,7 +103,21 @@ public class User implements Serializable {
 	public void setPrivacySetting(String privacySetting){
 		this.privacySetting = privacySetting;
 	}
-	
-	
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 	
 }

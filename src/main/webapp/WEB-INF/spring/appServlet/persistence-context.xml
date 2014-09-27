@@ -60,4 +60,10 @@
 	</bean>
 	
 	<tx:annotation-driven proxy-target-class="true"/>
+	
+	<context:component-scan base-package="au.moodflip" />
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+	
 </beans>

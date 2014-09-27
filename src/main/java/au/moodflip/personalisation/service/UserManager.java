@@ -16,5 +16,9 @@ public interface UserManager extends Serializable{
     public void updateUser(User user);
     
     public void deleteUser(long id);
+
+	public User getUserByUsername(String username);
+
+	void addUserWithRoles(User user);
     
 }
