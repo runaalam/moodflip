@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -85,10 +86,24 @@
 						<sf:errors path="intro" cssClass="error"/>
 					</div>
 				</div>	
-			<!--  		<tr>
-						<td><label for="cardMission">Mission</label></td>
-						<td><sf:textarea path="" id="cardMission"/></td>
-					</tr> -->
+				<div id="missionsDiv">
+					<c:forEach items="${card.missions}" varStatus="status">
+					 	<div class="form-group aMissionDiv">						
+							<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
+							<div class="col-sm-5">
+								<sf:textarea path="missions[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
+							</div>
+						<c:if test="${ status.last }">
+							<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">
+								<button type="button" id="delMissionBtn" class="btn btn-default btn-sm" <c:if test="${fn:length(card.missions) eq 1}">disabled="disabled"</c:if>>Delete</button>
+								<button type="button" id="addMissionBtn" class="btn btn-default btn-sm">Add</button>
+							</div>
+						</c:if>
+						</div>
+					</c:forEach>
+				</div>
+				<div id="testDiv">
+				</div>
 				<div class="form-group">
 					<label for="cardOutro" class="col-sm-2 control-label">Completion message</label>
 					<div class="col-sm-5">
@@ -106,7 +121,6 @@
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+	<script src="<c:url value="/resources/card-game/js/edit.js" />" type="text/javascript"></script>
 </body>
 </html>

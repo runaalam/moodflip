@@ -10,4 +10,5 @@ public interface CardManager {
 	public Card getCardById(long id);
 	public void updateCard(Card card);
 	public void deleteCard(long id);
+	public void test();
 }
