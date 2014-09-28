@@ -58,6 +58,7 @@ public class InitDbService {
 				userAdmin.setPassword("admin");
 				Set<Role> roles = new HashSet<Role>();
 				roles.add(roleService.findByName("ROLE_ADMIN"));
+				roles.add(roleService.findByName("ROLE_USER"));
 				userAdmin.setRoles(roles);
 				userService.addUserWithRoles(userAdmin);
 

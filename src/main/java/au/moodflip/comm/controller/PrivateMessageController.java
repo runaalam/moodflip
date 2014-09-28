@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,6 +37,7 @@ public class PrivateMessageController {
 		User user = userManager.getUserByUsername(principal.getName());
 		List<PrivateMessage> privateMessages = pMessageService.listPrivateMessageByUserId(user.getId());
 		mav.addObject("privateMessages", privateMessages);
+		mav.addObject("user", user);
 
 		mav.getModelMap().put("privateMessage", new PrivateMessage());
 

@@ -11,7 +11,8 @@
 	<http use-expressions="true">
 		<intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/forum**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/forum" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/forum/**" access="hasRole('ROLE_USER')" />
 		<form-login login-page="/login" username-parameter="username"
 			password-parameter="password" default-target-url="/"
 			authentication-failure-url="/login?error" />

@@ -44,7 +44,6 @@ public class AuthService implements UserDetailsService {
 		// Build user's authorities
 		for (Role role : roles) {
 			setAuths.add(new SimpleGrantedAuthority(role.getName()));
-			System.out.println(role.getName());
 		}
 
 		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>(setAuths);

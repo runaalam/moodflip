@@ -13,15 +13,19 @@
 			<fieldset>
 				<table>
 					<tr>
+						<th><form:label path="username">Username:</form:label></th>
+						<td><form:input path="username" disabled="true" /></td>
+					</tr>
+					<tr>
 						<th><form:label path="name">Name:</form:label></th>
 						<td><form:input path="name" value="${user.name}"/></td>
 					</tr>
 					<tr>
 						<th><form:label path="password">Password:</form:label></th>
-						<td><form:password path="password" value="${user.password}"/></td>
+						<td><form:password path="password" /></td>
 					</tr>
 					<tr>
-						<td><input type="button" value="Cancel" onclick="window.location='../'" /></td>
+						<td><a href="/personalisation.htm"><button>Cancel</button></a></a></td>
 						<!-- This hidden field is required for Hibernate to recognize this Product -->
 						<!-- <td><form:hidden path="id"/> -->
 						<td><input type="submit" value="Done"/></td>

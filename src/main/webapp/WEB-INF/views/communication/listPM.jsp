@@ -11,6 +11,7 @@
 		<fmt:message key="heading" />
 	</h1>
 	<h3>Private Message</h3>
+	<p>Logged in User : ${user.username}</p>
 	<c:choose>
 	<c:when test="${!empty privateMessages}">
 		<table border="1">

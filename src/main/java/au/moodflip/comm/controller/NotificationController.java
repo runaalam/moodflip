@@ -34,8 +34,6 @@ public class NotificationController {
 				.listNotification() : notificationService
 				.listNotificationByUserId(userId));
 		mav.addObject("notifications", notifications);
-//		for(Notification n : notifications)
-//			System.out.println(n.getUrl());
 		return mav;
 	}
 	

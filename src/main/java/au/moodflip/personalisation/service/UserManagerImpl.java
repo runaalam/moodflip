@@ -79,6 +79,10 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public void updateUser(User user) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
+		
 		currentSession.merge(user);
 	}
 	

@@ -68,7 +68,6 @@ public class UserController {
 	public String editUser(@ModelAttribute("user") User user,BindingResult result) {
 		
 		userManager.updateUser(user);
-		System.out.println(user.getId());
 		
 		return "redirect:/personalisation.htm";
 	}
