@@ -72,4 +72,16 @@ public class PrivateMessageDaoImpl implements PrivateMessageDao {
 		}
 	}
 
+	@Override
+	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(
+			Long userId_1, Long userId_2) {
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from PrivateMessage where (senderId = :userId_1 and receiverId = :userId_2) or (senderId = :userId_2 and receiverId = :userId_1)");
+		query.setParameter("userId_1", userId_1);
+		query.setParameter("userId_2", userId_2);
+		return query.list();
+	}
+
 }

@@ -1,5 +1,6 @@
 package au.moodflip.comm.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,17 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
 	@Transactional
 	public void createPrivateMessage(PrivateMessage pMessage) {
 		privateMessageDao.createPrivateMessage(pMessage);
+	}
+	
+	@Transactional
+	public PrivateMessage createPrivateMessage(String message, Long senderId, Long receiverId) {
+		PrivateMessage pm = new PrivateMessage();
+		pm.setContent(message);
+		pm.setSenderId(senderId);
+		pm.setReceiverId(receiverId);
+		pm.setCreatedAt(new Date());
+		createPrivateMessage(pm);
+		return pm;
 	}
 
 	@Transactional
@@ -38,6 +50,11 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
 	@Transactional
 	public List<PrivateMessage> listPrivateMessageByUserId(Long userId) {
 		return privateMessageDao.listPrivateMessageByUserId(userId);
+	}
+	
+	@Transactional
+	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2) {
+		return privateMessageDao.listPrivateMessageBySenderAndReceiverId(userId_1, userId_2);
 	}
 
 	@Transactional

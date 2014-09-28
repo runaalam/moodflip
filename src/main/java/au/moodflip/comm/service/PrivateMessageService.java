@@ -7,6 +7,8 @@ import au.moodflip.comm.model.PrivateMessage;
 public interface PrivateMessageService {
 	
 	public void createPrivateMessage(PrivateMessage pMessage);
+	
+	public PrivateMessage createPrivateMessage(String message, Long senderId, Long receiverId);
 
 	public List<PrivateMessage> listPrivateMessage();
 	
@@ -15,6 +17,8 @@ public interface PrivateMessageService {
 	public List<PrivateMessage> listPrivateMessageByReceiverId(Long receiverId);
 	
 	public List<PrivateMessage> listPrivateMessageByUserId(Long userId);
+	
+	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2);
 	
 	public PrivateMessage getPrivateMessageById(Long id);
 	

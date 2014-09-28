@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,6 +32,12 @@ public class ForumController {
 		List<Forum> forums = forumService.listForum();
 		mav.addObject("forums", forums);
 		return mav;
+	}
+	
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public @ResponseBody List<Forum> listForums() {
+		List<Forum> forums = forumService.listForum();
+		return forums;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)

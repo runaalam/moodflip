@@ -21,5 +21,8 @@ public interface PrivateMessageDao {
 	public void editPrivateMessage(PrivateMessage pMessage);
 	
 	public void removePrivateMessage(Long id);
+
+	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(
+			Long userId_1, Long userId_2);
 	
 }

@@ -8,6 +8,8 @@ public interface NotificationService {
 
 	public void createNotification(Notification notification);
 	
+	public void createNotification(String message, String url, Long userId);
+	
 	public List<Notification> listNotification();
 	
 	public List<Notification> listNotificationByUserId(Long userId);
