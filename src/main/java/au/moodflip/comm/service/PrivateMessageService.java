@@ -20,6 +20,8 @@ public interface PrivateMessageService {
 	
 	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2);
 	
+	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2, Long msgId);
+	
 	public PrivateMessage getPrivateMessageById(Long id);
 	
 	public void editPrivateMessage(PrivateMessage pMessage);

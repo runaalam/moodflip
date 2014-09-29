@@ -1,5 +1,6 @@
 package au.moodflip.comm.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -79,6 +80,19 @@ public class PrivateMessageDaoImpl implements PrivateMessageDao {
 				.getCurrentSession()
 				.createQuery(
 						"from PrivateMessage where (senderId = :userId_1 and receiverId = :userId_2) or (senderId = :userId_2 and receiverId = :userId_1)");
+		query.setParameter("userId_1", userId_1);
+		query.setParameter("userId_2", userId_2);
+		return query.list();
+	}
+
+	@Override
+	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(
+			Long userId_1, Long userId_2, Long msgId) {
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from PrivateMessage where ID > :msgId and ((senderId = :userId_1 and receiverId = :userId_2) or (senderId = :userId_2 and receiverId = :userId_1))");
+		query.setParameter("msgId", msgId);
 		query.setParameter("userId_1", userId_1);
 		query.setParameter("userId_2", userId_2);
 		return query.list();

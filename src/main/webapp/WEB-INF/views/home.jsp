@@ -34,6 +34,10 @@
 	<h3><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></h3>
 	
 	<h3><a href="<c:url value="/forum" />">Forum</a></h3>
+	
+	<h3><a href="<c:url value="/pm" />">Private messaging</a></h3>
+	
+	<h3><a href="<c:url value="/notification" />">Notification</a></h3>
 
 	<h3><a href="<c:url value="/personalisation"/>">personalisation for different user classes</a></h3>
 

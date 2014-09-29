@@ -56,6 +56,11 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
 	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2) {
 		return privateMessageDao.listPrivateMessageBySenderAndReceiverId(userId_1, userId_2);
 	}
+	
+	@Transactional
+	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2, Long msgId) {
+		return privateMessageDao.updatePrivateMessageBySenderAndReceiverId(userId_1, userId_2, msgId);
+	}
 
 	@Transactional
 	public PrivateMessage getPrivateMessageById(Long id) {
