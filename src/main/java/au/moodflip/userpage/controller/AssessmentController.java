@@ -22,10 +22,10 @@ public class AssessmentController {
 	
 	@RequestMapping("/depression-assessment")
 	public ModelAndView showQuestionList(Map<String, Object> model) {
-
+		
+		ModelAndView mav = new ModelAndView(FOLDER + "questions");
 		List<Question> quesList = assessmentService.getQuestions();
 		model.put("quesList", quesList);
-		ModelAndView mav = new ModelAndView(FOLDER + "questions");
 		return mav;
 	}
 	

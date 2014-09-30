@@ -76,7 +76,6 @@ public class UserHomepageController {
 	@RequestMapping(value = "/depression-assessment", method = RequestMethod.GET)
 	public ModelAndView assessmentSurvey() {
 
-
 		ModelAndView mav = new ModelAndView(FOLDER + "/questions");
 		List<Question> quesList = assessmentService.getQuestions();
 		mav.addObject("quesList", quesList);
@@ -96,7 +95,7 @@ public class UserHomepageController {
 			
             return FOLDER + "/questions";
         }
-//		forumService.addForum(forum);
+
 		status.setComplete();
 		
 		String testStatus = "I have just completed my assesment test with individual score of (" 

@@ -3,6 +3,12 @@ package au.moodflip.userpage.dao;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import au.moodflip.userpage.model.Question;
@@ -10,10 +16,14 @@ import au.moodflip.userpage.model.Question;
 @Repository
 public class AssessmentDaoImpl implements AssessmentDao {
 
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Question> getQuestions() {
 		
-		List<Question> quesList = new LinkedList<Question>();
+		/* List<Question> quesList = new LinkedList<Question>();
 		
 		Question qus = new Question();
 		qus.setId(1);
@@ -38,9 +48,9 @@ public class AssessmentDaoImpl implements AssessmentDao {
 		qus = new Question();
 		qus.setId(5);
 		qus.setText("My sleep was restless.");
-		quesList.add(qus);		
+		quesList.add(qus);	*/
 		
-		return quesList;
+		return sessionFactory.getCurrentSession().createQuery("from Question").list();	
 	}
 
 
