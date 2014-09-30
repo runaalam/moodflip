@@ -12,30 +12,16 @@
 <h1>Data</h1>
 <div>
 <div>
-    <s:hasBindErrors name="command">
-        <div id="div_global_error" align="center">
-            <h2>
-                <fmt:message key="error.title"/>
-            </h2>
-
-            <div id="global_errors">
-                <s:bind path="command">
-                    <ul class="header-list">
-                        <c:forEach items="${status.errorMessages}" var="err">
-                            <li>
-                                <c:out value='${err}'/>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </s:bind>
+    
             </div>
         </div>
-    </s:hasBindErrors>
-</div>
+ 
+
 <div> 
     <form:form action="" method="POST" name="command">
         <div>
             <table>
+            	
                 <tr>
                     <th>Rate Your Mood</th>
                     <td>
@@ -74,8 +60,8 @@
                 <tr>
                     <td>
                         Interested
-                        <form:select path="exerciseHours" items="${dropDownValues}"/>
-                        <form:errors path="exerciseHours" cssClass="error"/>
+                        <form:select path="interested" items="${dropDownValues}"/>
+                        <form:errors path="interested" cssClass="error"/>
                     </td>
                     <td>
                         Irritable
@@ -97,18 +83,6 @@
                     </td>
                 </tr>
 
-                <tr>
-                    <td>
-                        Interested
-                        <form:select path="exerciseHours" items="${dropDownValues}"/>
-                        <form:errors path="exerciseHours" cssClass="error"/>
-                    </td>
-                    <td>
-                        Irritable
-                        <form:select path="irritable" items="${dropDownValues}"/>
-                        <form:errors path="irritable" cssClass="error"/>
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         Excited
