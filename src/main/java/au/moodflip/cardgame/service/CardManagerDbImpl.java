@@ -22,71 +22,37 @@ import au.moodflip.cardgame.model.Mission;
 
 @Service(value="cardManager")
 @Transactional
-public class DatabaseCardManager implements CardManager{
-	private static final Logger logger = LoggerFactory.getLogger(DatabaseCardManager.class);
+public class CardManagerDbImpl implements CardManager{
+	private static final Logger logger = LoggerFactory.getLogger(CardManagerDbImpl.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
-	@Autowired
-	BasicDataSource dataSource;
 	
 	@Override
-	public void addCard(Card card){
+	public void add(Card card){
 		sessionFactory.getCurrentSession().save(card);
 	}
 
 	@Override
 	public List<Card> getCards() {
-		System.out.println("DB url is: " + dataSource.getUrl());
 		return sessionFactory.getCurrentSession().createQuery("from Card").list();
 	}
 
 	@Override
-	public Card getCardById(long id) {
+	public Card getById(long id) {
 		Card card = (Card)sessionFactory.getCurrentSession().get(Card.class, id);
 		return card;
 	}
 
 	@Override
-	public void updateCard(Card card) {
+	public void update(Card card) {
 		sessionFactory.getCurrentSession().merge(card);
 	}
 
 	@Override
-	public void deleteCard(long id) {
-		Card c = getCardById(id);
+	public void delete(long id) {
+		Card c = getById(id);
 		sessionFactory.getCurrentSession().delete(c);
 	}
-	
-	public void test(){
-		System.out.println("in test()");
-		Card card = new Card();
-		card.setTitle("some title");
-		card.setAttempts(1);
-		card.setAvgRating(0);
-		card.setCompletions(0);
-		card.setIntro("intro");
-		card.setLevel(1);
-		card.setOutro("out");
-		card.setSymptom(Symptom.APPETITE);
-		List<Mission> missions= new ArrayList<Mission>();
-		missions.add(new Mission("mish1"));
-		missions.add(new Mission("mish2"));
-		missions.add(new Mission("mish3"));
-		card.setMissions(missions);
-		
-		 Session session = sessionFactory.openSession();
-	      Transaction tx = null;
-		 try{
-	         tx = session.beginTransaction();
-	         session.save(card);
-	         tx.commit();
-		 }catch (HibernateException e){
-			 e.printStackTrace();
-		 }finally {
-	         session.close(); 
-	      }
-	}
-	
 	
 }
