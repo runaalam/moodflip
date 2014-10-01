@@ -1,8 +1,16 @@
+
 package au.moodflip.moodtrack.model;
 
 
 
 import javax.persistence.*;
+
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.springframework.format.annotation.DateTimeFormat;
+ 
+
 
 import java.io.Serializable;
 
@@ -12,8 +20,14 @@ public class Data implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqData")
-    @SequenceGenerator(name = "seqData", sequenceName = "data_seq", allocationSize = 1)
+    @SequenceGenerator(name = "seqData", sequenceName = "data_seq", allocationSize = 3)
     private int id;
+    
+    
+    @Column(name = "date" ,length = 65536)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private DateTime date;
+
 
     private int moodRating;
     private int copedWithTask;
@@ -57,6 +71,15 @@ public class Data implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+    public void setDate(DateTime date) {
+        this.date = date;
+    }
+
+    public DateTime getDate() {
+        return this.date;
+    }
+
+
 
     public int getMoodRating() {
         return moodRating;
@@ -249,5 +272,7 @@ public class Data implements Serializable {
     public void setAfraid(int afraid) {
         this.afraid = afraid;
     }
+    
+    
 }
 
