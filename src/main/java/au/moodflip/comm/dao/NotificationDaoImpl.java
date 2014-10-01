@@ -61,4 +61,12 @@ public class NotificationDaoImpl implements NotificationDao {
 		notification.setRead(true);
 	}
 
+	@Override
+	public Notification getLatestNotReadNotificationByUserId(Long userId) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Notification where userId = :userId and read = 0 order by created_at desc");
+		query.setParameter("userId", userId);
+		return (Notification) query.setMaxResults(1).uniqueResult();
+	}
+
 }

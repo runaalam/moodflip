@@ -19,6 +19,15 @@ public class NotificationServiceImpl implements NotificationService {
 	
 	@Override
 	public void createNotification(Notification notification) {
+		Notification latest = notificationDao
+				.getLatestNotReadNotificationByUserId(notification.getUserId());
+		if (latest != null) {
+			if (latest.getMessage().equals(notification.getMessage())) {
+				latest.setCreatedAt(new Date());
+				editNotification(latest);
+				return;
+			}
+		}
 		notificationDao.createNotification(notification);
 	}
 	

@@ -19,5 +19,7 @@ public interface NotificationDao {
 	public void removeNotification(Long id);
 	
 	public void setNotificationRead(Long id);
+	
+	public Notification getLatestNotReadNotificationByUserId(Long userId);
 
 }

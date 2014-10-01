@@ -12,7 +12,7 @@
 	</h1>
 	<h3>Private Message</h3>
 	
-	<div ng-controller="PrivateMessageCtrl">
+	<div ng-controller="PrivateMessageCtrl" ng-init="setReceiverId(<c:out value="${receiverId}" />)">
 	
 	<c:choose>
 	<c:when test="${!empty users}">
@@ -21,7 +21,7 @@
 				<th>User</th>
 			</tr>
 			<c:forEach items="${users}" var="user">
-			<c:if test="${user.username != principal.username}">
+			<c:if test="${user.username != currentUser}">
 				<tr>
 					<td><a href="#" ng-click="setReceiverId(${user.id})"><c:out value="${user.username}" /></a></td>
 				</tr>
@@ -41,7 +41,7 @@
 		<br>
 	</div>
 
-		<form ng-submit="send()">
+		<form ng-submit="send()" ng-show="userSelected">
 			<input type="text" ng-model="message" name="message" />
 			<input type="submit" id="send" value="Send" />
 		</form>
