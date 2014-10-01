@@ -4,11 +4,10 @@ import java.util.List;
 
 import au.moodflip.cardgame.model.Card;
 
-public interface CardManager {
-	public void addCard(Card card);
+public interface CardManager extends GenericManager<Card>{
+//	public void add(T card);
 	public List<Card> getCards();
-	public Card getCardById(long id);
-	public void updateCard(Card card);
-	public void deleteCard(long id);
-	public void test();
+//	public Card getCardById(long id);
+//	public void update(T card);
+//	public void deleteCard(long id);
 }

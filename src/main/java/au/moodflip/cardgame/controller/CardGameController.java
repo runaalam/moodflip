@@ -70,7 +70,7 @@ public class CardGameController {
 		}
 		logger.info("add card {}", card);
 		logger.info("cardManager {}", cardManager);
-		cardManager.addCard(card);
+		cardManager.add(card);
 		logger.info("Saved card " + card);
 		return "redirect:/" + FOLDER + "/customCards";
 	}
@@ -78,8 +78,8 @@ public class CardGameController {
 	@RequestMapping(value = "/customCards", method = RequestMethod.GET, params="edit")
 	public ModelAndView editCard(Model model, @RequestParam(value="edit", required=false) long cardId){
 		logger.info("Edit card");
-		model.addAttribute(cardManager.getCardById(cardId));
-		Card card = cardManager.getCardById(cardId);
+		model.addAttribute(cardManager.getById(cardId));
+		Card card = cardManager.getById(cardId);
 		logger.info("Got card: " + card);
 		logger.info("returning from Edit card");
 		return new ModelAndView(FOLDER + "/edit", "model", model);
@@ -93,13 +93,13 @@ public class CardGameController {
 			return new ModelAndView(FOLDER + "/edit");
 		}
 		model.addAttribute("status","Card updated!");
-		cardManager.updateCard(card);
+		cardManager.update(card);
 		return new ModelAndView(FOLDER + "/edit");
 	}
 	
 	@RequestMapping(value = "/customCards", method = RequestMethod.GET, params="delete")
 	public String deleteCard(@RequestParam(value="delete", required=false) long cardId, RedirectAttributes ra){
-		cardManager.deleteCard(cardId);
+		cardManager.delete(cardId);
 		return "redirect:/" + FOLDER + "/customCards";
 	}
 }

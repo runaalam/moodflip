@@ -68,10 +68,10 @@ public class Card implements Serializable{
 	public void setCardId(long cardId) { this.cardId = cardId; }
 	private long cardId;
 	
-	@Column(name="user_id")
-	public long getUserId() { return userId; }
-	public void setUserId(long userId) { this.userId = userId; }
-	private long userId;
+//	@Column(name="cg_user_id")
+//	public long getUserId() { return userId; }
+//	public void setUserId(long userId) { this.userId = userId; }
+//	private long userId;
 	
 	@Column(name="title")
 	@NotBlank
@@ -135,7 +135,7 @@ public class Card implements Serializable{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Title: " + title + ";");
 		buffer.append("Card id: " + cardId + ";");
-		buffer.append("User id: " + userId + ";");
+//		buffer.append("User id: " + userId + ";");
 		buffer.append("Intro: " + intro + ";");
 		if (!missions.isEmpty()){
 			Iterator<Mission> ms = missions.iterator();

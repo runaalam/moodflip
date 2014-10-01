@@ -4,6 +4,8 @@ import java.util.List;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import au.moodflip.moodtrack.model.Data;
 
 @Service
 public class DataServiceImp implements DataService {
+	
 	@Autowired
     private DataDao dataDao;
 	@Transactional
@@ -31,5 +34,6 @@ public class DataServiceImp implements DataService {
 	public List<Data> listData() {
 		return dataDao.listData();
 	}
+    
 
 }

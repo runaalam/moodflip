@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -51,25 +50,29 @@ public class InitDbService {
 					roleAdmin.setName("ROLE_ADMIN");
 					roleService.createRole(roleAdmin);
 				}
-					
-				User userAdmin = new User();
-				userAdmin.setBanned(false);
-				userAdmin.setUsername("admin");
-				userAdmin.setPassword("admin");
-				Set<Role> roles = new HashSet<Role>();
-				roles.add(roleService.findByName("ROLE_ADMIN"));
-				roles.add(roleService.findByName("ROLE_USER"));
-				userAdmin.setRoles(roles);
-				userService.addUserWithRoles(userAdmin);
 
-				User userNormal = new User();
-				userNormal.setBanned(false);
-				userNormal.setUsername("user");
-				userNormal.setPassword("user");
-				roles = new HashSet<Role>();
-				roles.add(roleService.findByName("ROLE_USER"));
-				userNormal.setRoles(roles);
-				userService.addUserWithRoles(userNormal);
+				if (userService.getUserByUsername("admin") == null) {
+					User userAdmin = new User();
+					userAdmin.setBanned(false);
+					userAdmin.setUsername("admin");
+					userAdmin.setPassword("admin");
+					Set<Role> roles = new HashSet<Role>();
+					roles.add(roleService.findByName("ROLE_ADMIN"));
+					roles.add(roleService.findByName("ROLE_USER"));
+					userAdmin.setRoles(roles);
+					userService.addUserWithRoles(userAdmin);
+				}
+
+				if (userService.getUserByUsername("user") == null) {
+					User userNormal = new User();
+					userNormal.setBanned(false);
+					userNormal.setUsername("user");
+					userNormal.setPassword("user");
+					Set<Role> roles = new HashSet<Role>();
+					roles.add(roleService.findByName("ROLE_USER"));
+					userNormal.setRoles(roles);
+					userService.addUserWithRoles(userNormal);
+				}
 			}
 		});
 	}
