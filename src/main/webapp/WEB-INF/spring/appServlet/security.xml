@@ -15,6 +15,7 @@
 		<intercept-url pattern="/pm/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/notification" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/notification/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/card-game/customCards*/**" access="hasRole('ROLE_USER')" />
 		<form-login login-page="/login" username-parameter="username"
 			password-parameter="password" default-target-url="/"
 			authentication-failure-url="/login?error" />

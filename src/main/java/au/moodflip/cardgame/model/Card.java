@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Table(name="Cards")
-public class Card implements Serializable{
+public class Card implements Serializable, Comparable<Card>{
 	public enum Symptom{
 		SADNESS("Sadness"), 
 		LOSS_OF_INTEREST("Loss of interest"),
@@ -167,7 +167,7 @@ public class Card implements Serializable{
 			Iterator<Mission> ms = missions.iterator();
 			for (int i=0; ms.hasNext(); i++){
 				Mission m = ms.next();
-				buffer.append("\tMission " + i + "[" + m.getText() + "]\n");
+				buffer.append("\t Mission " + i + "[" + m.getText() + "]\n");
 			}
 		}
 		return buffer.toString();
@@ -178,5 +178,10 @@ public class Card implements Serializable{
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		messageSource.setBasename("messages");
 		return messageSource;
+	}
+	
+	@Override
+	public int compareTo(Card c2) {
+		return this.title.compareTo(c2.getTitle());
 	}
 }

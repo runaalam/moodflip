@@ -1,11 +1,14 @@
 package au.moodflip.cardgame.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.validation.Valid;
 
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,8 +27,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.service.CardManager;
+import au.moodflip.cardgame.service.UserCardsManager;
+import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.service.UserManager;
 
 @Controller
 @RequestMapping(value = "/card-game")
@@ -33,6 +41,10 @@ public class CardGameController {
 	private final String FOLDER = "card-game";
 	@Autowired
 	private CardManager cardManager;
+	@Autowired
+	private UserCardsManager userCardsManager;
+    @Autowired
+    private UserManager userManager;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
@@ -41,10 +53,14 @@ public class CardGameController {
 	}
 	
 	@RequestMapping(value = "/customCards")
-	public ModelAndView customCards(Model model){
-		logger.info("Custom cards");
-//		cardManager.test();
-		model.addAttribute("customCards", cardManager.getCards());
+	public ModelAndView customCards(Model model, Principal principal){
+		logger.info("Custom cards all");
+		User user = userManager.getUserByUsername(principal.getName());
+		CgUser cgUser = userCardsManager.getById(user.getId());
+		logger.info("user logged in {}", user.getId());
+		if (cgUser != null){
+			model.addAttribute("customCards", cgUser.getCards());
+		}
 		return new ModelAndView(FOLDER + "/customCards", "model", model);
 	}
 	
@@ -62,7 +78,7 @@ public class CardGameController {
 	}
 	
 	@RequestMapping(value = "/customCards", method = RequestMethod.POST, params="new")
-	public String addCard(@Valid Card card, BindingResult bindingResult, RedirectAttributes ra){
+	public String addCard(@Valid Card card, BindingResult bindingResult, RedirectAttributes ra, Principal principal){
 		logger.info("Save new card");
 		if (bindingResult.hasErrors()){
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
@@ -70,6 +86,20 @@ public class CardGameController {
 		}
 		logger.info("add card {}", card);
 		logger.info("cardManager {}", cardManager);
+		User user = userManager.getUserByUsername(principal.getName());
+		CgUser cgUser = userCardsManager.getById(user.getId());
+		Set<Card> cards;
+		if (cgUser != null){
+			cards = new TreeSet<Card>(cgUser.getCards());
+			cards.add(card);
+		}else{
+			cgUser = new CgUser();
+			cgUser.setCgUserId(user.getId());
+			cards = new TreeSet<Card>();
+			cards.add(card);
+		}
+		cgUser.setCards(cards);
+		userCardsManager.update(cgUser);
 		cardManager.add(card);
 		logger.info("Saved card " + card);
 		return "redirect:/" + FOLDER + "/customCards";
