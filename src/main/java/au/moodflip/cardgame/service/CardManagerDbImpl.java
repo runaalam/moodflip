@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -37,7 +38,7 @@ public class CardManagerDbImpl implements CardManager{
 	public List<Card> getCards() {
 		return sessionFactory.getCurrentSession().createQuery("from Card").list();
 	}
-
+	
 	@Override
 	public Card getById(long id) {
 		Card card = (Card)sessionFactory.getCurrentSession().get(Card.class, id);
@@ -53,6 +54,14 @@ public class CardManagerDbImpl implements CardManager{
 	public void delete(long id) {
 		Card c = getById(id);
 		sessionFactory.getCurrentSession().delete(c);
+	}
+
+	@Override
+	public List<Card> getCards(Symptom symptom) {
+		String hql = "FROM Card AS c WHERE c.symptom = :symptom_grp";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("symptom_grp", symptom);
+		return (List<Card>)query.list();
 	}
 	
 }

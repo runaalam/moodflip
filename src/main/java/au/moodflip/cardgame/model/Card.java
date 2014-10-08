@@ -61,6 +61,27 @@ public class Card implements Serializable{
 		}
 	}
 	
+	public Card() { }
+	public Card(String title, 
+				int level, 
+				Symptom symptom, 
+				String intro, 
+				List<Mission> missions, 
+				String outro,
+				long attempts,
+				long completions,
+				double avgRating){
+		this.title = title;
+		this.level = level;
+		this.symptom = symptom;
+		this.intro = intro;
+		this.missions = missions;
+		this.outro = outro;
+		this.attempts = attempts;
+		this.completions = completions;
+		this.avgRating = avgRating;
+	}
+	
 	@Id
 	@GeneratedValue
 	@Column(name="card_id")
@@ -133,23 +154,22 @@ public class Card implements Serializable{
 
 	public String toString(){
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("Title: " + title + ";");
-		buffer.append("Card id: " + cardId + ";");
-//		buffer.append("User id: " + userId + ";");
-		buffer.append("Intro: " + intro + ";");
+		buffer.append("Title[" + title + "] ");
+		buffer.append("Card id[" + cardId + "] ");
+		buffer.append("Intro[" + intro + "] ");
+		buffer.append("End msg[" + outro + "] ");
+		buffer.append("Avg rating[" + avgRating + "] ");
+		buffer.append("Level[" + level + "] ");
+		buffer.append("Symptom group[" + symptom + "] ");
+		buffer.append("Attempts[" + attempts + "] ");
+		buffer.append("Completions[" + completions + "]\n");
 		if (!missions.isEmpty()){
 			Iterator<Mission> ms = missions.iterator();
 			for (int i=0; ms.hasNext(); i++){
 				Mission m = ms.next();
-				buffer.append("Mission " + i + ": " + m.getText());
+				buffer.append("\tMission " + i + "[" + m.getText() + "]\n");
 			}
 		}
-		buffer.append("End msg: " + outro + ";");
-		buffer.append("Avg rating: " + avgRating + ";");
-		buffer.append("Level: " + level + ";");
-		buffer.append("Symptom group: " + symptom + ";");
-		buffer.append("Attempts: " + attempts + ";");
-		buffer.append("Completions: " + completions + ";");
 		return buffer.toString();
 	}
 	

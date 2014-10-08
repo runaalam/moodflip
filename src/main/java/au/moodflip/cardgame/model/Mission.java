@@ -12,9 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Missions")
 public class Mission implements Serializable{
-	public Mission(){
-		
-	}
+	public Mission(){ }
 	
 	public Mission(String text){
 		this.text = text;

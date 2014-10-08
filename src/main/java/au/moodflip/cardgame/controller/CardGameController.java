@@ -102,4 +102,5 @@ public class CardGameController {
 		cardManager.delete(cardId);
 		return "redirect:/" + FOLDER + "/customCards";
 	}
+	
 }
