@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -17,11 +18,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
+import au.moodflip.cardgame.model.UsersCard;
+import au.moodflip.cardgame.model.UsersCard.UsersCardPK;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CgUserManager;
+import au.moodflip.cardgame.service.UsersCardManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
 
@@ -36,6 +41,8 @@ public class CardGameController {
 	private CgUserManager cgUserManager;
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private UsersCardManager usersCardManager;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
@@ -50,8 +57,8 @@ public class CardGameController {
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		logger.info("user logged in {}", user.getId());
 		if (cgUser != null){ // user has cards
-			model.addAttribute("customCards", cardManager.getCards(cgUser.getCards()));
-		}else{ //user doesn't exist
+			model.addAttribute("customCards", cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId())));
+		}else{ //user doesn't exist in cgUser 
 			cgUserManager.add(new CgUser(user.getId()));
 		}
 		return new ModelAndView(FOLDER + "/customCards", "model", model);
@@ -83,7 +90,7 @@ public class CardGameController {
 		cardManager.add(card);
 		logger.info("add cardId {} to user {}", card.getCardId(), user.getId());
 		CgUser cgUser = cgUserManager.getById(user.getId());
-		cgUserManager.addCard(cgUser, card);
+		usersCardManager.add(new UsersCard(cgUser.getCgUserId(), card.getCardId()));
 		logger.info("Saved card " + card);
 		return "redirect:/" + FOLDER + "/customCards";
 	}
@@ -98,6 +105,7 @@ public class CardGameController {
 		return new ModelAndView(FOLDER + "/edit", "model", model);
 	}
 	
+	// updates the card for everyone who has it
 	@RequestMapping(value = "/customCards", method = RequestMethod.POST, params="edit")
 	public ModelAndView editCard(@Valid Card card, BindingResult result, Model model, @RequestParam(value="edit", required=false) long cardId){
 		logger.info("Save card edit");
@@ -111,8 +119,11 @@ public class CardGameController {
 	}
 	
 	@RequestMapping(value = "/customCards", method = RequestMethod.GET, params="delete")
-	public String deleteCard(@RequestParam(value="delete", required=false) long cardId, RedirectAttributes ra){
-		cardManager.delete(cardId);
+	public String deleteCard(@RequestParam(value="delete", required=false) long cardId, RedirectAttributes ra, Principal principal){
+		User user = userManager.getUserByUsername(principal.getName());
+		CgUser cgUser = cgUserManager.getById(user.getId());
+		logger.info("deleting userid {} cardid {}", cgUser.getCgUserId(), cardId);
+		usersCardManager.delete(new UsersCardPK(cgUser.getCgUserId(), cardId));
 		return "redirect:/" + FOLDER + "/customCards";
 	}
 	

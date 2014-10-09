@@ -16,51 +16,43 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.Card.Symptom;
-import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.service.CardManager;
-import au.moodflip.cardgame.service.CgUserManager;
+import au.moodflip.cardgame.service.UsersCardManager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:test-persistence-context.xml" })
 @TransactionConfiguration(defaultRollback = false)
 @Transactional
 
-public class CgUserTests {
-    @Autowired
-    private CgUserManager cgUserManager;
+public class UsersCardManagerTests {
     @Autowired
     private CardManager cardManager;
+    @Autowired
+    private UsersCardManager usersCardManager;
 	
 	@Test
 	public void testGetCgUserId() {
 		//create 2 cards
-		Set<UsersCard> cards = new TreeSet<UsersCard>();
 		List<Mission> missions = new ArrayList<Mission>(); 
 		missions.add(new Mission("c1 Mission 1"));
 		Card card = new Card("Title for new card", 1, Symptom.TIRED, "intro", missions, "outro", 1, 1, 1);
-		cardManager.add(card);
-		System.out.println("#0");
-		cards.add(new UsersCard(card.getCardId()));
-		System.out.println("#1");		
+		long c1id = cardManager.add(card);
+		
 		missions = new ArrayList<Mission>();
 		missions.add(new Mission("c2 Mission card 1"));
 		missions.add(new Mission("c2 Mission card 2"));
 		card = new Card("Second card title", 2, Symptom.THINKING, "c2 intro", missions, "c2 outro", 2, 2, 2);
-		cardManager.add(card);
-		cards.add(new UsersCard(card.getCardId()));
-		System.out.println("#2");
-		// store a user + their cards
-		CgUser user = new CgUser();
-		user.setCgUserId(1L);
-		user.setCards(cards);
-		cgUserManager.add(user);
+		long c2id = cardManager.add(card);
+		
+		// assign cards to userId 1
+		usersCardManager.add(new UsersCard(1L, c1id));
+		usersCardManager.add(new UsersCard(1L, c2id));
 
-		// get user+cards from db
-		CgUser user1 = cgUserManager.getById(1);
-		System.out.println("Retrieving user id: " + user1.getCgUserId());
-		Set<Card> uc = cardManager.getCards(user1.getCards());
+		// get userId 1's cards
+		System.out.println("Retrieving user id 1");
+		Set<Card> uc = cardManager.getCards(usersCardManager.getAll(1));
 		for (Iterator<Card> iterator = uc.iterator(); iterator.hasNext();) {
 			System.out.println((Card) iterator.next());
 		}

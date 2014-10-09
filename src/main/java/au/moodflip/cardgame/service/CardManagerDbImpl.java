@@ -24,8 +24,9 @@ public class CardManagerDbImpl implements CardManager{
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void add(Card card){
+	public long add(Card card){
 		sessionFactory.getCurrentSession().save(card);
+		return card.getCardId();
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class CardManagerDbImpl implements CardManager{
 	public Set<Card> getCards(Set<UsersCard> ids) {
 		Set<Card> cards = new TreeSet<Card>();
 		for (UsersCard cardId : ids){
-			cards.add(getById(cardId.getCardId()));
+			cards.add(getById(cardId.getId().getCardId()));
 		}
 		return cards;
 	}
