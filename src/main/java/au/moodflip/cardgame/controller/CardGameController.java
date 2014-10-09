@@ -2,14 +2,8 @@ package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -18,19 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.service.CardManager;
-import au.moodflip.cardgame.service.UserCardsManager;
+import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
 
@@ -42,7 +33,7 @@ public class CardGameController {
 	@Autowired
 	private CardManager cardManager;
 	@Autowired
-	private UserCardsManager userCardsManager;
+	private CgUserManager cgUserManager;
     @Autowired
     private UserManager userManager;
 
@@ -56,10 +47,12 @@ public class CardGameController {
 	public ModelAndView customCards(Model model, Principal principal){
 		logger.info("Custom cards all");
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = userCardsManager.getById(user.getId());
+		CgUser cgUser = cgUserManager.getById(user.getId());
 		logger.info("user logged in {}", user.getId());
-		if (cgUser != null){
-			model.addAttribute("customCards", cgUser.getCards());
+		if (cgUser != null){ // user has cards
+			model.addAttribute("customCards", cardManager.getCards(cgUser.getCards()));
+		}else{ //user doesn't exist
+			cgUserManager.add(new CgUser(user.getId()));
 		}
 		return new ModelAndView(FOLDER + "/customCards", "model", model);
 	}
@@ -87,20 +80,10 @@ public class CardGameController {
 		logger.info("add card {}", card);
 		logger.info("cardManager {}", cardManager);
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = userCardsManager.getById(user.getId());
-		Set<Card> cards;
-		if (cgUser != null){
-			cards = new TreeSet<Card>(cgUser.getCards());
-			cards.add(card);
-		}else{
-			cgUser = new CgUser();
-			cgUser.setCgUserId(user.getId());
-			cards = new TreeSet<Card>();
-			cards.add(card);
-		}
-		cgUser.setCards(cards);
-		userCardsManager.update(cgUser);
 		cardManager.add(card);
+		logger.info("add cardId {} to user {}", card.getCardId(), user.getId());
+		CgUser cgUser = cgUserManager.getById(user.getId());
+		cgUserManager.addCard(cgUser, card);
 		logger.info("Saved card " + card);
 		return "redirect:/" + FOLDER + "/customCards";
 	}

@@ -2,6 +2,7 @@ package au.moodflip.test.cardgame;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,9 +44,9 @@ public class CardManagerDbImplTest {
 		cardManager.add(card);
 		
 		// get cards by symptom
-		List<Card> appetiteCards = cardManager.getCards(Symptom.APPETITE);
-		List<Card> sleepCards = cardManager.getCards(Symptom.SLEEP);
-		List<Card> guiltCards = cardManager.getCards(Symptom.GUILT);
+		Set<Card> appetiteCards = cardManager.getCards(Symptom.APPETITE);
+		Set<Card> sleepCards = cardManager.getCards(Symptom.SLEEP);
+		Set<Card> guiltCards = cardManager.getCards(Symptom.GUILT);
 		
 		System.out.println("Appetite cards");
 		for (Card c : appetiteCards){

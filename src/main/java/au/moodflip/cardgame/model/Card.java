@@ -1,9 +1,7 @@
 package au.moodflip.cardgame.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,25 +18,22 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.HibernateException;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Entity
 @Table(name="Cards")
 public class Card implements Serializable, Comparable<Card>{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public enum Symptom{
 		SADNESS("Sadness"), 
 		LOSS_OF_INTEREST("Loss of interest"),
