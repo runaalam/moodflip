@@ -34,8 +34,8 @@
 		<div class="col-md-2">
 			<div class="nav">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="active"><a href="<c:url value="/card-game"/>">Card game</a></li>
-				  	<li><a href="<c:url value="/card-game/myCards"/>">My Cards</a></li>
+				  	<li><a href="/card-game">Card game</a></li>
+					<li class="active"><a href="<c:url value="/card-game/myCards"/>">My cards</a></li>
 				  	<li><a href="<c:url value="/card-game/customCards"/>">Custom Cards</a></li>
 				  	<li><a href="#">Game Stats</a></li>
 				</ul>
@@ -44,14 +44,17 @@
 		<div class="col-md-10">
 		<ol class="breadcrumb">
 			<li><a href="<c:url value="/"/>">Home</a></li>
-			<li class="active">Card game</li>
+			<li><a href="<c:url value="/card-game"/>">card game</a></li>
+			<li class="active">My cards</li>
 		</ol>
-			<h1>Card game main page</h1>
-			<c:if test="${empty model.card }">You are not playing a card yet. When you're ready, start playing by going to <a href="<c:url value="card-game/myCards"/>">My Cards</a> on the side bar</c:if>
-			<c:if test="${!empty model.card }">
-				<c:out value="${card.title}"/> <c:out value="${card.level}"/>  <c:out value="${card.symptom}"/> <br/>
-				Mission: <c:out value="${card.missions[0].text}"/><br/>
-			</c:if>
+			<h1>My Cards</h1>
+			<c:forEach var="card" items="${model.cards}">
+				<c:out value="${card.title}"/><br/>
+				Level: <c:out value="${card.level }"/>	
+				Symptom: <c:out value="${card.symptom }"/><br/>
+				<c:out value="${card.intro }"/><br/>
+				<a href="<c:url value="/card-game/myCards?play=${card.cardId}"/>">Play card ${card.cardId}</a>
+			</c:forEach>
 		</div>
 	</div>
 </div>

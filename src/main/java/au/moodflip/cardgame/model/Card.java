@@ -57,6 +57,7 @@ public class Card implements Serializable, Comparable<Card>{
 	}
 	
 	public Card() { }
+//	public Card(List<Mission> missions) { this.missions = missions; }
 	public Card(String title, 
 				int level, 
 				Symptom symptom, 
@@ -127,8 +128,9 @@ public class Card implements Serializable, Comparable<Card>{
 	public void setIntro(String intro) { this.intro = intro; }
 	private String intro;
 	
+//	@OneToMany(mappedBy="card", fetch = FetchType.EAGER)
 	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="card_id")
+//	@JoinColumn(name="card_id")
 	@OrderColumn(name="missions_order")
 	@Cascade(CascadeType.ALL)
 	public List<Mission> getMissions() { return missions; }
@@ -162,7 +164,7 @@ public class Card implements Serializable, Comparable<Card>{
 			Iterator<Mission> ms = missions.iterator();
 			for (int i=0; ms.hasNext(); i++){
 				Mission m = ms.next();
-				buffer.append("\t Mission " + i + "[" + m.getText() + "]\n");
+				buffer.append("\t Mission " + i + "[" + m + "]\n");
 			}
 		}
 		return buffer.toString();

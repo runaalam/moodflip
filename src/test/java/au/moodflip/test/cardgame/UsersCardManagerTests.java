@@ -36,14 +36,14 @@ public class UsersCardManagerTests {
 	public void testGetCgUserId() {
 		//create 2 cards
 		List<Mission> missions = new ArrayList<Mission>(); 
-		missions.add(new Mission("c1 Mission 1"));
 		Card card = new Card("Title for new card", 1, Symptom.TIRED, "intro", missions, "outro", 1, 1, 1);
+		missions.add(new Mission("c1 Mission 1", card));
 		long c1id = cardManager.add(card);
 		
 		missions = new ArrayList<Mission>();
-		missions.add(new Mission("c2 Mission card 1"));
-		missions.add(new Mission("c2 Mission card 2"));
 		card = new Card("Second card title", 2, Symptom.THINKING, "c2 intro", missions, "c2 outro", 2, 2, 2);
+		missions.add(new Mission("c2 Mission card 1", card));
+		missions.add(new Mission("c2 Mission card 2", card));
 		long c2id = cardManager.add(card);
 		
 		// assign cards to userId 1
