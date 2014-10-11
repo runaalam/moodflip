@@ -1,5 +1,6 @@
 package au.moodflip.cardgame.service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -39,11 +40,16 @@ public class UsersCardManagerDbImpl implements UsersCardManager{
 		sessionFactory.getCurrentSession().delete(usersCard);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<UsersCard> getAll(long userId) {
 		String hql = "FROM UsersCard AS c WHERE c.id.userId = :id";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("id", userId);
+		List<UsersCard> res = query.list();
+		if (res.isEmpty()){
+			return new TreeSet<UsersCard>();
+		}
 		return new TreeSet<UsersCard>(query.list());
 	}
 }

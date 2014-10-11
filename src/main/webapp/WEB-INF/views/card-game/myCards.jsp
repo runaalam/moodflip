@@ -53,7 +53,7 @@
 				Level: <c:out value="${card.level }"/>	
 				Symptom: <c:out value="${card.symptom }"/><br/>
 				<c:out value="${card.intro }"/><br/>
-				<a href="<c:url value="/card-game/myCards?play=${card.cardId}"/>">Play card ${card.cardId}</a>
+				<a href="<c:url value="/card-game/myCards?play=${card.cardId}"/>">Play card</a><br/>
 			</c:forEach>
 		</div>
 	</div>

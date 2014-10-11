@@ -1,6 +1,8 @@
 package au.moodflip.test.cardgame;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,6 +41,15 @@ public class CardManagerDbImplTest {
 		card = new Card("APPETITE card #2", 2, Symptom.APPETITE, "intro2", missions, "outro2", 2, 2, 2);
 		missions.add(new Mission("Appetite card #2 Mission 1", card));
 		missions.add(new Mission("Appetite card #2 Mission 2", card));
+		// link missions together
+		for (int i=0; i < missions.size(); i++){
+			if (i-1 >= 0){
+				missions.get(i).setPrev(missions.get(i-1));
+			}
+			if (i+1 < missions.size()){
+				missions.get(i).setNext(missions.get(i+1));
+			}
+		}
 		cardManager.add(card);
 
 		missions = new ArrayList<Mission>(); 
@@ -56,6 +67,15 @@ public class CardManagerDbImplTest {
 			System.out.println(c);
 			List<Mission> m = c.getMissions();
 			System.out.println("getting cardid from mission: " + m.get(0).getCard().getCardId());
+			if (c.getTitle().equals("APPETITE card #2")){
+				System.out.println("Using Mission next & prev props: ");
+				for (Mission a : m){
+					System.out.println("Mission " + a.getMissionId() + ":");
+					System.out.println("\tprev mission: " + a.getPrev());
+					System.out.println("\tcur mission: " + a);
+					System.out.println("\tnext mission: " + a.getNext());
+				}
+			}
 		}
 		System.out.println("Sleep cards");
 		for (Card c : sleepCards){

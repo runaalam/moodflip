@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
 <meta charset="utf-8">
@@ -47,10 +48,14 @@
 			<li class="active">Card game</li>
 		</ol>
 			<h1>Card game main page</h1>
-			<c:if test="${empty model.card }">You are not playing a card yet. When you're ready, start playing by going to <a href="<c:url value="card-game/myCards"/>">My Cards</a> on the side bar</c:if>
-			<c:if test="${!empty model.card }">
-				<c:out value="${card.title}"/> <c:out value="${card.level}"/>  <c:out value="${card.symptom}"/> <br/>
-				Mission: <c:out value="${card.missions[0].text}"/><br/>
+			<c:if test="${empty mission }">You do not have a mission yet. When you're ready, go to <a href="<c:url value="card-game/myCards"/>">My Cards</a> on the side bar</c:if>
+			<c:if test="${!empty mission }"><c:out value="${mission.title}"/> <c:out value="${mission.level}"/>  <c:out value="${mission.symptom}"/> <br/>
+				<c:if test="${!empty mission.text }">
+						Mission: <c:out value="${mission.text}"/><br/>
+						<a href="<c:url value="/card-game?newCard"/>">New card</a>
+						<a href="<c:url value="/card-game?nextMission"/>">Next mission</a>
+				</c:if>
+				<c:if test="${empty mission.text}"><a href="<c:url value="/card-game?finishCard"/>">Finish</a></c:if>
 			</c:if>
 		</div>
 	</div>

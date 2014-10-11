@@ -2,7 +2,9 @@ package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.UsersCard;
@@ -49,11 +52,16 @@ public class CustomCardController {
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		logger.info("user logged in {}", user.getId());
-		if (cgUser != null){ // user has cards
-			model.addAttribute("customCards", cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId())));
-		}else{ //user doesn't exist in cgUser 
-			cgUserManager.add(new CgUser(user.getId()));
-		}
+		Set<Card> cards = cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId()));
+		model.addAttribute("customCards", cards);
+//			Iterator<Card> it = cards.iterator();
+//			while(it.hasNext()){
+//				Card c = it.next();
+//				System.out.println(c);
+//				for (Mission m : c.getMissions()){
+//					System.out.println("\tprev:" + m.getPrev() + "\tCur:" + m + "\tNext:" + m.getNext());
+//				}
+//			}
 		return new ModelAndView(FOLDER + "/customCards", "model", model);
 	}
 	
@@ -80,9 +88,7 @@ public class CustomCardController {
 		logger.info("add card {}", card);
 		logger.info("cardManager {}", cardManager);
 		User user = userManager.getUserByUsername(principal.getName());
-		for (Mission m : card.getMissions()){
-			m.setCard(card);
-		}
+		linkMissionsAndCard(card);
 		cardManager.add(card);
 		logger.info("add cardId {} to user {}", card.getCardId(), user.getId());
 		CgUser cgUser = cgUserManager.getById(user.getId());
@@ -110,9 +116,7 @@ public class CustomCardController {
 			return new ModelAndView(FOLDER + "/edit");
 		}
 		model.addAttribute("status","Card updated!");
-		for (Mission m : card.getMissions()){
-			m.setCard(card);
-		}
+		linkMissionsAndCard(card);
 		cardManager.update(card);
 		return new ModelAndView(FOLDER + "/edit");
 	}
@@ -124,5 +128,19 @@ public class CustomCardController {
 		logger.info("deleting userid {} cardid {}", cgUser.getCgUserId(), cardId);
 		usersCardManager.delete(new UsersCardPK(cgUser.getCgUserId(), cardId));
 		return "redirect:/" + FOLDER + "/customCards";
+	}
+	
+	// link missions to each other.  link all missions to same card
+	private void linkMissionsAndCard(Card card){
+		List<Mission> missions = card.getMissions();
+		for (int i=0; i < missions.size(); i++){
+			if (i-1 >= 0){
+				missions.get(i).setPrev(missions.get(i-1));
+			}
+			if (i+1 < missions.size()){
+				missions.get(i).setNext(missions.get(i+1));
+			}
+			missions.get(i).setCard(card); 
+		}
 	}
 }
