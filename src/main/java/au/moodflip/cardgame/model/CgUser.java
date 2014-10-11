@@ -1,8 +1,12 @@
 package au.moodflip.cardgame.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -17,4 +21,10 @@ public class CgUser {
 	public long getCgUserId() { return cgUserId; }
 	public void setCgUserId(long cgUserId) { this.cgUserId = cgUserId; }
 	private long cgUserId;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="mission_id")
+	public Mission getCurrentMission() { return currentMission; }
+	public void setCurrentMission(Mission currentMission) { this.currentMission = currentMission; }
+	private Mission currentMission;
 }

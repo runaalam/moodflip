@@ -63,6 +63,7 @@ public class CardManagerDbImpl implements CardManager{
 
 	@Override
 	public Set<Card> getCards(Set<UsersCard> ids) {
+		if (ids.isEmpty()) { return new TreeSet<Card>(); }
 		Set<Card> cards = new TreeSet<Card>();
 		for (UsersCard cardId : ids){
 			cards.add(getById(cardId.getId().getCardId()));

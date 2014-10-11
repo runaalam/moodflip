@@ -19,8 +19,9 @@ public class CgUserManagerDbImpl implements CgUserManager{
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public void add(CgUser user){
+	public CgUser add(CgUser user){
 		sessionFactory.getCurrentSession().save(user);
+		return user;
 	}
 
 	@SuppressWarnings("unchecked")

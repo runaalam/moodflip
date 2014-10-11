@@ -35,8 +35,8 @@
 		<div class="col-md-2">
 			<div class="nav">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="active"><a href="<c:url value="/card-game"/>">Card game</a></li>
-				  	<li><a href="<c:url value="/card-game/myCards"/>">My Cards</a></li>
+				  	<li><a href="/card-game">Card game</a></li>
+					<li class="active"><a href="<c:url value="/card-game/myCards"/>">My cards</a></li>
 				  	<li><a href="<c:url value="/card-game/customCards"/>">Custom Cards</a></li>
 				  	<li><a href="#">Game Stats</a></li>
 				</ul>
@@ -45,18 +45,11 @@
 		<div class="col-md-10">
 		<ol class="breadcrumb">
 			<li><a href="<c:url value="/"/>">Home</a></li>
-			<li class="active">Card game</li>
+			<li><a href="<c:url value="/card-game"/>">card game</a></li>
+			<li class="active">My cards</li>
 		</ol>
-			<h1>Card game main page</h1>
-			<c:if test="${empty mission }">You do not have a mission yet. When you're ready, go to <a href="<c:url value="card-game/myCards"/>">My Cards</a> on the side bar</c:if>
-			<c:if test="${!empty mission }"><c:out value="${mission.title}"/> <c:out value="${mission.level}"/>  <c:out value="${mission.symptom}"/> <br/>
-				<c:if test="${!empty mission.text }">
-						Mission: <c:out value="${mission.text}"/><br/>
-						<a href="<c:url value="/card-game?newCard"/>">New card</a>
-						<a href="<c:url value="/card-game?nextMission"/>">Next mission</a>
-				</c:if>
-				<c:if test="${empty mission.text}"><a href="<c:url value="/card-game?finishCard"/>">Finish</a></c:if>
-			</c:if>
+			<h1>Play card</h1>
+
 		</div>
 	</div>
 </div>

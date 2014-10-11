@@ -5,7 +5,7 @@ import java.util.List;
 import au.moodflip.cardgame.model.CgUser;
 
 public interface CgUserManager {
-	public void add(CgUser user);
+	public CgUser add(CgUser user);
 	public void update(CgUser user);
 	public CgUser getById(long id);
 	public List<CgUser> getAll();
