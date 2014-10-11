@@ -52,6 +52,7 @@
             </tr>
           <c:forEach var="_data" items="${dataItems}">
                 <tr>
+                  <td>${_data.date}</td>
                   <td>${_data.moodRating}</td>
                   <td>${_data.copedWithTask}</td>
                   <td>${_data.hoursOfSleeping}</td>
