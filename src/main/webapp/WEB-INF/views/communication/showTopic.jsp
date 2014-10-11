@@ -2,79 +2,81 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html>
+<html ng-app="moodFlip">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="title" /></title>
-<style>
-.error {
-	color: #ff0000;
-	font-style: italic;
-	font-weight: bold;
-}
-</style>
 </head>
 <body>
 	<h1>
 		<fmt:message key="heading" />
 	</h1>
+	
+	<div ng-controller="ForumCtrl" ng-init="initTopicAndComments(<c:out value="${topicId}"/>)">
+	
 	<h3>
 		<a href="<c:url value="/forum" />">Forum</a> > <a
-			href="<c:url value="/forum/${topic.forum.id}" />">${topic.forum.forumName}</a> >
-		${topic.name}
+			href="<c:url value="/forum/{{topic.forum.id}}" />">{{topic.forum.forumName}}</a> >
+		{{topic.name}}
 	</h3>
-	<h2><c:out value="${topic.name}" /></h2>
+	
+	<h2>{{topic.name}}</h2>
 	<br>
-	User: <c:out value="${topic.userId}" />
+	User: {{topic.userId}}
 	<br>
-	Created At: <c:out value="${topic.createdAt}" />
+	Created At: {{topic.createdAt}}
 	<br>
-	Edited At: <c:out value="${topic.editedAt}" />
+	Edited At: {{topic.editedAt}}
 	<br>
-	<pre><c:out value="${topic.content}" /></pre>
+	<p ng-bind-html="topic.content | markdown"></p>
 	<br>
-	<a href="<c:url value="/forum/${topic.forum.id}/topic/edit/${topic.id}"/>">Edit</a>
-	<a href="<c:url value="/forum/${topic.forum.id}/topic/delete/${topic.id}"/>">Delete</a>
+	<a href="<c:url value="/forum/topic/edit/{{topic.id}}"/>">Edit</a>
+	<a href="<c:url value="/forum/topic/delete/{{topic.id}}"/>">Delete</a>
 	<br>
-	Up Vote <c:out value="${topic.upVote}" /><a href="<c:url value="/forum/${topic.forum.id}/topic/up_vote/${topic.id}"/>">+</a>
+	Up Vote {{topic.upVote}}<a href="" ng-click="upVoteTopic()" >+</a>
 	<br>
-	Down Vote <c:out value="${topic.downVote}" /><a href="<c:url value="/forum/${topic.forum.id}/topic/down_vote/${topic.id}"/>">-</a>
+	Down Vote {{topic.downVote}}<a href="" ng-click="downVoteTopic()" >-</a>
 	
 	<h2>Comments</h2>
 	
 	<hr>
 
-	<c:choose>
-	<c:when test="${!empty comments}">
-	<c:forEach items="${comments}" var="comment">
-		User: <c:out value="${comment.userId}" />
-		<br>
-		Created At: <c:out value="${comment.createdAt}" />
-		<br>
-		Edited At: <c:out value="${comment.editedAt}" />
-		<br>
-		<pre><c:out value="${comment.content}" /></pre>
+		<div ng-show="comments.length">
+		<div ng-repeat="comment in comments">
 		
+		User: {{comment.userId}}
 		<br>
-		<a href="<c:url value="/forum/${topic.forum.id}/topic/${topic.id}/comment/edit/${comment.id}"/>">Edit</a>
-		<a href="<c:url value="/forum/${topic.forum.id}/topic/${topic.id}/comment/delete/${comment.id}"/>">Delete</a>
+		Created At: {{comment.createdAt}}
 		<br>
-		Up Vote <c:out value="${comment.upVote}" /><a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/up_vote/${comment.id}"/>">+</a>
+		Edited At: {{comment.editedAt}}
 		<br>
-		Down Vote <c:out value="${comment.downVote}" /><a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/down_vote/${comment.id}"/>">-</a>
+		<p ng-bind-html="comment.content | markdown"></p>
+		<br>
+		<a href="<c:url value="/forum/comment/edit/{{comment.id}}"/>">Edit</a>
+		<a href="" ng-click="deleteComment(comment.id)" >Delete</a>
+		<br>
+		Up Vote {{comment.upVote}}<a href="" ng-click="upVoteComment(comment.id)">+</a>
+		<br>
+		Down Vote {{comment.downVote}}<a href="" ng-click="downVoteComment(comment.id)">-</a>
 		
-	<hr>
-	
-	</c:forEach>
-	</c:when>
-	<c:when test="${empty comments}">
-	There is no comment.
-	</c:when>
-	</c:choose>
-	
+		<hr>
+		
+		</div>
+		</div>
+		<div ng-hide="comments.length">No comment</div>
+
 	<br>
-	<a href="<c:url value="/forum/${topic.forum.id}/topic/${topic.id}/comment/create"/>">Reply</a>
+	<a href="<c:url value="/forum/topic/{{topic.id}}/newComment"/>">Reply</a>
 	<br>
+	
+	</div>
 
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-sanitize.min.js"></script>
+<script src="<c:url value="/resources/comm/js/main.js" />"></script>
+<script src="<c:url value="/resources/comm/js/forum.js" />"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+
 </html>

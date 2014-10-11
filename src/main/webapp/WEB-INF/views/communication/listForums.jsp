@@ -33,22 +33,6 @@
 	<a href="<c:url value="/forum/create"/>">Create Forum</a>
 	<br>
 
-
-
-	<div ng-controller="ForumCtrl" ng-init="listForum()">
-		<table>
-			<tr ng-repeat="forum in forums">
-				<td><a href="<c:url value="/forum/{{forum.id}}"/>">{{forum.forumName}}</a></td>
-			</tr>
-		</table>
-	</div>
-
-
-
 </body>
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-<script src="<c:url value="/resources/comm/js/comm.js" />"></script>
 
 </html>

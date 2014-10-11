@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -45,6 +46,7 @@ public class TopicComment implements Serializable {
 	private Date editedAt;
 
 	@ManyToOne
+	@JsonIgnore
 	private Topic topic;
 
 	public long getId() {

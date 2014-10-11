@@ -28,7 +28,7 @@
 			</tr>
 			<c:forEach items="${pagedListHolder.pageList}" var="topic">
 				<tr>
-					<td><a href="<c:url value="/forum/${forum.id}/topic/${topic.id}"/>"><c:out value="${topic.name}" /></a></td>
+					<td><a href="<c:url value="/forum/topic/${topic.id}"/>"><c:out value="${topic.name}" /></a></td>
 					<td><c:out value="${topic.userId}" /></td>
 					<td><c:out value="${topic.upVote}" /></td>
 					<td><c:out value="${topic.downVote}" /></td>
@@ -49,7 +49,7 @@
 	<br>
 
 	<br>
-	<a href="<c:url value="/forum/${forum.id}/topic/create"/>">Create Topic</a>
+	<a href="<c:url value="/forum/${forum.id}/newTopic"/>">Create Topic</a>
 	<br>
 
 </body>
