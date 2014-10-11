@@ -20,7 +20,7 @@
 	</h1>
 	<h3>
 		<a href="<c:url value="/forum" />">Forum</a> > <a
-			href="<c:url value="/forum/${forum.id}" />">${forum.forumName}</a> >
+			href="<c:url value="/forum/${topic.forum.id}" />">${topic.forum.forumName}</a> >
 		${topic.name}
 	</h3>
 	<h2><c:out value="${topic.name}" /></h2>
@@ -33,12 +33,12 @@
 	<br>
 	<pre><c:out value="${topic.content}" /></pre>
 	<br>
-	<a href="<c:url value="/forum/${forum.id}/topic/edit/${topic.id}"/>">Edit</a>
-	<a href="<c:url value="/forum/${forum.id}/topic/delete/${topic.id}"/>">Delete</a>
+	<a href="<c:url value="/forum/${topic.forum.id}/topic/edit/${topic.id}"/>">Edit</a>
+	<a href="<c:url value="/forum/${topic.forum.id}/topic/delete/${topic.id}"/>">Delete</a>
 	<br>
-	Up Vote <c:out value="${topic.upVote}" /><a href="<c:url value="/forum/${forum.id}/topic/up_vote/${topic.id}"/>">+</a>
+	Up Vote <c:out value="${topic.upVote}" /><a href="<c:url value="/forum/${topic.forum.id}/topic/up_vote/${topic.id}"/>">+</a>
 	<br>
-	Down Vote <c:out value="${topic.downVote}" /><a href="<c:url value="/forum/${forum.id}/topic/down_vote/${topic.id}"/>">-</a>
+	Down Vote <c:out value="${topic.downVote}" /><a href="<c:url value="/forum/${topic.forum.id}/topic/down_vote/${topic.id}"/>">-</a>
 	
 	<h2>Comments</h2>
 	
@@ -56,8 +56,8 @@
 		<pre><c:out value="${comment.content}" /></pre>
 		
 		<br>
-		<a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/edit/${comment.id}"/>">Edit</a>
-		<a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/delete/${comment.id}"/>">Delete</a>
+		<a href="<c:url value="/forum/${topic.forum.id}/topic/${topic.id}/comment/edit/${comment.id}"/>">Edit</a>
+		<a href="<c:url value="/forum/${topic.forum.id}/topic/${topic.id}/comment/delete/${comment.id}"/>">Delete</a>
 		<br>
 		Up Vote <c:out value="${comment.upVote}" /><a href="<c:url value="/forum/${forum.id}/topic/${topic.id}/comment/up_vote/${comment.id}"/>">+</a>
 		<br>
@@ -72,20 +72,9 @@
 	</c:when>
 	</c:choose>
 	
-	<h2>Reply</h2>
-	<form:form id="replyForm" modelAttribute="comment" method="post">
-		<table>
-			<tr>
-				<td><form:label path="content"></form:label></td>
-				<td><form:textarea style="width: 300px; height: 100px;" path="content" /></td>
-				<td><form:errors path="content" cssClass="error" /></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="submit" value="Post Reply" /></td>
-			</tr>
-		</table>
-	</form:form>
+	<br>
+	<a href="<c:url value="/forum/${topic.forum.id}/topic/${topic.id}/comment/create"/>">Reply</a>
+	<br>
 
 </body>
 </html>

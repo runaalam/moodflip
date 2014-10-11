@@ -27,7 +27,7 @@
 					<tr>
 						<td><input type="button" value="Cancel" onclick="window.location='../'" /></td>
 						<!-- This hidden field is required for Hibernate to recognize this Product -->
-						<!-- <td><form:hidden path="id"/> -->
+						<td><form:hidden path="id"/>
 						<td><input type="submit" value="Done"/></td>
 					</tr>
 				</table>			

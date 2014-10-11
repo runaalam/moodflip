@@ -29,7 +29,7 @@ public class TopicDaoImpl implements TopicDao {
 	@Override
 	public List<Topic> listTopicByForumId(Long forumId) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Topic where forum.id = :forumId");
+				"from Topic where forum.id = :forumId  order by id");
 		query.setParameter("forumId", forumId);
 		return query.list();
 	}

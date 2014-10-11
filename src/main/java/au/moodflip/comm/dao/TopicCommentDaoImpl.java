@@ -29,7 +29,7 @@ public class TopicCommentDaoImpl implements TopicCommentDao {
 	@Override
 	public List<TopicComment> listCommentByTopicId(Long topicId) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from TopicComment where topic.id = :topicId");
+				"from TopicComment where topic.id = :topicId order by id");
 		query.setParameter("topicId", topicId);
 		return query.list();
 	}

@@ -1,9 +1,11 @@
 package au.moodflip.comm.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -11,16 +13,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.moodflip.comm.model.Forum;
 import au.moodflip.comm.model.Topic;
 import au.moodflip.comm.model.TopicComment;
 import au.moodflip.comm.service.ForumService;
 import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
+import au.moodflip.personalisation.service.UserManager;
 
 @Controller
 @SessionAttributes(value = {"forum", "topic", "comments", "comment"})
@@ -38,16 +41,29 @@ public class TopicController {
 	@Autowired
 	private ForumService forumService;
 	
-	@ModelAttribute("forum")
-	public Forum getForum(@PathVariable("forumId") Long forumId) {
-	    return forumService.getForumById(forumId);
-	}
+	@Autowired
+	private UserManager userService;
+	
+//	@ModelAttribute("forum")
+//	public Forum getForum(@PathVariable("forumId") Long forumId) {
+//	    return forumService.getForumById(forumId);
+//	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getAllTopics(@PathVariable("forumId") Long forumId) {
+	public ModelAndView getAllTopics(@PathVariable("forumId") Long forumId, @RequestParam(value="p", required = false) Integer p) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/listTopics");
 		List<Topic> topics = topicService.listTopicByForumId(forumId);
-		mav.addObject("topics", topics);
+		
+		// initialize PagedListHolder with our list, set current page defaulted to 0, and pass it to the view
+		PagedListHolder pagedListHolder = new PagedListHolder(topics);
+		int page = p == null ? 0 : p;
+		pagedListHolder.setPage(page);
+		int pageSize = 10;
+		pagedListHolder.setPageSize(pageSize);
+		mav.addObject("pagedListHolder", pagedListHolder);
+		
+//		mav.addObject("topics", topics);
+		mav.addObject("forum", forumService.getForumById(forumId));
 		return mav;
 	}
 
@@ -62,25 +78,6 @@ public class TopicController {
 		mav.getModelMap().put("comment", comment);
 		return mav;
 	}
-	
-	// TopicComment POST method
-	@RequestMapping(value = "/topic/{id}", method = RequestMethod.POST)
-	public String createComment(@PathVariable("id") Long id,
-			@ModelAttribute("comment") @Validated TopicComment comment, BindingResult result,
-			SessionStatus status) {
-		if (result.hasErrors()) {
-			//logger
-
-            return FOLDER + "/showTopic";
-        }
-
-		comment.setTopic(topicService.getTopicById(id));
-		comment.setCreatedAt(new Date());
-
-		topicCommentService.createComment(comment);
-		status.setComplete();
-		return "redirect:/forum/{forumId}/topic/{id}";
-	}
 
 	@RequestMapping(value = "/topic/create", method = RequestMethod.GET)
 	public ModelAndView newForumForm() {
@@ -93,13 +90,13 @@ public class TopicController {
 	@RequestMapping(value = "/topic/create", method = RequestMethod.POST)
 	public String create(@PathVariable("forumId") Long forumId,
 			@ModelAttribute("topic") @Validated Topic topic, BindingResult result,
-			SessionStatus status) {
+			SessionStatus status, Principal principal) {
 		if (result.hasErrors()) {
 			//logger
 
             return FOLDER + "/newTopic";
         }
-
+		topic.setUserId(userService.getUserByUsername(principal.getName()).getId());
 		topic.setForum(forumService.getForumById(forumId));
 		topic.setCreatedAt(new Date());
 
@@ -154,9 +151,36 @@ public class TopicController {
 		return mav;
 	}
 	
+	
 	/**
 	 * TopicComment
 	 */
+	
+	@RequestMapping(value = "/topic/{id}/comment/create", method = RequestMethod.GET)
+	public ModelAndView newComment() {
+		ModelAndView mav = new ModelAndView(FOLDER + "/newTopicComment");
+		TopicComment comment = new TopicComment();
+		mav.getModelMap().put("comment", comment);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/topic/{id}/comment/create", method = RequestMethod.POST)
+	public String createComment(@PathVariable("id") Long id,
+			@ModelAttribute("comment") @Validated TopicComment comment, BindingResult result,
+			SessionStatus status, Principal principal) {
+		if (result.hasErrors()) {
+			//logger
+
+            return FOLDER + "/showTopic";
+        }
+		comment.setUserId(userService.getUserByUsername(principal.getName()).getId());
+		comment.setTopic(topicService.getTopicById(id));
+		comment.setCreatedAt(new Date());
+
+		topicCommentService.createComment(comment);
+		status.setComplete();
+		return "redirect:/forum/{forumId}/topic/{id}";
+	}
 	
 	@RequestMapping(value = "/topic/{id}/comment/edit/{commentId}", method = RequestMethod.GET)
 	public ModelAndView editComment(@PathVariable("commentId") Long commentId) {
@@ -167,7 +191,7 @@ public class TopicController {
 	}
 
 	@RequestMapping(value = "/topic/{id}/comment/edit/{commentId}", method = RequestMethod.POST)
-	public String updateComment(@PathVariable("id") Long id,
+	public String updateComment(@PathVariable("commentId") Long commentId,
 			@ModelAttribute("comment") @Validated TopicComment comment, BindingResult result,
 			SessionStatus status) {
 		if (result.hasErrors()) {
