@@ -9,6 +9,15 @@
      <title>ExpressYourMood</title>
 </head>
 <body>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
+    });
+</script>
+
 <h1>Data</h1>
 <div>
 <div>
@@ -21,6 +30,9 @@
     <form:form action="" method="POST" name="command">
         <div>
             <table>
+             <tr>Date
+             <form:input path= "date" type="text" id="date"/>
+            </tr>
             	
                 <tr>
                     <th>Rate Your Mood</th>
