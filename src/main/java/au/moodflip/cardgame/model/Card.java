@@ -1,6 +1,7 @@
 package au.moodflip.cardgame.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class Card implements Serializable, Comparable<Card>{
 				int level, 
 				Symptom symptom, 
 				String intro, 
-				List<Mission> missions, 
+				List<Task> missions, 
 				String outro,
 				long attempts,
 				long completions,
@@ -85,11 +86,6 @@ public class Card implements Serializable, Comparable<Card>{
 	public void setCardId(long cardId) { this.cardId = cardId; }
 	private long cardId;
 	
-//	@Column(name="cg_user_id")
-//	public long getUserId() { return userId; }
-//	public void setUserId(long userId) { this.userId = userId; }
-//	private long userId;
-	
 	@Column(name="title")
 	@NotBlank
 	@Size(max=50)
@@ -109,7 +105,6 @@ public class Card implements Serializable, Comparable<Card>{
 	public void setLevel(int level) { this.level = level; }
 	private int level;
 		
-	
 	@Column(name="completions")
 	public long getCompletions() { return completions; }
 	public void setCompletions(long completions) { this.completions = completions; }
@@ -128,14 +123,12 @@ public class Card implements Serializable, Comparable<Card>{
 	public void setIntro(String intro) { this.intro = intro; }
 	private String intro;
 	
-//	@OneToMany(mappedBy="card", fetch = FetchType.EAGER)
 	@OneToMany(fetch = FetchType.EAGER)
-//	@JoinColumn(name="card_id")
 	@OrderColumn(name="missions_order")
 	@Cascade(CascadeType.ALL)
-	public List<Mission> getMissions() { return missions; }
-	public void setMissions(List<Mission> missions) { this.missions = missions; }
-	private List<Mission> missions;
+	public List<Task> getMissions() { return missions; }
+	public void setMissions(List<Task> missions) { this.missions = missions; }
+	private List<Task> missions;
 	
 	
 	@Column(name="outro")
@@ -161,11 +154,21 @@ public class Card implements Serializable, Comparable<Card>{
 		buffer.append("Attempts[" + attempts + "] ");
 		buffer.append("Completions[" + completions + "]\n");
 		if (!missions.isEmpty()){
-			Iterator<Mission> ms = missions.iterator();
+			Iterator<Task> ms = missions.iterator();
 			for (int i=0; ms.hasNext(); i++){
-				Mission m = ms.next();
-				buffer.append("\t Mission " + i + "[" + m + "]\n");
+				Task m = ms.next();
+				if (m instanceof Mission){
+					buffer.append("mission found\n");
+					buffer.append("\t Mission " + i + "[" + (Mission)m + "]\n");
+				}else if (m instanceof CardSurvey){
+					buffer.append("cardsurvey found\n");
+					buffer.append("\t CardSurvey " + i + "[" + (CardSurvey)m + "]\n");
+				}else if (m instanceof Task){
+					buffer.append("\t task " + i + "[" + m + "]\n");
+				}
 			}
+		}else{
+			buffer.append("No tasks");
 		}
 		return buffer.toString();
 	}

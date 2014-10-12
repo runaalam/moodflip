@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
+import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
@@ -46,12 +47,12 @@ public class CardGameController {
 		}
 		System.out.println("cgUser is: " + cgUser);
 		
-		Mission current = cgUser.getCurrentMission();
-		if (current != null){
-			model.addAttribute("title", cgUser.getCurrentMission().getCard().getTitle());
-			model.addAttribute("level", String.valueOf(cgUser.getCurrentMission().getCard().getLevel()));
-			model.addAttribute("symptom", cgUser.getCurrentMission().getCard().getSymptom().getText());
-			model.addAttribute("text", current.getText());
+		Task current = cgUser.getCurrentTask();
+		if (current != null && current instanceof Mission){
+			model.addAttribute("title", cgUser.getCurrentTask().getCard().getTitle());
+			model.addAttribute("level", String.valueOf(cgUser.getCurrentTask().getCard().getLevel()));
+			model.addAttribute("symptom", cgUser.getCurrentTask().getCard().getSymptom().getText());
+			model.addAttribute("text", ((Mission)current).getText());
 			mav = new ModelAndView(FOLDER + "/cardGame", "mission", model);
 		}
 		return mav;
@@ -62,14 +63,14 @@ public class CardGameController {
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		
-		Mission next = cgUser.getCurrentMission().getNext();
-		model.addAttribute("title", cgUser.getCurrentMission().getCard().getTitle());
-		model.addAttribute("level", String.valueOf(cgUser.getCurrentMission().getCard().getLevel()));
-		model.addAttribute("symptom", cgUser.getCurrentMission().getCard().getSymptom().getText());
-		if (next != null){
-			model.addAttribute("text", next.getText());  
+		Task next = cgUser.getCurrentTask().getNext();
+		model.addAttribute("title", cgUser.getCurrentTask().getCard().getTitle());
+		model.addAttribute("level", String.valueOf(cgUser.getCurrentTask().getCard().getLevel()));
+		model.addAttribute("symptom", cgUser.getCurrentTask().getCard().getSymptom().getText());
+		if (next != null && next instanceof Mission){
+			model.addAttribute("text", ((Mission)next).getText());
 		}
-		cgUser.setCurrentMission(next);
+		cgUser.setCurrentTask(next);
 		cgUserManager.update(cgUser);
 		return new ModelAndView(FOLDER + "/cardGame", "mission", model);
 	}
@@ -78,7 +79,7 @@ public class CardGameController {
 	public ModelAndView getEndCard(Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
-		cgUser.setCurrentMission(null); // set to no mission for user
+		cgUser.setCurrentTask(null); // set to no mission for user
 		cgUserManager.update(cgUser);
 		return new ModelAndView(FOLDER + "/cardGame", "model", model);
 	}
@@ -87,7 +88,7 @@ public class CardGameController {
 	public ModelAndView getNewCard(Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
-		cgUser.setCurrentMission(null); // set to no mission for user
+		cgUser.setCurrentTask(null); // set to no mission for user
 		cgUserManager.update(cgUser);
 		return new ModelAndView(FOLDER + "/cardGame", "model", model);
 	}

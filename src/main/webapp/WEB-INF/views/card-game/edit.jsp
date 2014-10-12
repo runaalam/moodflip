@@ -88,6 +88,7 @@
 				</div>	
 				<div id="missionsDiv">
 					<c:forEach items="${card.missions}" varStatus="status">
+						<sf:hidden path="missions[${status.index}]"/>
 					 	<div class="form-group aMissionDiv">						
 							<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
 							<div class="col-sm-5">

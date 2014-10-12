@@ -24,7 +24,7 @@ public class CgUser {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="mission_id")
-	public Mission getCurrentMission() { return currentMission; }
-	public void setCurrentMission(Mission currentMission) { this.currentMission = currentMission; }
-	private Mission currentMission;
+	public Task getCurrentTask() { return currentTask; }
+	public void setCurrentTask(Task currentTask) { this.currentTask = currentTask; }
+	private Task currentTask;
 }

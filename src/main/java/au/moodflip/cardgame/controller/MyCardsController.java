@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
+import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.UsersCardManager;
@@ -55,18 +56,16 @@ public class MyCardsController {
 		Card card = cardManager.getById(cardId);
 		Mission m = null;
 		Map<String, String> map = new HashMap<String, String>();
-		if (cgUser.getCurrentMission() == null){ // user not doing mission
-			m = card.getMissions().get(0);
-			cgUser.setCurrentMission(m);
-			cgUserManager.update(cgUser);
-//			map.put("title", card.getTitle());
-//			map.put("level", String.valueOf(card.getLevel()));
-//			map.put("symptom", card.getSymptom().getText());
-//			map.put("text", m.getText());
+		if (cgUser.getCurrentTask() == null){ // user not doing mission
 			model.addAttribute("title", card.getTitle());
 			model.addAttribute("level", String.valueOf(card.getLevel()));
 			model.addAttribute("symptom", card.getSymptom().getText());
-			model.addAttribute("text", m.getText());
+			if (card.getMissions().get(0) instanceof Mission){
+				m = (Mission)card.getMissions().get(0);
+				cgUser.setCurrentTask(m);
+				cgUserManager.update(cgUser);
+				model.addAttribute("text", m.getText());
+			}
 		}else{
 			System.out.println("Already doing a mission");
 		}

@@ -1,5 +1,6 @@
 package au.moodflip.cardgame.service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.model.UsersCard;
 
@@ -25,6 +27,17 @@ public class CardManagerDbImpl implements CardManager{
 	
 	@Override
 	public long add(Card card){
+		// link tasks to card and each task to its adjacent tasks
+		List<Task> tasks = card.getMissions();
+		for (int i=0; i < tasks.size(); i++){
+			if (i-1 >= 0){
+				tasks.get(i).setPrev(tasks.get(i-1));
+			}
+			if (i+1 < tasks.size()){
+				tasks.get(i).setNext(tasks.get(i+1));
+			}
+			tasks.get(i).setCard(card); 
+		}
 		sessionFactory.getCurrentSession().save(card);
 		return card.getCardId();
 	}

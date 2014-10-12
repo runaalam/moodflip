@@ -1,19 +1,26 @@
 package au.moodflip.cardgame.controller;
 
+import java.beans.PropertyEditor;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +31,8 @@ import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
+import au.moodflip.cardgame.model.Task;
+import au.moodflip.cardgame.model.TaskPropertyEditor;
 import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.model.UsersCard.UsersCardPK;
 import au.moodflip.cardgame.service.CardManager;
@@ -69,13 +78,25 @@ public class CustomCardController {
 	public ModelAndView newCard(Model model){
 		logger.info("Create new card");
 		Card newCard = new Card();
-		List<Mission> missions = new ArrayList<Mission>();
-		missions.add(new Mission());	// 1 empty mission for new cards
+		List<Task> missions = new ArrayList<Task>();
+		missions.add(new Mission(""));	// 1 empty mission for new cards
 		newCard.setMissions(missions);
 		model.addAttribute(newCard);
+//		model.addAttribute("missions", missions);
 		model.addAttribute("symptoms", Card.Symptom.values());
 		logger.info("returning modelandview from newCard()");
-		return new ModelAndView(FOLDER + "/edit", "model", model);
+		System.out.println("model for new form:");
+		for (Map.Entry<String, Object> m : model.asMap().entrySet()){
+			System.out.println(m.getKey() + " " + m.getValue());
+		}
+		return new ModelAndView(FOLDER + "/edit");
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder, HttpServletRequest request) {
+		System.out.println("initBinder!");
+	    binder.registerCustomEditor(Task.class, "missions", new TaskPropertyEditor());
+//	    binder.registerCustomEditor(String.class, "missions.text", new TaskPropertyEditor());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, params="new")
@@ -88,7 +109,7 @@ public class CustomCardController {
 		logger.info("add card {}", card);
 		logger.info("cardManager {}", cardManager);
 		User user = userManager.getUserByUsername(principal.getName());
-		linkMissionsAndCard(card);
+		
 		cardManager.add(card);
 		logger.info("add cardId {} to user {}", card.getCardId(), user.getId());
 		CgUser cgUser = cgUserManager.getById(user.getId());
@@ -116,7 +137,6 @@ public class CustomCardController {
 			return new ModelAndView(FOLDER + "/edit");
 		}
 		model.addAttribute("status","Card updated!");
-		linkMissionsAndCard(card);
 		cardManager.update(card);
 		return new ModelAndView(FOLDER + "/edit");
 	}
@@ -128,19 +148,5 @@ public class CustomCardController {
 		logger.info("deleting userid {} cardid {}", cgUser.getCgUserId(), cardId);
 		usersCardManager.delete(new UsersCardPK(cgUser.getCgUserId(), cardId));
 		return "redirect:/" + FOLDER + "/customCards";
-	}
-	
-	// link missions to each other.  link all missions to same card
-	private void linkMissionsAndCard(Card card){
-		List<Mission> missions = card.getMissions();
-		for (int i=0; i < missions.size(); i++){
-			if (i-1 >= 0){
-				missions.get(i).setPrev(missions.get(i-1));
-			}
-			if (i+1 < missions.size()){
-				missions.get(i).setNext(missions.get(i+1));
-			}
-			missions.get(i).setCard(card); 
-		}
 	}
 }
