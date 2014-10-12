@@ -24,7 +24,7 @@ import au.moodflip.personalisation.service.UserManager;
 
 @Controller
 @SessionAttributes(value = {"comment"})
-@RequestMapping(value = "/forum/comment")
+@RequestMapping(value = "/forums/comment")
 public class CommentController {
 	
 	private final String FOLDER = "communication";
@@ -50,6 +50,7 @@ public class CommentController {
 			return new ModelAndView("redirect:/403");
 		
 		mav.addObject("comment", comment);
+		mav.addObject("topicId", comment.getTopic().getId());
 		return mav;
 	}
 
@@ -70,7 +71,7 @@ public class CommentController {
 
 		topicCommentService.editComment(comment);
 		status.setComplete();
-		return "redirect:/forum/topic/" + comment.getTopic().getId();
+		return "redirect:/forums/topic/" + comment.getTopic().getId();
 	}
 	
 	@RequestMapping(value = "/delete/{commentId}", method = RequestMethod.GET)

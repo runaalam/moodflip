@@ -29,7 +29,7 @@ import au.moodflip.personalisation.service.UserManager;
 
 @Controller
 @SessionAttributes(value = {"forum", "topic"})
-@RequestMapping(value = "/forum")
+@RequestMapping(value = "/forums")
 public class TopicController {
 
 	private final String FOLDER = "communication";
@@ -108,7 +108,7 @@ public class TopicController {
 		topicService.createTopic(topic);
 		
 		status.setComplete();
-		return "redirect:/forum/{forumId}";
+		return "redirect:/forums/{forumId}";
 	}
 
 	@RequestMapping(value = "/topic/edit/{id}", method = RequestMethod.GET)
@@ -139,26 +139,26 @@ public class TopicController {
 
 		topicService.editTopic(topic);
 		status.setComplete();
-		return "redirect:/forum/topic/{id}";
+		return "redirect:/forums/topic/{id}";
 	}
 
 	@RequestMapping(value = "/topic/delete/{id}", method = RequestMethod.GET)
 	public ModelAndView delete(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forum/" + topicService.getTopicById(id).getForum().getId());
+		ModelAndView mav = new ModelAndView("redirect:/forums/" + topicService.getTopicById(id).getForum().getId());
 		topicService.removeTopic(id);
 		return mav;
 	}
 
 	@RequestMapping(value = "/topic/up_vote/{id}", method = RequestMethod.GET)
 	public ModelAndView upVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forum/topic/{id}");
+		ModelAndView mav = new ModelAndView("redirect:/forums/topic/{id}");
 		topicService.upVoteTopic(id);
 		return mav;
 	}
 
 	@RequestMapping(value = "/topic/down_vote/{id}", method = RequestMethod.GET)
 	public ModelAndView downVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forum/topic/{id}");
+		ModelAndView mav = new ModelAndView("redirect:/forums/topic/{id}");
 		topicService.downVoteTopic(id);
 		return mav;
 	}
@@ -170,10 +170,11 @@ public class TopicController {
 	
 	@RequestMapping(value = "/topic/{id}/newComment", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ModelAndView newComment() {
+	public ModelAndView newComment(@PathVariable("id") Long id) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/newComment");
 		TopicComment comment = new TopicComment();
 		mav.getModelMap().put("comment", comment);
+		mav.addObject("topicId", id);
 		return mav;
 	}
 	
@@ -185,7 +186,7 @@ public class TopicController {
 		if (result.hasErrors()) {
 			//logger
 
-            return FOLDER + "/showTopic";
+            return FOLDER + "/newComment";
         }
 		comment.setUserId(userService.getUserByUsername(principal.getName()).getId());
 		comment.setTopic(topicService.getTopicById(id));
@@ -193,7 +194,7 @@ public class TopicController {
 
 		topicCommentService.createComment(comment);
 		status.setComplete();
-		return "redirect:/forum/topic/{id}";
+		return "redirect:/forums/topic/{id}";
 	}
 
 }

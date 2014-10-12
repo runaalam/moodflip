@@ -19,7 +19,7 @@ import au.moodflip.comm.model.Forum;
 import au.moodflip.comm.service.ForumService;
 
 @Controller
-@RequestMapping(value = "/forum")
+@RequestMapping(value = "/forums")
 public class ForumController {
 
 	private final String FOLDER = "communication";
@@ -55,7 +55,7 @@ public class ForumController {
         }
 		forumService.addForum(forum);
 		status.setComplete();
-		return "redirect:/forum";
+		return "redirect:/forums";
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -78,13 +78,13 @@ public class ForumController {
         }
 		forumService.editForum(forum);
 		status.setComplete();
-		return "redirect:/forum";
+		return "redirect:/forums";
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView delete(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forum");
+		ModelAndView mav = new ModelAndView("redirect:/forums");
 		forumService.removeForum(id);
 		return mav;
 	}
