@@ -28,3 +28,7 @@ INSERT INTO  question  (text, category_id) VALUES ('I did not like myself.', 6);
 INSERT INTO  question  (text, category_id) VALUES ('I lost a lot of weight without trying to.', 3);
 INSERT INTO  question  (text, category_id) VALUES ('I had a lot of trouble getting to sleep.', 4);
 INSERT INTO  question  (text, category_id) VALUES ('I could not focus on the important things.', 5);
+
+
+/* Forum */
+INSERT INTO forum (forumName) VALUES ('Annoucements'), ('General Discussion'), ('Technical Support');

@@ -54,6 +54,7 @@
 	</div>
 	</div>
 
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
 	<div class="row">
 	<div class="col-md-12">
 	<div class="pull-right forum-btn">
@@ -61,6 +62,7 @@
 	</div>
 	</div>
 	</div>
+	</sec:authorize>
 	
 	</div>
 
