@@ -1,15 +1,15 @@
-moodFlip.controller('ForumCtrl', [ '$scope', '$http', function($scope, $http) {
+moodFlip.controller('ForumsCtrl', [ '$scope', '$http', function($scope, $http) {
 	
 	$scope.initTopicAndComments = function (topicId) {
 		
-		$http.get(appUrl+'/forum/topic?id='+topicId).success(function(data) {
+		$http.get(appUrl+'/forums/topic?id='+topicId).success(function(data) {
 			$scope.topic = data;
 				$scope.topic.createdAt = new Date($scope.topic.createdAt).toLocaleString();
 				if($scope.topic.editedAt)
 					$scope.topic.editedAt = new Date($scope.topic.editedAt).toLocaleString();
 		});
 		
-		$http.get(appUrl+'/forum/comment/list?topicId='+topicId).success(function(data) {
+		$http.get(appUrl+'/forums/comment/list?topicId='+topicId).success(function(data) {
 			$scope.comments = data;
 			for (var i=0,  tot=$scope.comments.length; i < tot; i++) {
 				$scope.comments[i].createdAt = new Date($scope.comments[i].createdAt).toLocaleString();
@@ -21,7 +21,7 @@ moodFlip.controller('ForumCtrl', [ '$scope', '$http', function($scope, $http) {
 	};
 	
 	$scope.upVoteTopic = function () {
-		$http.get(appUrl+'/forum/topic/up_vote/'+$scope.topic.id).success(function(data) {
+		$http.get(appUrl+'/forums/topic/up_vote/'+$scope.topic.id).success(function(data) {
 			if(data) {
 				$scope.topic.upVote = $scope.topic.upVote +1;
 			}
@@ -29,7 +29,7 @@ moodFlip.controller('ForumCtrl', [ '$scope', '$http', function($scope, $http) {
 	};
 	
 	$scope.downVoteTopic = function () {
-		$http.get(appUrl+'/forum/topic/down_vote/'+$scope.topic.id).success(function(data) {
+		$http.get(appUrl+'/forums/topic/down_vote/'+$scope.topic.id).success(function(data) {
 			if(data) {
 				$scope.topic.downVote = $scope.topic.downVote +1;
 			}
@@ -37,7 +37,7 @@ moodFlip.controller('ForumCtrl', [ '$scope', '$http', function($scope, $http) {
 	};
 	
 	$scope.deleteComment = function (id) {
-		$http.get(appUrl+'/forum/comment/delete/'+id).success(function(data) {
+		$http.get(appUrl+'/forums/comment/delete/'+id).success(function(data) {
 			if(data) {
 				for (var i=0,  tot=$scope.comments.length; i < tot; i++) {
 					if($scope.comments[i].id == id) {
@@ -50,7 +50,7 @@ moodFlip.controller('ForumCtrl', [ '$scope', '$http', function($scope, $http) {
 	};
 	
 	$scope.upVoteComment = function (id) {
-		$http.get(appUrl+'/forum/comment/up_vote/'+id).success(function(data) {
+		$http.get(appUrl+'/forums/comment/up_vote/'+id).success(function(data) {
 			if(data) {
 				for (var i=0,  tot=$scope.comments.length; i < tot; i++) {
 					if($scope.comments[i].id == id) {
@@ -63,7 +63,7 @@ moodFlip.controller('ForumCtrl', [ '$scope', '$http', function($scope, $http) {
 	};
 	
 	$scope.downVoteComment = function (id) {
-		$http.get(appUrl+'/forum/comment/down_vote/'+id).success(function(data) {
+		$http.get(appUrl+'/forums/comment/down_vote/'+id).success(function(data) {
 			if(data) {
 				for (var i=0,  tot=$scope.comments.length; i < tot; i++) {
 					if($scope.comments[i].id == id) {

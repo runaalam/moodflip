@@ -6,77 +6,154 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="title" /></title>
+<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
+<link rel="stylesheet" href="<c:url value="/resources/comm/css/forums.css" />">
 </head>
 <body>
-	<h1>
-		<fmt:message key="heading" />
-	</h1>
 	
-	<div ng-controller="ForumCtrl" ng-init="initTopicAndComments(<c:out value="${topicId}"/>)">
+	<%@ include file="/WEB-INF/views/navbar.jsp"%>
 	
-	<h3>
-		<a href="<c:url value="/forum" />">Forum</a> > <a
-			href="<c:url value="/forum/{{topic.forum.id}}" />">{{topic.forum.forumName}}</a> >
-		{{topic.name}}
-	</h3>
+	<div class="container">
 	
+	<div ng-controller="ForumsCtrl" ng-init="initTopicAndComments(<c:out value="${topicId}"/>)">
+	
+	<ol class="breadcrumb">
+		<li><a href="<c:url value="/forums" />">Forums</a></li>
+  		<li><a href="<c:url value="/forums/{{topic.forum.id}}" />">{{topic.forum.forumName}}</a></li>
+  		<li class="active">{{topic.name}}</li>
+	</ol>
+	
+	<div class="row">
+	<div class="col-md-8">
 	<h2>{{topic.name}}</h2>
-	<br>
-	User: {{topic.userId}}
-	<br>
-	Created At: {{topic.createdAt}}
-	<br>
-	Edited At: {{topic.editedAt}}
-	<br>
-	<p ng-bind-html="topic.content | markdown"></p>
-	<br>
-	<a href="<c:url value="/forum/topic/edit/{{topic.id}}"/>">Edit</a>
-	<a href="<c:url value="/forum/topic/delete/{{topic.id}}"/>">Delete</a>
-	<br>
-	Up Vote {{topic.upVote}}<a href="" ng-click="upVoteTopic()" >+</a>
-	<br>
-	Down Vote {{topic.downVote}}<a href="" ng-click="downVoteTopic()" >-</a>
+	</div>
+	<div class="col-md-4">
+	<div class="pull-right forum-btn">
+		<a href="<c:url value="/forums/topic/{{topic.id}}/newComment"/>"><button type="button" class="btn btn-primary btn-lg">Reply</button></a>
+	</div>
+	</div>
+	</div>
 	
-	<h2>Comments</h2>
+	<div class="row topic">
+	<div class="col-md-2">
+		<p>User: {{topic.userId}}</p>
+	</div>
 	
-	<hr>
-
-		<div ng-show="comments.length">
-		<div ng-repeat="comment in comments">
-		
-		User: {{comment.userId}}
-		<br>
-		Created At: {{comment.createdAt}}
-		<br>
-		Edited At: {{comment.editedAt}}
-		<br>
-		<p ng-bind-html="comment.content | markdown"></p>
-		<br>
-		<a href="<c:url value="/forum/comment/edit/{{comment.id}}"/>">Edit</a>
-		<a href="" ng-click="deleteComment(comment.id)" >Delete</a>
-		<br>
-		Up Vote {{comment.upVote}}<a href="" ng-click="upVoteComment(comment.id)">+</a>
-		<br>
-		Down Vote {{comment.downVote}}<a href="" ng-click="downVoteComment(comment.id)">-</a>
-		
-		<hr>
-		
+	<div class="col-md-10">
+		<div class="row">
+			<div class="col-md-12">
+				<p class="text-right">by {{topic.userId}} &raquo; {{topic.createdAt}}
+				<br>
+				<span ng-show="topic.editedAt"> Last edited: {{topic.editedAt}}</span>
+				</p>
+			</div>
 		</div>
+		<div class="row post-content">
+			<div class="col-md-12">
+				<p ng-bind-html="topic.content | markdown"></p>
+			</div>
 		</div>
-		<div ng-hide="comments.length">No comment</div>
+		<div class="row post-btn">
+			<div class="col-md-12">
+				<a href="<c:url value="/forums/topic/edit/{{topic.id}}"/>"><button type="button" class="btn btn-default">Edit</button></a>
+				<a href="<c:url value="/forums/topic/delete/{{topic.id}}"/>"><button type="button" class="btn btn-danger">Delete</button></a>
+				
+				<div class="pull-right">
+				
+				<button type="button" class="btn btn-default" ng-click="upVoteTopic()">
+ 					<span class="glyphicon glyphicon-thumbs-up"></span> Up Vote <span class="badge">{{topic.upVote}}</span>
+				</button>
+				
+				<button type="button" class="btn btn-default" ng-click="downVoteTopic()">
+ 					<span class="glyphicon glyphicon-thumbs-down"></span> Down Vote <span class="badge">{{topic.downVote}}</span>
+				</button>
 
-	<br>
-	<a href="<c:url value="/forum/topic/{{topic.id}}/newComment"/>">Reply</a>
-	<br>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	
+	<div class="row topic">
+		<div class="col-md-12">
+			<p>Suggested Cards</p>
+		</div>
+	</div>
+	
+	<div ng-show="comments.length">
+	<div ng-repeat="comment in comments">
+	
+	<div class="row topic">
+	<div class="col-md-2">
+		<p>User: {{comment.userId}}</p>
+	</div>
+	
+	<div class="col-md-10">
+		<div class="row">
+			<div class="col-md-12">
+				<p class="text-right">by {{comment.userId}} &raquo; {{comment.createdAt}}
+				<br>
+				<span ng-show="comment.editedAt"> Last edited: {{comment.editedAt}}</span>
+				</p>
+			</div>
+		</div>
+		<div class="row post-content">
+			<div class="col-md-12">
+				<p ng-bind-html="comment.content | markdown"></p>
+			</div>
+		</div>
+		<div class="row post-btn">
+			<div class="col-md-12">
+				<a href="<c:url value="/forums/comment/edit/{{comment.id}}"/>"><button type="button" class="btn btn-default">Edit</button></a>
+				<button type="button" class="btn btn-danger" ng-click="deleteComment(comment.id)">Delete</button>
+				
+				<div class="pull-right">
+				
+				<button type="button" class="btn btn-default" ng-click="upVoteComment(comment.id)">
+ 					<span class="glyphicon glyphicon-thumbs-up"></span> Up Vote <span class="badge">{{comment.upVote}}</span>
+				</button>
+				
+				<button type="button" class="btn btn-default" ng-click="downVoteComment(comment.id)">
+ 					<span class="glyphicon glyphicon-thumbs-down"></span> Down Vote <span class="badge">{{comment.downVote}}</span>
+				</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 	
 	</div>
-
+	</div>
+		
+	<!-- 
+		<div ng-hide="comments.length">
+		<div class="row topic">
+		<div class="col-md-12">
+			<p>No comment</p>
+		</div>
+		</div>
+		</div>
+	 -->
+		
+	<div class="row">
+	<div class="col-md-12">
+	<div class="pull-right forum-btn">
+		<a href="<c:url value="/forums/topic/{{topic.id}}/newComment"/>"><button type="button" class="btn btn-primary btn-lg">Reply</button></a>
+	</div>
+	</div>
+	</div>
+	
+	</div>
+	</div>
 </body>
+
+<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-sanitize.min.js"></script>
 <script src="<c:url value="/resources/comm/js/main.js" />"></script>
-<script src="<c:url value="/resources/comm/js/forum.js" />"></script>
+<script src="<c:url value="/resources/comm/js/forums.js" />"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 
 </html>

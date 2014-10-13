@@ -3,54 +3,107 @@
 <html>
 <head>
 <title><fmt:message key="title" /></title>
+<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
+<link rel="stylesheet" href="<c:url value="/resources/comm/css/forums.css" />">
 </head>
 <body>
-	<h1>
-		<fmt:message key="heading" />
-	</h1>
-	<h3><a href="<c:url value="/forum" />">Forum</a> > ${forum.forumName}</h3>
 
-	<c:url value="/forum/${forum.id}" var="pagedLink">
+	<%@ include file="/WEB-INF/views/navbar.jsp"%>
+
+	<div class="container">
+	
+	<ol class="breadcrumb">
+		<li><a href="<c:url value="/forums" />">Forums</a></li>
+  		<li class="active">${forum.forumName}</li>
+	</ol>
+	
+	<c:url value="/forums/${forum.id}" var="pagedLink">
 		<c:param name="p" value="~" />
 	</c:url>
+	
+	<div class="row">
+	<div class="col-md-8">
+	<h1>${forum.forumName}</h1>
+	</div>
+	<div class="col-md-4">
+	<div class="pull-right forum-btn">
+	<a href="<c:url value="/forums/${forum.id}/newTopic"/>"><button type="button" class="btn btn-primary btn-lg">New Topic</button></a>
+	</div>
+	</div>
+	</div>
+	
+	<div class="row">
+	<div class="col-md-12">
 
 	<c:choose>
 	<c:when test="${!empty pagedListHolder.pageList}">
-		<table border="1">
+	<c:forEach items="${pagedListHolder.pageList}" var="topic">
+	
+		<div class="row topic">
+		<div class="col-md-12">
+	
+		<div class="row">
+		
+		<div class="col-md-12">
+		<h3><a href="<c:url value="/forums/topic/${topic.id}"/>" class="newLineOverflow" ><c:out value="${topic.name}" /></a></h3>
+		</div>
+		
+		</div>
+		
+		<div class="row topic-detail">
+		<div class="col-md-12">
+		<table class="table table-condensed">
 			<tr>
-				<th>Topic</th>
-				<th>User ID</th>
-				<th>Up Vote</th>
-				<th>Down Vote</th>
-				<th>Pinned</th>
 				<th>Created</th>
 				<th>Edited</th>
+				<th>Posted By</th>
+				<th>Last Post</th>
+				<th>Views</th>
+				<th>Replies</th>
 			</tr>
-			<c:forEach items="${pagedListHolder.pageList}" var="topic">
+			
 				<tr>
-					<td><a href="<c:url value="/forum/topic/${topic.id}"/>"><c:out value="${topic.name}" /></a></td>
-					<td><c:out value="${topic.userId}" /></td>
-					<td><c:out value="${topic.upVote}" /></td>
-					<td><c:out value="${topic.downVote}" /></td>
-					<td><c:out value="${topic.pinned}" /></td>
 					<td><c:out value="${topic.createdAt}" /></td>
 					<td><c:out value="${topic.editedAt}" /></td>
+					<td><c:out value="${topic.userId}" /></td>
+					<td><c:out value="" /></td>
+					<td><c:out value="" /></td>
+					<td><c:out value="" /></td>
 				</tr>
-			</c:forEach>
+			
 		</table>
+		</div>
+		</div>
+		
+		</div>
+		</div>
+		</c:forEach>
 	</c:when>
 	<c:when test="${empty pagedListHolder.pageList}">
-	There is no topic.
+	<div class="row">
+	<div class="col-md-12">
+	<p>There are no topics or posts in this forum.</p>
+	</div>
+	</div>
 	</c:when>
 	</c:choose>
 	
-	<br>
-	<tg:paging pagedListHolder="${pagedListHolder}" pagedLink="${pagedLink}"/>
-	<br>
+	</div>
+	</div>
 
-	<br>
-	<a href="<c:url value="/forum/${forum.id}/newTopic"/>">Create Topic</a>
-	<br>
+	<div class="row">
+	<div class="col-md-8">
+	<tg:paging pagedListHolder="${pagedListHolder}" pagedLink="${pagedLink}"/>
+	</div>
+	<div class="col-md-4">
+	<div class="pull-right forum-btn">
+	<a href="<c:url value="/forums/${forum.id}/newTopic"/>"><button type="button" class="btn btn-primary btn-lg">New Topic</button></a>
+	</div>
+	</div>
+	</div>
+	
+	</div>
 
 </body>
+<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 </html>

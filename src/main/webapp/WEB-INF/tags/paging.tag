@@ -4,47 +4,52 @@
 	type="org.springframework.beans.support.PagedListHolder"%>
 <%@ attribute name="pagedLink" required="true" type="java.lang.String"%>
 <link href="css/pagination.css" rel="stylesheet" type="text/css" />
+
+<ul class="pagination">
+
 <c:if test="${pagedListHolder.pageCount > 1}">
 	<c:if test="${!pagedListHolder.firstPage}">
-		<span class="pagingItem"><a
+		<li><a
 			href="<%=StringUtils.replace(pagedLink, "~",
-							String.valueOf(pagedListHolder.getPage() - 1))%>"><</a></span>
+							String.valueOf(pagedListHolder.getPage() - 1))%>">&laquo;</a></li>
 	</c:if>
 	<c:if test="${pagedListHolder.firstLinkedPage > 0}">
-		<span class="pagingItem"><a
-			href="<%=StringUtils.replace(pagedLink, "~", "0")%>">1</a></span>
+		<li><a
+			href="<%=StringUtils.replace(pagedLink, "~", "0")%>">1</a></li>
 	</c:if>
 	<c:if test="${pagedListHolder.firstLinkedPage > 1}">
-		<span class="pagingDots">...</span>
+		<li>...</li>
 	</c:if>
 	<c:forEach begin="${pagedListHolder.firstLinkedPage}"
 		end="${pagedListHolder.lastLinkedPage}" var="i">
 		<c:choose>
 			<c:when test="${pagedListHolder.page == i}">
-				<span class="pagingItemCurrent">${i+1}</span>
+				<li class="active"><span>${i+1} <span class="sr-only">(current)</span></span></li>
 			</c:when>
 			<c:otherwise>
-				<span class="pagingItem"><a
+				<li><a
 					href="<%=StringUtils
 									.replace(pagedLink, "~", String
 											.valueOf(jspContext
-													.getAttribute("i")))%>">${i+1}</a></span>
+													.getAttribute("i")))%>">${i+1}</a></li>
 			</c:otherwise>
 		</c:choose>
 	</c:forEach>
 	<c:if
 		test="${pagedListHolder.lastLinkedPage < pagedListHolder.pageCount - 2}">
-		<span class="pagingDots">...</span>
+		<li>...</li>
 	</c:if>
 	<c:if
 		test="${pagedListHolder.lastLinkedPage < pagedListHolder.pageCount - 1}">
-		<span class="pagingItem"><a
+		<li><a
 			href="<%=StringUtils.replace(pagedLink, "~",
-							String.valueOf(pagedListHolder.getPageCount() - 1))%>">${pagedListHolder.pageCount}</a></span>
+							String.valueOf(pagedListHolder.getPageCount() - 1))%>">${pagedListHolder.pageCount}</a></li>
 	</c:if>
 	<c:if test="${!pagedListHolder.lastPage}">
-		<span class="pagingItem"><a
+		<li><a
 			href="<%=StringUtils.replace(pagedLink, "~",
-							String.valueOf(pagedListHolder.getPage() + 1))%>">></a></span>
+							String.valueOf(pagedListHolder.getPage() + 1))%>">&raquo;</a></li>
 	</c:if>
 </c:if>
+
+</ul>

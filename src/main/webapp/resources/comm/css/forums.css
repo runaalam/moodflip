@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+
+.forum {
+    background-color: #d6e7f6;
+    margin: 30px 0;
+    padding: 20px;
+}
+
+.title {
+	font-size: 24px;
+}
+
+.topic {
+	background-color: #d6e7f6;
+	margin: 20px 0 0;
+}
+
+.topic-detail {
+    background-color: white;
+	margin: 10px;
+    padding: 0;
+}
+
+.newLineOverflow
+{
+    word-wrap: break-word
+}
+
+.post-content {
+	background-color: white;
+	min-height: 180px
+}
+
+.post-btn {
+	padding: 10px 0;
+}
+
+.forum-btn {
+	margin: 20px 0;
+}
