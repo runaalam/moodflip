@@ -3,6 +3,8 @@
 <%@ include file="/WEB-INF/views/include.jsp" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -88,8 +90,8 @@
 				</div>	
 				<div id="missionsDiv">
 					<c:forEach items="${card.missions}" varStatus="status">
-						<sf:hidden path="missions[${status.index}]"/>
-					 	<div class="form-group aMissionDiv">						
+					 	<div class="form-group aMissionDiv">			
+					 		<sf:hidden path="missions[${status.index}]"/>
 							<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
 							<div class="col-sm-5">
 								<sf:textarea path="missions[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>

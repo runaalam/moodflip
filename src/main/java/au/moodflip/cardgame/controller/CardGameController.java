@@ -1,13 +1,7 @@
 package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
-
-import javax.validation.constraints.AssertFalse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

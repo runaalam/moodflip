@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +16,6 @@ public class CgUser {
 	
 	@Id
 	@Column(name="cg_user_id")
-//	@GeneratedValue
 	public long getCgUserId() { return cgUserId; }
 	public void setCgUserId(long cgUserId) { this.cgUserId = cgUserId; }
 	private long cgUserId;

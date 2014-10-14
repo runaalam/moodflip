@@ -1,26 +1,21 @@
 package au.moodflip.cardgame.controller;
 
-import java.beans.PropertyEditor;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,11 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import au.moodflip.cardgame.model.Card;
-import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.Task;
-import au.moodflip.cardgame.model.TaskPropertyEditor;
 import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.model.UsersCard.UsersCardPK;
 import au.moodflip.cardgame.service.CardManager;
@@ -61,7 +54,13 @@ public class CustomCardController {
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		logger.info("user logged in {}", user.getId());
+		for (UsersCard c : usersCardManager.getAll(cgUser.getCgUserId())){
+			logger.info("user has cardId: " + c.getId().getCardId());
+		}
 		Set<Card> cards = cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId()));
+		for (Card cd : cards){
+			logger.info("cardmgr got card: " + cd.getTitle());
+		}
 		model.addAttribute("customCards", cards);
 //			Iterator<Card> it = cards.iterator();
 //			while(it.hasNext()){
@@ -78,43 +77,35 @@ public class CustomCardController {
 	public ModelAndView newCard(Model model){
 		logger.info("Create new card");
 		Card newCard = new Card();
-		List<Task> missions = new ArrayList<Task>();
+		List<Task> missions = new AutoPopulatingList<Task>(Mission.class);
 		missions.add(new Mission(""));	// 1 empty mission for new cards
 		newCard.setMissions(missions);
 		model.addAttribute(newCard);
-//		model.addAttribute("missions", missions);
 		model.addAttribute("symptoms", Card.Symptom.values());
 		logger.info("returning modelandview from newCard()");
-		System.out.println("model for new form:");
-		for (Map.Entry<String, Object> m : model.asMap().entrySet()){
-			System.out.println(m.getKey() + " " + m.getValue());
-		}
 		return new ModelAndView(FOLDER + "/edit");
 	}
 	
 	@InitBinder
-	public void initBinder(WebDataBinder binder, HttpServletRequest request) {
+	public void initBinder(WebDataBinder binder) {
 		System.out.println("initBinder!");
 	    binder.registerCustomEditor(Task.class, "missions", new TaskPropertyEditor());
-//	    binder.registerCustomEditor(String.class, "missions.text", new TaskPropertyEditor());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, params="new")
-	public String addCard(@Valid Card card, BindingResult bindingResult, RedirectAttributes ra, Principal principal){
-		logger.info("Save new card");
+	public String saveNewCard(@Valid Card card, BindingResult bindingResult, RedirectAttributes ra, Principal principal){
+		logger.info("Saving new card");
 		if (bindingResult.hasErrors()){
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
 			return FOLDER + "/edit";
 		}
-		logger.info("add card {}", card);
-		logger.info("cardManager {}", cardManager);
+		logger.info("about to add card {}", card);
 		User user = userManager.getUserByUsername(principal.getName());
-		
+//		linkCardsAndTasks(card);
 		cardManager.add(card);
-		logger.info("add cardId {} to user {}", card.getCardId(), user.getId());
+		logger.info("added card " + card);
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		usersCardManager.add(new UsersCard(cgUser.getCgUserId(), card.getCardId()));
-		logger.info("Saved card " + card);
 		return "redirect:/" + FOLDER + "/customCards";
 	}
 
@@ -128,16 +119,18 @@ public class CustomCardController {
 		return new ModelAndView(FOLDER + "/edit", "model", model);
 	}
 	
-	// updates the card for everyone who has it
 	@RequestMapping(method = RequestMethod.POST, params="edit")
-	public ModelAndView editCard(@Valid Card card, BindingResult result, Model model, @RequestParam(value="edit", required=false) long cardId){
+	public ModelAndView saveEditCard(@Valid Card card, BindingResult result, Model model, @RequestParam(value="edit", required=false) long cardId){
 		logger.info("Save card edit");
 		if (result.hasErrors()){
 			model.addAttribute("status","Update failed");
 			return new ModelAndView(FOLDER + "/edit");
 		}
+		logger.info("Merging with card: " + cardManager.getById(card.getCardId())); 
 		model.addAttribute("status","Card updated!");
+		logger.info("update card: " + card);
 		cardManager.update(card);
+		logger.info("returning from Edit card POST");
 		return new ModelAndView(FOLDER + "/edit");
 	}
 	
@@ -149,4 +142,18 @@ public class CustomCardController {
 		usersCardManager.delete(new UsersCardPK(cgUser.getCgUserId(), cardId));
 		return "redirect:/" + FOLDER + "/customCards";
 	}
+	
+	// link tasks to card and each task to its adjacent tasks
+//	private void linkCardsAndTasks(Card card){
+//		List<Task> tasks = card.getMissions();
+//		for (int i=0; i < tasks.size(); i++){
+//			if (i-1 >= 0){
+//				tasks.get(i).setPrev(tasks.get(i-1));
+//			}
+//			if (i+1 < tasks.size()){
+//				tasks.get(i).setNext(tasks.get(i+1));
+//			}
+//			tasks.get(i).setCard(card); 
+//		}
+//	}
 }

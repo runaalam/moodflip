@@ -37,7 +37,6 @@ public class CardSurvey extends Task implements Serializable{
 	public String toString(){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("taskId[" + getTaskId() + "] ");
-//		buffer.append("cardId[" + getCard().getCardId() + "] ");
 		buffer.append("question[" + question + "] ");
 		buffer.append("answer[" + answer.getText() + "]");
 		return buffer.toString();

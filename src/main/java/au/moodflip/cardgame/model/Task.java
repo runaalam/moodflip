@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType; 
 
+
 @Entity
 @Table(name="Tasks")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -26,7 +27,8 @@ public class Task {
 	private long taskId;
 	
 	@ManyToOne
-	@JoinColumn(name="card_id", nullable=false)
+//	@JoinColumn(name="card_id", nullable=false)
+	@JoinColumn(name="card_idFK", updatable=false, insertable=false)
 	public Card getCard() { return card; }
 	public void setCard(Card card) { this.card = card; }
 	private Card card;
@@ -45,9 +47,6 @@ public class Task {
 	public String toString(){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("taskId[" + taskId + "] ");
-//		buffer.append("cardId[" + card.getCardId() + "] ");
-//		buffer.append("prev[" + prev.getTaskId() + "]");
-//		buffer.append("next[" + next.getTaskId() + "]");
 		return buffer.toString();
 	}
 }

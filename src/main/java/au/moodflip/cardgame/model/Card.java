@@ -1,7 +1,6 @@
 package au.moodflip.cardgame.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -21,6 +21,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.IndexColumn;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -58,7 +59,6 @@ public class Card implements Serializable, Comparable<Card>{
 	}
 	
 	public Card() { }
-//	public Card(List<Mission> missions) { this.missions = missions; }
 	public Card(String title, 
 				int level, 
 				Symptom symptom, 
@@ -123,9 +123,13 @@ public class Card implements Serializable, Comparable<Card>{
 	public void setIntro(String intro) { this.intro = intro; }
 	private String intro;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@OrderColumn(name="missions_order")
 	@Cascade(CascadeType.ALL)
+//	@OneToMany(mappedBy="card", fetch = FetchType.EAGER)
+//	@OrderBy
+//	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="card_idFK")
+	@IndexColumn(name="mission_index")
 	public List<Task> getMissions() { return missions; }
 	public void setMissions(List<Task> missions) { this.missions = missions; }
 	private List<Task> missions;
@@ -158,10 +162,8 @@ public class Card implements Serializable, Comparable<Card>{
 			for (int i=0; ms.hasNext(); i++){
 				Task m = ms.next();
 				if (m instanceof Mission){
-					buffer.append("mission found\n");
 					buffer.append("\t Mission " + i + "[" + (Mission)m + "]\n");
 				}else if (m instanceof CardSurvey){
-					buffer.append("cardsurvey found\n");
 					buffer.append("\t CardSurvey " + i + "[" + (CardSurvey)m + "]\n");
 				}else if (m instanceof Task){
 					buffer.append("\t task " + i + "[" + m + "]\n");
@@ -180,8 +182,16 @@ public class Card implements Serializable, Comparable<Card>{
 		return messageSource;
 	}
 	
+	// when displaying all cards, treeset calls compareTo() to sort the cards by title
+	// and to avoid adding duplicates
 	@Override
 	public int compareTo(Card c2) {
-		return this.title.compareTo(c2.getTitle());
+		int i;
+		if ((i = this.title.compareTo(c2.getTitle())) != 0)	return i; 
+		if (this.cardId < c2.getCardId()) 
+			return -1;
+		if (this.cardId > c2.getCardId())
+			return 1;
+		return 0;
 	}
 }
