@@ -21,14 +21,14 @@
 							<form:form method="post" modelAttribute="assessment">
 								<table border="1">
 									<tr><c:out value="Assessment Questions" /></tr>
-									
 										<c:forEach items="${quesList}" var="question" varStatus="row">
-										<tr><td>${question.id}</td>
-											<td>${question.text}</td>
-						           			<form:input path="responseList[${row.index}].questionId" type="hidden" name="${status.expression}"
-						                		id="${status.expression}" value="${question.id}" />
-											<td><form:radiobuttons path="responseList[${row.index}].answerId" delimiter="<br>"
-						                		items="${ansList}" itemLabel="text" itemValue="id"/></td></tr>
+											<tr><td>${question.id}</td>
+												<td>${question.text}</td>
+							           				<form:input path="responseList[${row.index}].questionId" type="hidden" name="${status.expression}"
+							                		id="${status.expression}" value="${question.id}" />
+												<td><form:radiobuttons path="responseList[${row.index}].answerId" delimiter="<br>"
+							                		items="${ansList}" itemLabel="text" itemValue="id"/></td>
+							                </tr>
 										</c:forEach>
 								</table>
 								<br><br>

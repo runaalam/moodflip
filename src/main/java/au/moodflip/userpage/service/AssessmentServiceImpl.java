@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.userpage.dao.AssessmentDao;
 import au.moodflip.userpage.model.Answer;
+import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
 
 
@@ -40,4 +41,9 @@ public class AssessmentServiceImpl implements AssessmentService {
 		}
 		return list;
 	}	
+	
+	@Transactional
+	public void addAssessment(Assessment assessment){
+		assesmentDao.addAssessment(assessment);
+	}
 }
