@@ -6,13 +6,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -27,13 +24,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-
 @Entity
 @Table(name="Cards")
 public class Card implements Serializable, Comparable<Card>{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public enum Symptom{
@@ -63,7 +56,7 @@ public class Card implements Serializable, Comparable<Card>{
 				int level, 
 				Symptom symptom, 
 				String intro, 
-				List<Task> missions, 
+				List<Task> tasks, 
 				String outro,
 				long attempts,
 				long completions,
@@ -72,7 +65,7 @@ public class Card implements Serializable, Comparable<Card>{
 		this.level = level;
 		this.symptom = symptom;
 		this.intro = intro;
-		this.missions = missions;
+		this.tasks = tasks;
 		this.outro = outro;
 		this.attempts = attempts;
 		this.completions = completions;
@@ -124,15 +117,12 @@ public class Card implements Serializable, Comparable<Card>{
 	private String intro;
 	
 	@Cascade(CascadeType.ALL)
-//	@OneToMany(mappedBy="card", fetch = FetchType.EAGER)
-//	@OrderBy
-//	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany
 	@JoinColumn(name="card_idFK")
-	@IndexColumn(name="mission_index")
-	public List<Task> getMissions() { return missions; }
-	public void setMissions(List<Task> missions) { this.missions = missions; }
-	private List<Task> missions;
+	@IndexColumn(name="task_index")
+	public List<Task> getMissions() { return tasks; }
+	public void setMissions(List<Task> tasks) { this.tasks = tasks; }
+	private List<Task> tasks;
 	
 	
 	@Column(name="outro")
@@ -157,8 +147,8 @@ public class Card implements Serializable, Comparable<Card>{
 		buffer.append("Symptom group[" + symptom + "] ");
 		buffer.append("Attempts[" + attempts + "] ");
 		buffer.append("Completions[" + completions + "]\n");
-		if (!missions.isEmpty()){
-			Iterator<Task> ms = missions.iterator();
+		if (!tasks.isEmpty()){
+			Iterator<Task> ms = tasks.iterator();
 			for (int i=0; ms.hasNext(); i++){
 				Task m = ms.next();
 				if (m instanceof Mission){

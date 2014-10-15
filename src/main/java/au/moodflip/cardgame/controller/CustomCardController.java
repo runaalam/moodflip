@@ -1,7 +1,6 @@
 package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -101,7 +100,6 @@ public class CustomCardController {
 		}
 		logger.info("about to add card {}", card);
 		User user = userManager.getUserByUsername(principal.getName());
-//		linkCardsAndTasks(card);
 		cardManager.add(card);
 		logger.info("added card " + card);
 		CgUser cgUser = cgUserManager.getById(user.getId());
@@ -113,8 +111,6 @@ public class CustomCardController {
 	public ModelAndView editCard(Model model, @RequestParam(value="edit", required=false) long cardId){
 		logger.info("Edit card");
 		model.addAttribute(cardManager.getById(cardId));
-		Card card = cardManager.getById(cardId);
-		logger.info("Got card: " + card);
 		logger.info("returning from Edit card");
 		return new ModelAndView(FOLDER + "/edit", "model", model);
 	}
@@ -142,18 +138,4 @@ public class CustomCardController {
 		usersCardManager.delete(new UsersCardPK(cgUser.getCgUserId(), cardId));
 		return "redirect:/" + FOLDER + "/customCards";
 	}
-	
-	// link tasks to card and each task to its adjacent tasks
-//	private void linkCardsAndTasks(Card card){
-//		List<Task> tasks = card.getMissions();
-//		for (int i=0; i < tasks.size(); i++){
-//			if (i-1 >= 0){
-//				tasks.get(i).setPrev(tasks.get(i-1));
-//			}
-//			if (i+1 < tasks.size()){
-//				tasks.get(i).setNext(tasks.get(i+1));
-//			}
-//			tasks.get(i).setCard(card); 
-//		}
-//	}
 }

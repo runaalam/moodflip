@@ -1,8 +1,6 @@
 package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
-import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.UsersCardManager;
@@ -55,7 +52,6 @@ public class MyCardsController {
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		Card card = cardManager.getById(cardId);
 		Mission m = null;
-		Map<String, String> map = new HashMap<String, String>();
 		if (cgUser.getCurrentTask() == null){ // user not doing mission
 			model.addAttribute("title", card.getTitle());
 			model.addAttribute("level", String.valueOf(card.getLevel()));
@@ -67,7 +63,7 @@ public class MyCardsController {
 				model.addAttribute("text", m.getText());
 			}
 		}else{
-			System.out.println("Already doing a mission");
+			logger.info("Already doing a mission");
 		}
 		return new ModelAndView(FOLDER + "/cardGame", "mission", model);
 	}

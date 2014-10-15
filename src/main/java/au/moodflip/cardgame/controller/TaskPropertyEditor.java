@@ -22,7 +22,7 @@ public class TaskPropertyEditor extends PropertyEditorSupport {
 		setValue(task);
 	}
 	
-	// return null instead of Mission.toString()
+	// taskId enables correctly updating persist instances
 	@Override
     public String getAsText() {
 		logger.info("taskpropertyeditor Obj->Str: " + this.getValue().getClass().getName());
@@ -30,7 +30,3 @@ public class TaskPropertyEditor extends PropertyEditorSupport {
 		return String.valueOf(m.getTaskId());
     }
 }
-
-/** TO FIX:
-1. edit and save -> error
-*/

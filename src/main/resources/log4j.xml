@@ -21,7 +21,7 @@
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
- 
+
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>
@@ -38,7 +38,7 @@
 		<level value="info" />
 	</logger>
 
-	<!-- Root Logger -->
+	<!-- Root Logger --> 
 	<root>
 		<priority value="warn" />
 		<appender-ref ref="console" />

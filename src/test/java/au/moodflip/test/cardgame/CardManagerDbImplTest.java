@@ -86,7 +86,7 @@ public class CardManagerDbImplTest {
 			}else if (t instanceof CardSurvey){
 				System.out.println("CardSurvey: ");
 			}
-			System.out.println("\tprev:" + t.getPrev() + "\n\tcur:" + t + "\n\tnext:" + t.getNext());
+			System.out.println("\tcur:" + t + "\n\tnext:" + t.getNext());
 		}
 	}
 }
