@@ -2,12 +2,15 @@ package au.moodflip.userpage.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -44,6 +47,9 @@ public class Status implements Serializable{
 	@Column(name = "deletedDate")
 	private Date deletedDate;
 
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="status")
+	private Set<StatusComment> statusComments;
+	
 	public long getId() {
 		return id;
 	}
@@ -115,4 +121,12 @@ public class Status implements Serializable{
 	public void setDeletedDate(Date deletedDate) {
 		this.deletedDate = deletedDate;
 	}
+
+	public Set<StatusComment> getStatusComments() {
+		return statusComments;
+	}
+
+	public void setStatusComments(Set<StatusComment> statusComments) {
+		this.statusComments = statusComments;
+	}	
 }

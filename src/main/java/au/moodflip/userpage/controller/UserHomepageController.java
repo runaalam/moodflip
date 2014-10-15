@@ -44,8 +44,6 @@ public class UserHomepageController {
 	public ModelAndView home() {
 		logger.info("Welcome to the user home page system!");
 		ModelAndView mav = new ModelAndView(FOLDER + "/userHomepage");
-		/*model.addAttribute(new Status());
-		model.addAttribute(new UserActivity());*/
 		
 		//change getActivityList by getActivityListByUserId
 		List<Activity> activityList = activityService.getActivityList();

@@ -21,10 +21,9 @@
 				</div></div>
 				<br><br><br>
 				<div class="panel panel-default">
-   					<div class="panel-heading"><h3 class="panel-title">My Activity</h3>
-   					</div>
-   					<div class="panel-body">
-                    	<table class="table">	
+   					<div class="panel-heading"><h3 class="panel-title">My Activity</h3></div>
+   					<div class="bs-example">
+	                    <table class="table table-striped"><tbody>
 	      					<c:choose>
 	      						<c:when test="${!empty activityList}">
 			                       <c:forEach items="${activityList}" var="activity">
@@ -32,14 +31,14 @@
 	                                     <%--    <td><c:out value="${userActivity.userId}" /></td>   --%>
 	                                       <td><c:out value="${activity.description}" /> - </td>
 	                                       <td><c:out value="${activity.activityDate}" /></td>                                        
-			                               </tr>
+			                             </tr>
 			                       </c:forEach>
 	     				 		</c:when>
        							<c:when test="${empty activityList}">There is no past status or activity</c:when>
 			   				</c:choose>
 			   			</table>
    					</div>
-				</div>
+				</div><!-- panel-default -->
 			</form:form>
 		</div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->
