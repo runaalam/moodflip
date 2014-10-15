@@ -14,25 +14,26 @@ import au.moodflip.userpage.dao.StatusDao;
 import au.moodflip.userpage.model.Status;
 
 @Service
+@Transactional
 public class StatusServiceImpl implements StatusService {
 
 	@Autowired
 	private StatusDao statusDao;
 	
-	@Transactional
+	@Override
 	public void saveStatus(Status status) {
 		status.setSubmitDate(new Date());
 		statusDao.addStatus(status);
 	}
 
-	@Transactional
+	@Override
 	public List<Status> listStatus() {
 		 ArrayList<Status> list = (ArrayList<Status>) statusDao.listStatus();
 		 Collections.reverse((List<?>) list);
 		 return list;
 	}
 
-	@Transactional
+	@Override
 	public Status getStatusById(Long id) {
 		return statusDao.getStatusById(id);
 	}

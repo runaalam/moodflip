@@ -21,24 +21,23 @@
 				</div></div>
 				<br><br><br>
 				<div class="panel panel-default">
-   					<div class="panel-heading"><h3 class="panel-title">My Activity</h3></div>
-   					<div class="panel-body">	
-      					<c:choose>
-      						<c:when test="${!empty statusList}">
-		               			<table>
-			                       <c:forEach items="${statusList}" var="status">
-			                               <tr>
-		                                     <%--    <td><c:out value="${status.userId}" /></td>   --%>
-		                                       <td><c:out value="${status.content}" /> - </td>
-		                                       <td><c:out value="${status.submitDate}" /></td>                                        
+   					<div class="panel-heading"><h3 class="panel-title">My Activity</h3>
+   					</div>
+   					<div class="panel-body">
+                    	<table class="table">	
+	      					<c:choose>
+	      						<c:when test="${!empty activityList}">
+			                       <c:forEach items="${activityList}" var="activity">
+			                       		<tr>
+	                                     <%--    <td><c:out value="${userActivity.userId}" /></td>   --%>
+	                                       <td><c:out value="${activity.description}" /> - </td>
+	                                       <td><c:out value="${activity.activityDate}" /></td>                                        
 			                               </tr>
 			                       </c:forEach>
-		               			</table>
-     				 		</c:when>
-       						<c:when test="${empty statusList}">
-				       			There is no past status or activity
-				    		</c:when>
-			   			</c:choose>
+	     				 		</c:when>
+       							<c:when test="${empty activityList}">There is no past status or activity</c:when>
+			   				</c:choose>
+			   			</table>
    					</div>
 				</div>
 			</form:form>
