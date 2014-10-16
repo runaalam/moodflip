@@ -1,14 +1,12 @@
 package au.moodflip.userpage.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,7 +23,7 @@ public class Category {
 	private String desc;
 	
 	@OneToMany(mappedBy = "category")
-	private List<Question> questions = new LinkedList<Question>();
+	private Set<Question> questions;
 
 	public int getId() {
 		return id;
@@ -43,11 +41,11 @@ public class Category {
 		this.desc = desc;
 	}
 
-	public List<Question> getQuestions() {
+	public Set<Question> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(List<Question> questions) {
+	public void setQuestions(Set<Question> questions) {
 		this.questions = questions;
 	}
 

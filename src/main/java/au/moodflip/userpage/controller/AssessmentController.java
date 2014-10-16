@@ -1,10 +1,13 @@
 package au.moodflip.userpage.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.service.UserManager;
 import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
@@ -24,6 +29,7 @@ import au.moodflip.userpage.service.StatusService;
 
 @Controller
 @RequestMapping(value = "/user-homepage")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class AssessmentController {
 		
 	private final String FOLDER = "user-homepage";
@@ -37,8 +43,11 @@ public class AssessmentController {
 	@Autowired
 	private ActivityService activityService;
 	
+	@Autowired
+	private UserManager userManager;	
+	
 	@RequestMapping(value = "/depression-assessment", method = RequestMethod.GET)
-	public ModelAndView depressionAssessment() {
+	public ModelAndView depressionAssessment(Principal principal) {
 
 		ModelAndView mav = new ModelAndView(FOLDER + "/questions");
 		List<Question> quesList = assessmentService.getQuestions();
@@ -47,6 +56,8 @@ public class AssessmentController {
 		mav.addObject("ansList", answerList);
 
 		Assessment assessment = new Assessment();
+		User user = userManager.getUserByUsername(principal.getName());
+		assessment.setUser(user);
 		mav.addObject("assessment", assessment);
 		
 		Activity activity = new Activity();
@@ -57,13 +68,16 @@ public class AssessmentController {
 
 	@RequestMapping(value = "/depression-assessment", method = RequestMethod.POST)
 	public String submitAssessment(@ModelAttribute("assessment") Assessment assessment, @ModelAttribute("activity") Activity activity,
-			BindingResult result, SessionStatus sessionStatus) {
+			BindingResult result, SessionStatus sessionStatus, Principal principal) {
 		if (result.hasErrors()) {
 			//logger
 			
             return FOLDER + "/questions";
         }
 
+//		User user = userManager.getUserByUsername(principal.getName());
+		assessmentService.save(assessment);
+		
 		//sessionStatus.setComplete();
 		
 		/*String testStatus = "Completed assesment test with individual score of (" 

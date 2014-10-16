@@ -1,6 +1,5 @@
 package au.moodflip.userpage.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,9 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
+
+import au.moodflip.personalisation.model.User;
 
 @Entity
 @Table(name = "StatusComment")
@@ -25,10 +25,10 @@ public class StatusComment {
 	@Column(name = "ID")
 	private long id;
 	
-	// **TO BE CHANGED**
-	@Column(name = "user_id")
-	private long userId;
-
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
+	
 	@Column(name = "content")
 	@Type(type="text")
 	@NotBlank
@@ -39,7 +39,6 @@ public class StatusComment {
 
 	@ManyToOne
 	@JoinColumn(name="status_id")
-//	@JsonIgnore
 	private Status status;
 
 	public long getId() {
@@ -49,17 +48,17 @@ public class StatusComment {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
+	
 	public String getContent() {
 		return content;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public void setContent(String content) {

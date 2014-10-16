@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import au.moodflip.personalisation.model.User;
+
 @Entity
 @Table(name = "assessment")
 public class Assessment{
@@ -25,8 +27,8 @@ public class Assessment{
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private UserCopy user;
+	@JoinColumn(name="user_id")	
+	private User user;
 	
 	@Column(name = "date")
 	@Temporal(TemporalType.DATE)
@@ -35,8 +37,7 @@ public class Assessment{
 	@Column(name = "score")
 	private int score;
 	
-	@OneToMany
-	@JoinColumn(name = "response_id")
+	@OneToMany(mappedBy="assessment")
 	private List<Response> responseList;
 
 	public int getId() {
@@ -45,14 +46,6 @@ public class Assessment{
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public UserCopy getUser() {
-		return user;
-	}
-
-	public void setUser(UserCopy user) {
-		this.user = user;
 	}
 
 	public Date getDate() {
@@ -79,4 +72,11 @@ public class Assessment{
 		this.responseList = responseList;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

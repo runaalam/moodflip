@@ -1,6 +1,5 @@
 package au.moodflip.userpage.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,20 +7,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import au.moodflip.personalisation.model.User;
 
 @Entity
 @Table(name = "activity")
-public class Activity implements Serializable{
+public class Activity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
 	
-	// **TO BE CHANGED**
-	@Column(name = "user_id")
-	private long userId;
+	@ManyToOne
+	@JoinColumn(name="user_id")	
+	private User user;
 	
 	@Column(name = "description")
 	private String description;
@@ -37,16 +40,16 @@ public class Activity implements Serializable{
 		this.id = id;
 	}
 
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
 	public String getDescription() {
 		return description;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public void setDescription(String description) {

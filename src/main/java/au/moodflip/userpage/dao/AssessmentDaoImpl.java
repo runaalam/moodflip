@@ -54,7 +54,7 @@ public class AssessmentDaoImpl implements AssessmentDao {
 		return sessionFactory.getCurrentSession().createCriteria(Question.class).list();	
 	}
 	
-	public void addAssessment(Assessment assessment){
+	public void save(Assessment assessment){
 		sessionFactory.getCurrentSession().save(assessment);
 	}
 

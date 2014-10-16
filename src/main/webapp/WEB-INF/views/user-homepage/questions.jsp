@@ -24,9 +24,9 @@
 										<c:forEach items="${quesList}" var="question" varStatus="row">
 											<tr><td>${question.id}</td>
 												<td>${question.text}</td>
-							           				<form:input path="responseList[${row.index}].questionId" type="hidden" name="${status.expression}"
+							           				<form:input path="responseList[${row.index}].question.id" type="hidden" name="${status.expression}"
 							                		id="${status.expression}" value="${question.id}" />
-												<td><form:radiobuttons path="responseList[${row.index}].answerId" delimiter="<br>"
+												<td><form:radiobuttons path="responseList[${row.index}].answer.id" delimiter="<br>"
 							                		items="${ansList}" itemLabel="text" itemValue="id"/></td>
 							                </tr>
 										</c:forEach>

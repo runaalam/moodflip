@@ -15,5 +15,5 @@ public interface AssessmentService {
 	
 	List<Answer> getAnswers();
 	
-	public void addAssessment(Assessment assessment);
+	public void save(Assessment assessment);
 }

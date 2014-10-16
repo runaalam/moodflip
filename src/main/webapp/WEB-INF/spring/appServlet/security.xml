@@ -17,6 +17,7 @@
 		<intercept-url pattern="/notification/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/card-game*/**" access="hasRole('ROLE_USER')" />
 		
+		
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />
 
