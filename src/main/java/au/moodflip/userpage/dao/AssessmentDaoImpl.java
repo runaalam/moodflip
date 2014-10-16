@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
 
 @Repository
@@ -50,9 +51,12 @@ public class AssessmentDaoImpl implements AssessmentDao {
 		qus.setText("My sleep was restless.");
 		quesList.add(qus);	*/
 		
-		return sessionFactory.getCurrentSession().createQuery("from Question").list();	
+		return sessionFactory.getCurrentSession().createCriteria(Question.class).list();	
 	}
-
+	
+	public void addAssessment(Assessment assessment){
+		sessionFactory.getCurrentSession().save(assessment);
+	}
 
 
 }

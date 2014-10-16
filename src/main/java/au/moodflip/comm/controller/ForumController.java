@@ -3,6 +3,7 @@ package au.moodflip.comm.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +19,7 @@ import au.moodflip.comm.model.Forum;
 import au.moodflip.comm.service.ForumService;
 
 @Controller
-@RequestMapping(value = "/forum")
+@RequestMapping(value = "/forums")
 public class ForumController {
 
 	private final String FOLDER = "communication";
@@ -33,14 +34,9 @@ public class ForumController {
 		mav.addObject("forums", forums);
 		return mav;
 	}
-	
-	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public @ResponseBody List<Forum> listForums() {
-		List<Forum> forums = forumService.listForum();
-		return forums;
-	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView newForumForm() {
 		ModelAndView mav = new ModelAndView(FOLDER + "/newForum");
 		Forum forum = new Forum();
@@ -49,6 +45,7 @@ public class ForumController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String create(@ModelAttribute("forum") @Validated Forum forum,
 			BindingResult result, SessionStatus status) {
 		if (result.hasErrors()) {
@@ -58,10 +55,11 @@ public class ForumController {
         }
 		forumService.addForum(forum);
 		status.setComplete();
-		return "redirect:/forum";
+		return "redirect:/forums";
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView edit(@PathVariable("id") Long id) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/editForum");
 		Forum forum = forumService.getForumById(id);
@@ -70,6 +68,7 @@ public class ForumController {
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String update(@ModelAttribute("forum") @Validated Forum forum,
 			BindingResult result, SessionStatus status) {
 		if (result.hasErrors()) {
@@ -79,12 +78,13 @@ public class ForumController {
         }
 		forumService.editForum(forum);
 		status.setComplete();
-		return "redirect:/forum";
+		return "redirect:/forums";
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView delete(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forum");
+		ModelAndView mav = new ModelAndView("redirect:/forums");
 		forumService.removeForum(id);
 		return mav;
 	}

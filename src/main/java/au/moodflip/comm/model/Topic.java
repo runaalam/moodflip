@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -61,6 +62,7 @@ public class Topic implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "comment_id")
+	@JsonIgnore
 	private Set<TopicComment> topicComments;
 
 	public long getId() {

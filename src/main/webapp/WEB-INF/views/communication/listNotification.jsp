@@ -38,6 +38,7 @@
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-<script src="<c:url value="/resources/comm/js/comm.js" />"></script>
+<script src="<c:url value="/resources/comm/js/main.js" />"></script>
+<script src="<c:url value="/resources/comm/js/notification.js" />"></script>
 
 </html>
