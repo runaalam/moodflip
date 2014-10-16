@@ -8,7 +8,11 @@ import javax.persistence.Entity;
 public class CardSurvey extends Task implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public enum Answer{
-		CD("Completely Disagree"), D("Disagree"), N("Neutral"), A("Agree"), CA("Completely Agree");
+		COMPLETELY_DISAGREE("Completely Disagree"), 
+		DISAGREE("Disagree"), 
+		NEUTRAL("Neutral"), 
+		AGREE("Agree"), 
+		COMPLETELY_AGREE("Completely Agree");
 		
 		private final String text;
 		private Answer(final String text){
@@ -21,9 +25,8 @@ public class CardSurvey extends Task implements Serializable{
 	}
 	
 	public CardSurvey() { }
-	public CardSurvey(String q, Answer a){
+	public CardSurvey(String q){
 		setQuestion(q);
-		setAnswer(a);
 	}
 	
 	public String getQuestion() { return question; }
@@ -38,7 +41,7 @@ public class CardSurvey extends Task implements Serializable{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("taskId[" + getTaskId() + "] ");
 		buffer.append("question[" + question + "] ");
-		buffer.append("answer[" + answer.getText() + "]");
+//		buffer.append("answer[" + answer.getText() + "]");
 		return buffer.toString();
 	}
 }

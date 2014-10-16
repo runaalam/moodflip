@@ -116,14 +116,14 @@ public class Card implements Serializable, Comparable<Card>{
 	public void setIntro(String intro) { this.intro = intro; }
 	private String intro;
 	
+	// getTasks() contain missions and appended cardsurvey object
 	@Cascade(CascadeType.ALL)
 	@OneToMany
 	@JoinColumn(name="card_idFK")
 	@IndexColumn(name="task_index")
-	public List<Task> getMissions() { return tasks; }
-	public void setMissions(List<Task> tasks) { this.tasks = tasks; }
+	public List<Task> getTasks() { return tasks; }
+	public void setTasks(List<Task> tasks) { this.tasks = tasks; }
 	private List<Task> tasks;
-	
 	
 	@Column(name="outro")
 	@NotBlank
@@ -135,7 +135,7 @@ public class Card implements Serializable, Comparable<Card>{
 	public double getAvgRating() { return avgRating; }
 	public void setAvgRating(double avgRating) { this.avgRating = avgRating; }
 	private double avgRating;
-
+	
 	public String toString(){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Title[" + title + "] ");

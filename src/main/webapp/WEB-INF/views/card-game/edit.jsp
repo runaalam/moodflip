@@ -8,7 +8,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -89,20 +88,29 @@
 					</div>
 				</div>	
 				<div id="missionsDiv">
-					<c:forEach items="${card.missions}" varStatus="status">
-					 	<div class="form-group aMissionDiv">			
-					 		<sf:hidden path="missions[${status.index}]"/>
-							<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
-							<div class="col-sm-5">
-								<sf:textarea path="missions[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
+					<c:choose>
+						<c:when test="${fn:length(card.tasks) > 1}">  <!-- old card -->
+							<c:set var="end" scope="request" value="${fn:length(card.tasks) - 1}"/>
+						</c:when>
+						<c:otherwise> <!--  new card -->
+							<c:set var="end" scope="request" value="${1}"/>
+						</c:otherwise>
+					</c:choose>
+					<c:forEach begin="0" end="${lastMissionIndex}" varStatus="status"> 
+						
+						 	<div class="form-group aMissionDiv">			
+						 		<sf:hidden path="tasks[${status.index}]"/>
+								<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
+								<div class="col-sm-5">
+									<sf:textarea path="tasks[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
+								</div>
+							<c:if test="${ status.last }">
+								<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">
+									<button type="button" id="delMissionBtn" class="btn btn-default btn-sm" <c:if test="${lastMissionIndex eq 0}">disabled="disabled"</c:if>>Delete</button>
+									<button type="button" id="addMissionBtn" class="btn btn-default btn-sm">Add</button>
+								</div>
+							</c:if>
 							</div>
-						<c:if test="${ status.last }">
-							<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">
-								<button type="button" id="delMissionBtn" class="btn btn-default btn-sm" <c:if test="${fn:length(card.missions) eq 1}">disabled="disabled"</c:if>>Delete</button>
-								<button type="button" id="addMissionBtn" class="btn btn-default btn-sm">Add</button>
-							</div>
-						</c:if>
-						</div>
 					</c:forEach>
 				</div>
 				<div id="testDiv">

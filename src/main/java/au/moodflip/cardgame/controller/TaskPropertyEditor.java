@@ -26,7 +26,11 @@ public class TaskPropertyEditor extends PropertyEditorSupport {
 	@Override
     public String getAsText() {
 		logger.info("taskpropertyeditor Obj->Str: " + this.getValue().getClass().getName());
-		Mission m = (Mission)this.getValue();
-		return String.valueOf(m.getTaskId());
+		String ret = "";
+		if (this.getValue() instanceof Mission){
+			Mission m = (Mission)this.getValue();
+			ret = String.valueOf(m.getTaskId());
+		}
+		return ret;
     }
 }

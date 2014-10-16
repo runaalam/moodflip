@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.Task;
@@ -78,9 +79,10 @@ public class CustomCardController {
 		Card newCard = new Card();
 		List<Task> missions = new AutoPopulatingList<Task>(Mission.class);
 		missions.add(new Mission(""));	// 1 empty mission for new cards
-		newCard.setMissions(missions);
+		newCard.setTasks(missions);
 		model.addAttribute(newCard);
 		model.addAttribute("symptoms", Card.Symptom.values());
+		model.addAttribute("lastMissionIndex", "0");
 		logger.info("returning modelandview from newCard()");
 		return new ModelAndView(FOLDER + "/edit");
 	}
@@ -88,7 +90,7 @@ public class CustomCardController {
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		System.out.println("initBinder!");
-	    binder.registerCustomEditor(Task.class, "missions", new TaskPropertyEditor());
+	    binder.registerCustomEditor(Task.class, "tasks", new TaskPropertyEditor());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, params="new")
@@ -100,6 +102,8 @@ public class CustomCardController {
 		}
 		logger.info("about to add card {}", card);
 		User user = userManager.getUserByUsername(principal.getName());
+		CardSurvey cardSurvey = new CardSurvey("This task was helpful");
+		card.getTasks().add(cardSurvey);
 		cardManager.add(card);
 		logger.info("added card " + card);
 		CgUser cgUser = cgUserManager.getById(user.getId());
@@ -110,8 +114,10 @@ public class CustomCardController {
 	@RequestMapping(method = RequestMethod.GET, params="edit")
 	public ModelAndView editCard(Model model, @RequestParam(value="edit", required=false) long cardId){
 		logger.info("Edit card");
-		model.addAttribute(cardManager.getById(cardId));
-		logger.info("returning from Edit card");
+		Card card = cardManager.getById(cardId);
+		model.addAttribute(card);
+		model.addAttribute("lastMissionIndex", card.getTasks().size() - 2); // last element is cardSurvey
+		logger.info("returning from Edit card. tasks: " + card.getTasks().size() );
 		return new ModelAndView(FOLDER + "/edit", "model", model);
 	}
 	
@@ -125,7 +131,10 @@ public class CustomCardController {
 		logger.info("Merging with card: " + cardManager.getById(card.getCardId())); 
 		model.addAttribute("status","Card updated!");
 		logger.info("update card: " + card);
+		CardSurvey cardSurvey = new CardSurvey("This task was helpful");
+		card.getTasks().add(cardSurvey);
 		cardManager.update(card);
+		model.addAttribute("lastMissionIndex", card.getTasks().size() - 2); // last element is cardSurvey
 		logger.info("returning from Edit card POST");
 		return new ModelAndView(FOLDER + "/edit");
 	}

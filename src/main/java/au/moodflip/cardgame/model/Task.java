@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType; 
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="Tasks")
@@ -53,4 +54,8 @@ public class Task {
 		buffer.append("taskId[" + taskId + "] ");
 		return buffer.toString();
 	}
+
+	@Transient 	// don't include in table
+	public String getType(){ return this.getClass().getSimpleName(); }
+
 }

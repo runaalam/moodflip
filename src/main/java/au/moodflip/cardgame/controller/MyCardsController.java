@@ -12,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
@@ -38,33 +36,30 @@ public class MyCardsController {
 	private CgUserManager cgUserManager;
 	
 	@RequestMapping
-	public ModelAndView myCards(Model model, Principal principal){
+	public String myCards(Model model, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		Set<Card> cards = new TreeSet<Card>(cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId())));
 		model.addAttribute("cards", cards);
-		return new ModelAndView(FOLDER + "/myCards", "model", model);
+		return FOLDER + "/myCards";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, params="play")
-	public ModelAndView playCard(Model model, @RequestParam(value="play", required=false) long cardId, Principal principal){
+	public String playCard(Model model, @RequestParam(value="play", required=false) long cardId, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		Card card = cardManager.getById(cardId);
 		Mission m = null;
 		if (cgUser.getCurrentTask() == null){ // user not doing mission
-			model.addAttribute("title", card.getTitle());
-			model.addAttribute("level", String.valueOf(card.getLevel()));
-			model.addAttribute("symptom", card.getSymptom().getText());
-			if (card.getMissions().get(0) instanceof Mission){
-				m = (Mission)card.getMissions().get(0);
+			if (card.getTasks().get(0) instanceof Mission){
+				m = (Mission)card.getTasks().get(0);
 				cgUser.setCurrentTask(m);
 				cgUserManager.update(cgUser);
-				model.addAttribute("text", m.getText());
+				model.addAttribute(m);
 			}
 		}else{
 			logger.info("Already doing a mission");
 		}
-		return new ModelAndView(FOLDER + "/cardGame", "mission", model);
+		return "redirect:/" + FOLDER;
 	}
 }

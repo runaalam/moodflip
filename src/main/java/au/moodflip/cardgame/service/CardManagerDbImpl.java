@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.Card;
@@ -82,15 +83,13 @@ public class CardManagerDbImpl implements CardManager{
 	// link tasks to card and each task to its adjacent tasks
 //	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	private void linkCardsAndTasks(Card card){
-		List<Task> tasks = card.getMissions();
+		List<Task> tasks = card.getTasks();
 		for (int i=0; i < tasks.size(); i++){
-//			if (i > 0){
-//				tasks.get(i).setPrev(tasks.get(i-1));
-//			}
 			if (i < tasks.size()-1){
 				tasks.get(i).setNext(tasks.get(i+1));
 			}
 			tasks.get(i).setCard(card);
+			logger.info("simple name: " + tasks.get(i).getClass().getSimpleName());
 		}
 	}
 }

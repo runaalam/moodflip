@@ -15,11 +15,11 @@
 		<level value="info" />
 	</logger>
 	
-	<!-- log binding properties for sql output -->
+	<!-- log binding properties for sql output 
 	<logger name="org.hibernate.type">
     	<level value="trace" />
 	</logger>
-	
+-->	
 	<!-- 3rdparty Loggers -->
 
 	<logger name="org.springframework.core">

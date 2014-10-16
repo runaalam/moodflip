@@ -48,15 +48,34 @@
 			<li class="active">Card game</li>
 		</ol>
 			<h1>Card game main page</h1>
-			<c:if test="${empty mission }">You do not have a mission yet. When you're ready, go to <a href="<c:url value="card-game/myCards"/>">My Cards</a> on the side bar</c:if>
-			<c:if test="${!empty mission }"><c:out value="${mission.title}"/> <c:out value="${mission.level}"/>  <c:out value="${mission.symptom}"/> <br/>
-				<c:if test="${!empty mission.text }">
-						Mission: <c:out value="${mission.text}"/><br/>
-						<a href="<c:url value="/card-game?newCard"/>">New card</a>
-						<a href="<c:url value="/card-game?nextMission"/>">Next mission</a>
-				</c:if>
-				<c:if test="${empty mission.text}"><a href="<c:url value="/card-game?finishCard"/>">Finish</a></c:if>
-			</c:if>
+			<c:choose>
+				<c:when test="${(!empty mission) or (!empty cardSurvey)}">
+					<c:out value="${mission.card.title}"/> <c:out value="${mission.card.level}"/>  <c:out value="${mission.card.symptom.text}"/> <br/>
+					<c:choose>
+						<c:when test="${!empty mission}">
+							<sf:form method="POST" modelAttribute="mission">
+								<label><c:out value="${mission.text}"/></label>
+								<input type="submit" name="newCard" value="New Card">
+								<input type="submit" name="nextMission" value="Next Mission">
+							</sf:form>
+						</c:when>
+						<c:when test="${!empty cardSurvey}">
+							<sf:form method="POST" modelAttribute="cardSurvey">
+								Conclusion: <label><c:out value="${cardSurvey.card.outro}"/></label>
+								Rate this card: <label><c:out value="${cardSurvey.question}"/></label>
+								<sf:select path="answer">
+									<sf:option value="" label="--Please Select"/>
+									<sf:options items="${answers}" itemLabel="text"/>
+								</sf:select>
+								<input type="submit" name="finish" value="Finish"/>
+							</sf:form>
+						</c:when>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					You do not have a mission yet. When you're ready, go to <a href="<c:url value="card-game/myCards"/>">My Cards</a> on the side bar
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </div>

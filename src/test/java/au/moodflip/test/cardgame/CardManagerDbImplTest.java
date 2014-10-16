@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CardSurvey;
-import au.moodflip.cardgame.model.CardSurvey.Answer;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.model.Task;
@@ -56,7 +55,7 @@ public class CardManagerDbImplTest {
 		System.out.println("Appetite cards");
 		for (Card c : appetiteCards){
 			System.out.println(c);
-			List<Task> m = c.getMissions();
+			List<Task> m = c.getTasks();
 			System.out.println("getting cardid from mission 0: " + m.get(0).getCard().getCardId());
 		}
 		System.out.println("Sleep cards");
@@ -76,11 +75,11 @@ public class CardManagerDbImplTest {
 		Card card = new Card("card 1", 1, Symptom.APPETITE, "intro", missions, "outro", 1, 1, 1);
 		missions.add(new Mission("card Mission 1"));
 		missions.add(new Mission("Card Mission 2"));
-		missions.add(new CardSurvey("The weather is great", Answer.CA));
+		missions.add(new CardSurvey("The weather is great"));
 		long cardId = cardManager.add(card);
 		
 		Card c = cardManager.getById(cardId);
-		for (Task t : c.getMissions()){
+		for (Task t : c.getTasks()){
 			if (t instanceof Mission){
 				System.out.println("Mission: ");
 			}else if (t instanceof CardSurvey){
