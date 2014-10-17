@@ -22,7 +22,7 @@
         $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
     });
 </script>
->>>>>>> 8f8e8cc56345a6247d2964854e43fd3511e127c0
+
 
 <h1>Data</h1>
 
