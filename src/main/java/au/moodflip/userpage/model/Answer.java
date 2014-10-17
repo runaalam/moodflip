@@ -14,7 +14,7 @@ public class Answer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")	
-	private int id;
+	private long id;
 	
 	@Column
 	private String text;
@@ -22,11 +22,11 @@ public class Answer {
 	@Column
 	private int value;
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

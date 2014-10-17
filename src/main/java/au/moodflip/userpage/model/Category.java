@@ -17,7 +17,7 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private long id;
 	
 	@Column(name = "desc")
 	private String desc;
@@ -25,11 +25,11 @@ public class Category {
 	@OneToMany(mappedBy = "category")
 	private Set<Question> questions;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
