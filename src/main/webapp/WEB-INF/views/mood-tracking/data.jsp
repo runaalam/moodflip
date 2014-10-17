@@ -4,20 +4,25 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+
 <head>
-    <title>ExpressYourMood</title>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-    <script>
-        $(function () {
-            $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
-        });
-    </script>
+
+
+
+     <title>ExpressYourMood</title>
+     <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 </head>
 <body>
-
-
+<%@ include file="/WEB-INF/views/navbar.jsp"%>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+  <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
+    });
+</script>
+>>>>>>> 8f8e8cc56345a6247d2964854e43fd3511e127c0
 
 <h1>Data</h1>
 
