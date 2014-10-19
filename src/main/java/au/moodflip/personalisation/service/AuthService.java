@@ -37,6 +37,11 @@ public class AuthService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), !user.isBanned(), true, true, true, authorities);
 	}
 	
+	/**
+	 *
+	 * @param roles
+	 * @return
+	 */
 	private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
 
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();

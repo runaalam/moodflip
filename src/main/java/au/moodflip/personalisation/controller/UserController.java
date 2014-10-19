@@ -6,9 +6,13 @@ import javax.validation.Valid;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +24,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.comm.model.Forum;
+import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.service.RoleManager;
 import au.moodflip.personalisation.service.UserManager;
 
 
@@ -31,7 +37,11 @@ public class UserController {
 	
 	@Autowired
 	private UserManager userManager;
+	
+	@Autowired
+	private RoleManager roleService;
 
+	
 	@RequestMapping(value="/register",method = RequestMethod.GET)
 	public ModelAndView register() {
 		User user = new User();
@@ -40,18 +50,43 @@ public class UserController {
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String register(HttpServletRequest httpServletRequest) {
-
-		User user = new User();
-		user.setName(httpServletRequest.getParameter("name"));
-		user.setBanned(false);
-		user.setUsername(httpServletRequest.getParameter("username"));
-		user.setPassword(httpServletRequest.getParameter("password"));
-		user.setPrivacySetting(httpServletRequest.getParameter("privacySetting"));
-		user.setCreateAt(new Date());
 		
-		userManager.addUser(user);
+		
+		if (userManager.getUserByUsername(httpServletRequest.getParameter("username")) == null) {
+			User user = new User();
+			user.setName(httpServletRequest.getParameter("name"));
+			user.setBanned(true);
+			user.setUsername(httpServletRequest.getParameter("username"));
+			user.setPassword(httpServletRequest.getParameter("password"));
+			user.setPrivacySetting(httpServletRequest.getParameter("privacySetting"));
+			
+			Set<Role> roles = new HashSet<Role>();
+			roles.add(roleService.findByName("ROLE_USER"));
+			user.setRoles(roles);
+			userManager.addUserWithRoles(user);
+		}
+		
+	
 		
 		return "redirect:/personalisation.htm";
+	}
+	
+	// customize the error message
+	private String getErrorMessage(HttpServletRequest request, String key) {
+
+		Exception exception = (Exception) request.getSession()
+				.getAttribute(key);
+
+		String error = "";
+		if (exception instanceof BadCredentialsException) {
+			error = "Invalid username or password!";
+		} else if (exception instanceof LockedException) {
+			error = exception.getMessage();
+		} else {
+			error = "Invalid username or password!";
+		}
+
+		return error;
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)

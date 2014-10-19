@@ -15,10 +15,17 @@
 <%@ include file="/WEB-INF/views/navbar.jsp"%>
 	
 	<div class="container">
-	
 
-DashBoard page
-<h3>Users</h3>
+<sec:authorize access="!isAuthenticated()">
+				<li><a href="<c:url value="/login"/>">Login</a></li>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+				<li><a href=""><sec:authentication property="principal.username" /></a></li>
+				<td><a href="<c:url value="/user/edit/${user.id}"/>">edit</a></td>
+				<li><a href="<c:url value="/logout"/>">Logout</a></li>
+				</sec:authorize>
+<security:authorize access="hasAnyRole('ADMIN')">
+<h3>DashBoard</h3>
 		<table border="1">
 			<tr>
 				<td>Username</td>
@@ -29,20 +36,21 @@ DashBoard page
 				<td><c:out value="${user.username}"/></td>
 				
 				<td><c:out value="${user.banned}"/>
-				<c:if test="${user.banned}">button on</c:if>
-    <c:choose>
-   <c:when test="${user.banned}">
+				<c:choose>
+    <c:when test="${user.banned}}">
         Condition is true.
     </c:when>
     <c:otherwise>
         Condition is false.
     </c:otherwise>
-</c:choose></td>
+</c:choose>
+				</td>
 				<td><a href="<c:url value="/user/edit/${user.id}"/>">edit</a></td>
 				<td><a href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
 			</tr>
 		</c:forEach>
 		</table>
+</security:authorize>
 <a href="<c:url value = "/user/register"/>">register</a>
 </body>
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>

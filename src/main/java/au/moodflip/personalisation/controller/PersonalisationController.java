@@ -51,5 +51,28 @@ public class PersonalisationController {
 		
 		return mav;
 	}
+	
+/**	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView ban(Locale locale) {
+		logger.info("Welcome to the personalisation system!");
+		ModelAndView mav = new ModelAndView(FOLDER + "/personalisation");
+		
+		
+		String now = (new java.util.Date()).toString();
+		logger.info("Returning hello view with "+ now);
+		
+		Map<String,Object> myModel = new HashMap<String, Object>();
+		myModel.put("now", now);
+		List<User> user = userManager.getUsers();
+		List<String> status = new ArrayList<String>();
+		status.add("Ban");
+		status.add("UnBan");
+		status.add("Delete");
+		
+		mav.getModelMap().put("users", user);
+		mav.getModelMap().put("status", status);
+		
+		return mav;
+	}**/
 
 }

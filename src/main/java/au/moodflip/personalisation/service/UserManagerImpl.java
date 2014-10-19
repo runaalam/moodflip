@@ -45,7 +45,7 @@ public class UserManagerImpl implements UserManager {
 	
 	@Override
 	public void addUserWithRoles(User user) {
-		user.setBanned(false);
+		/*user.setBanned(false);*/
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
 		
