@@ -1,5 +1,7 @@
 package au.moodflip.userpage.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,12 +11,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
+
 import au.moodflip.personalisation.model.User;
 //
 @Entity
-@Table(name = "response")
-public class Response {
-
+@Table(name = "StatusComment")
+public class StatusComment {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
@@ -24,17 +29,17 @@ public class Response {
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	@Column(name = "content")
+	@Type(type="text")
+	@NotBlank
+	private String content;
+
+	@Column(name = "comment_date")
+	private Date commentDate;
+
 	@ManyToOne
-	@JoinColumn(name="question_id") 
-	private Question question;
-	
-	@ManyToOne
-	@JoinColumn(name="assessment_id")	
-	private Assessment assessment;
-	
-	@ManyToOne
-	@JoinColumn(name="answer_id") 
-	private Answer answer;
+	@JoinColumn(name="status_id")
+	private Status status;
 
 	public long getId() {
 		return id;
@@ -43,9 +48,9 @@ public class Response {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public Question getQuestion() {
-		return question;
+	
+	public String getContent() {
+		return content;
 	}
 
 	public User getUser() {
@@ -56,23 +61,23 @@ public class Response {
 		this.user = user;
 	}
 
-	public void setQuestion(Question question) {
-		this.question = question;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public Assessment getAssessment() {
-		return assessment;
+	public Date getCommentDate() {
+		return commentDate;
 	}
 
-	public void setAssessment(Assessment assessment) {
-		this.assessment = assessment;
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
 	}
 
-	public Answer getAnswer() {
-		return answer;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
-	}	
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 }

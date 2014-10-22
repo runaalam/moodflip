@@ -10,17 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.userpage.dao.AssessmentDao;
 import au.moodflip.userpage.model.Answer;
+import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
 
-
+//
 @Service
+@Transactional
 public class AssessmentServiceImpl implements AssessmentService {
 
 	@Autowired
 	private AssessmentDao assesmentDao;
 	
 	
-	@Transactional
+	@Override
 	public List<Question> getQuestions() {
 		return assesmentDao.getQuestions();
 	}
@@ -40,4 +42,9 @@ public class AssessmentServiceImpl implements AssessmentService {
 		}
 		return list;
 	}	
+	
+	@Override
+	public void save(Assessment assessment){
+		assesmentDao.save(assessment);
+	}
 }
