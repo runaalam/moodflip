@@ -1,8 +1,8 @@
-//
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -38,9 +38,9 @@
 			<div class="nav">
 				<ul class="nav nav-pills nav-stacked">
 				  	<li><a href="<c:url value="/card-game"/>">Card game</a></li>
-				  	<li><a href="#">My Cards</a></li>
+				  	<li><a href="<c:url value="/card-game/myCards"/>">My Cards</a></li>
 					<li class="active"><a href="<c:url value="/card-game/customCards"/>">Custom cards</a></li>
-				  	<li><a href="#">Game Stats</a></li>
+				  	<li><a href="<c:url value="/card-game/playHistory"/>">Play History</a></li>
 				</ul>
 			</div>
 		</div>
@@ -73,11 +73,11 @@
 					<tbody>
 						<c:forEach items="${model.customCards}" var="card">
 							<tr>
-								<td><a href="<c:url value="/card-game/customCards?delete=${card.cardId}"/>">Delete</td>
+								<td><a href="<c:url value="/card-game/customCards?delete=${card.cardId}"/>">Delete</a></td>
 								<td><a href="<c:url value="/card-game/customCards?edit=${card.cardId}"/>"><c:out value="${card.title}"/></a></td>
 								<td><c:out value="${card.level}"/></td>
 								<td><c:out value="${card.symptom.text}"/></td>
-								<td><c:out value="${card.avgRating}"/></td>
+								<td><c:out value="${fn:substring(card.avgRating, 0, 3) }"/></td>
 								<td><c:out value="${card.completions}"/></td>
 								<td><c:out value="${card.attempts}"/></td>
 								<td><c:out value="${card.cardId}"/></td>

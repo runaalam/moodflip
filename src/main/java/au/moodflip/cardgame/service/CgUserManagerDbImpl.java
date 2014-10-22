@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.CgUser;
-//
+
 @Service(value="userCardsManager")
 @Transactional
 public class CgUserManagerDbImpl implements CgUserManager{

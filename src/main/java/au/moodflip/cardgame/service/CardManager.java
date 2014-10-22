@@ -5,10 +5,10 @@ import java.util.Set;
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.model.UsersCard;
-//
+
 public interface CardManager{
 	public long add(Card card);
-	public void update(Card card);
+	public Card update(Card card);
 	public Card getById(long id);
 	public void delete(long id);
 	public Set<Card> getCards();

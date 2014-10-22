@@ -3,7 +3,7 @@ package au.moodflip.cardgame.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-//
+
 @Entity
 public class CardSurvey extends Task implements Serializable{
 	private static final long serialVersionUID = 1L;

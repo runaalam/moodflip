@@ -1,4 +1,3 @@
-//
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp" %>
@@ -43,9 +42,9 @@
 		<div class="col-md-2">
 			<ul class="nav nav-pills nav-stacked">
 			  	<li><a href="<c:url value="/card-game"/>">Card game</a></li>
-			  	<li><a href="#">My Cards</a></li>
+			  	<li><a href="<c:url value="/card-game/myCards"/>">My Cards</a></li>
 				<li class="active"><a href="<c:url value="/card-game/customCards"/>">Custom cards</a></li>
-			  	<li><a href="#">Game Stats</a></li>
+			  	<li><a href="<c:url value="/card-game/playHistory"/>">Play History</a></li>
 			</ul>
 		</div>
 		<div class="col-md-10">

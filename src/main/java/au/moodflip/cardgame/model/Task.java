@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType; 
 import javax.persistence.Transient;
-//
+
 @Entity
 @Table(name="Tasks")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -32,17 +32,6 @@ public class Task {
 	public void setCard(Card card) { this.card = card; }
 	private Card card;
 	
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name="task_prev_id")
-//	public Task getPrev() { return prev; }
-//	public void setPrev(Task prev) { this.prev = prev; }
-//	private Task prev;
-
-//	@OneToOne(mappedBy="prev")
-//	public Task getNext() { return next; }
-//	public void setNext(Task next) { this.next = next; }
-//	private Task next;
-
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="task_next_id")
 	public Task getNext() { return next; }

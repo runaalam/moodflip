@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-//
+
 @Entity
 @Table(name="Users_cards")
 public class UsersCard implements Comparable<UsersCard>{

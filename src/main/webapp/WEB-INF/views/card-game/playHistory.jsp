@@ -26,7 +26,7 @@
 	      <a class="navbar-brand" href="#">MoodFlip</a>
 	    </div>
 	    
-	    <p class="navbar-text navbar-right"><c:out value="${globalPoints}"/> pts Level 2</p>
+	    <p class="navbar-text navbar-right">100 pts Level 2</p>
 	    <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">User123</a></p>
 	</div>
 </nav>
@@ -35,47 +35,60 @@
 		<div class="col-md-2">
 			<div class="nav">
 				<ul class="nav nav-pills nav-stacked">
-					<li class="active"><a href="<c:url value="/card-game"/>">Card game</a></li>
-				  	<li><a href="<c:url value="/card-game/myCards"/>">My Cards</a></li>
+				  	<li><a href="<c:url value="/card-game"/>">Card game</a></li>
+				  	<li><a href="<c:url value="/card-game/myCards"/>">My cards</a></li>
 				  	<li><a href="<c:url value="/card-game/customCards"/>">Custom Cards</a></li>
-				  	<li><a href="<c:url value="/card-game/playHistory"/>">Play History</a></li>
+					<li class="active"><a href="<c:url value="/card-game/playHistory"/>">Play History</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="col-md-10">
 		<ol class="breadcrumb">
 			<li><a href="<c:url value="/"/>">Home</a></li>
-			<li class="active">Card game</li>
+			<li><a href="<c:url value="/card-game"/>">card game</a></li>
+			<li class="active">Play History</li>
 		</ol>
-			<h1>Card game main page</h1>
-			<c:choose>
-				<c:when test="${(!empty mission) or (!empty cardSurvey)}">
-					<c:out value="${mission.card.title}"/> <c:out value="${mission.card.level}"/>  <c:out value="${mission.card.symptom.text}"/> <br/>
-					<c:choose>
-						<c:when test="${!empty mission}">
-							<sf:form method="POST" modelAttribute="mission">
-								<label><c:out value="${mission.text}"/></label>
-								<input type="submit" name="newCard" value="New Card">
-								<input type="submit" name="nextMission" value="Next Mission">
-							</sf:form>
-						</c:when>
-						<c:when test="${!empty cardSurvey}">
-							<sf:form method="POST" modelAttribute="cardSurvey">
-								Conclusion: <label><c:out value="${cardSurvey.card.outro}"/></label>
-								Rate this card: <label><c:out value="${cardSurvey.question}"/></label>
-								<sf:select path="answer">
-									<sf:option value="" label="--Please Select"/>
-									<sf:options items="${answers}" itemLabel="text"/>
-								</sf:select>
-								<input type="submit" name="finish" value="Finish"/>
-							</sf:form>
-						</c:when>
-					</c:choose>
-				</c:when>
-				<c:otherwise>
-					You do not have a mission yet. When you're ready, go to <a href="<c:url value="card-game/myCards"/>">My Cards</a> on the side bar
-				</c:otherwise>
-			</c:choose>
+			<h1>Play History</h1>
+			<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Points</th>
+							<th>Attempts</th>
+							<th>Completions</th>
+							<th>id</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${mainPlayHistoryItems}" var="i">
+							<tr>
+								<td><a href="<c:url value="/card-game/playHistory?cardId=${i.cardId}"/>"><c:out value="${i.title}"/></a></td>
+								<td><c:out value="${i.points}"/></td>
+								<td><c:out value="${i.attempts}"/></td>
+								<td><c:out value="${i.completions}"/></td>
+								<td><c:out value="${i.cardId}"/></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Points</th>
+							<th>Complete</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${cardPlayHistoryItems}" var="ce">
+							<tr>
+								<td><c:out value="${ce.date}"/></td>
+								<td><c:out value="${ce.points}"/></td>
+								<td><c:out value="${ce.complete}"/></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 		</div>
 	</div>
 </div>

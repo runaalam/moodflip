@@ -16,7 +16,7 @@ import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.model.UsersCard;
-//
+
 @Service(value="cardManager")
 @Transactional
 public class CardManagerDbImpl implements CardManager{
@@ -46,12 +46,12 @@ public class CardManagerDbImpl implements CardManager{
 	}
 
 	@Override
-	public void update(Card card) {
+	public Card update(Card card) {
 		System.out.println("in update");
 		linkCardsAndTasks(card);
-		Card card2 = (Card)sessionFactory.getCurrentSession().get(Card.class, card.getCardId());
 		System.out.println("applying update");
-		sessionFactory.getCurrentSession().merge(card); 
+		sessionFactory.getCurrentSession().merge(card);
+		return card;
 	}
 
 	@Override

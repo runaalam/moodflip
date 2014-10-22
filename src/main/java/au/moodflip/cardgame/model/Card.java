@@ -1,7 +1,6 @@
 package au.moodflip.cardgame.model;
 
 import java.io.Serializable;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,7 +23,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
-//
+
 @Entity
 @Table(name="Cards")
 public class Card implements Serializable, Comparable<Card>{
@@ -111,7 +110,7 @@ public class Card implements Serializable, Comparable<Card>{
 	private long attempts;
 	
 	
-	@Column(name="intro")
+	@Column(name="intro", length=2000)
 	@NotBlank
 	public String getIntro() { return intro; }
 	public void setIntro(String intro) { this.intro = intro; }
@@ -126,7 +125,7 @@ public class Card implements Serializable, Comparable<Card>{
 	public void setTasks(List<Task> tasks) { this.tasks = tasks; }
 	private List<Task> tasks;
 	
-	@Column(name="outro")
+	@Column(name="outro", length=2000)
 	@NotBlank
 	public String getOutro() { return outro; }
 	public void setOutro(String outro) { this.outro = outro; }
