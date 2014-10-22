@@ -3,6 +3,7 @@ package au.moodflip.userpage.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,7 @@ public class Assessment{
 	@OneToMany(mappedBy="assessment")
 	private List<Response> responseList;
 	
-	@OneToOne(mappedBy="assessment")
+	@OneToOne(cascade=CascadeType.ALL, mappedBy="assessment")
 	private ResultDetails resultDetails;
 
 	public long getId() {
