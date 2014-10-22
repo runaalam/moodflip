@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import au.moodflip.personalisation.model.User;
-//
+
 @Entity
 @Table(name = "activity")
 public class Activity {

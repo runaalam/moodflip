@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import au.moodflip.personalisation.model.User;
-//
+
 @Entity
 @Table(name = "Status")
 public class Status {

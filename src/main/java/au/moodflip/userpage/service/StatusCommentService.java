@@ -3,7 +3,7 @@ package au.moodflip.userpage.service;
 import java.util.List;
 
 import au.moodflip.userpage.model.StatusComment;
-//
+
 public interface StatusCommentService {
 	
 	public void addComment(StatusComment statusComment);

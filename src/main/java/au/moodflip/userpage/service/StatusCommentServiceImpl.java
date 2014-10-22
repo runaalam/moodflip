@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import au.moodflip.userpage.dao.StatusCommentDao;
 import au.moodflip.userpage.model.Status;
 import au.moodflip.userpage.model.StatusComment;
-//
+
 @Service
 @Transactional
 public class StatusCommentServiceImpl implements StatusCommentService {

@@ -15,7 +15,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 import au.moodflip.personalisation.model.User;
-//
+
 @Entity
 @Table(name = "StatusComment")
 public class StatusComment {

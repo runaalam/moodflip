@@ -1,5 +1,5 @@
 package au.moodflip.userpage.service;
-//
+
 import java.util.List;
 
 import au.moodflip.userpage.model.Activity;

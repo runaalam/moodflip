@@ -1,5 +1,5 @@
 package au.moodflip.userpage.dao;
-//
+
 import java.util.List;
 
 import org.hibernate.Query;
@@ -29,7 +29,7 @@ public class ActivityDaoImpl implements ActivityDao {
 	@Override
 	public List<Activity> getActivityListByUserId(Long userId) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Activity where userId = :userId");
+				"from Activity where user_id = :userId");
 		query.setParameter("userId", userId);
 		return query.list();
 	}

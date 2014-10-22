@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.userpage.dao.StatusDao;
 import au.moodflip.userpage.model.Status;
-//
+
 @Service
 @Transactional
 public class StatusServiceImpl implements StatusService {

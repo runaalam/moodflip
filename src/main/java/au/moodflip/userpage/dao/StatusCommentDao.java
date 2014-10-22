@@ -4,7 +4,7 @@ import java.util.List;
 
 import au.moodflip.userpage.model.Status;
 import au.moodflip.userpage.model.StatusComment;
-//
+
 public interface StatusCommentDao {
 	
 	public void addComment(StatusComment statusComment);

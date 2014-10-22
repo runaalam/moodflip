@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import au.moodflip.personalisation.model.User;
-//
+
 @Entity
 @Table(name = "response")
 public class Response {

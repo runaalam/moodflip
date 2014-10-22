@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import au.moodflip.userpage.model.StatusComment;
-//
+
 @Repository
 public class StatusCommentDaoImpl implements StatusCommentDao {
 

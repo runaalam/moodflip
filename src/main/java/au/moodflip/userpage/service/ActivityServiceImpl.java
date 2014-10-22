@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.userpage.dao.ActivityDao;
 import au.moodflip.userpage.model.Activity;
-//
+
 @Service
 @Transactional
 public class ActivityServiceImpl implements ActivityService {
