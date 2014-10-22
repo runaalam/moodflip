@@ -5,7 +5,7 @@ import java.util.Set;
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.model.UsersCard;
-
+//
 public interface CardManager{
 	public long add(Card card);
 	public void update(Card card);
