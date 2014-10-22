@@ -3,7 +3,7 @@ package au.moodflip.comm.dao;
 import java.util.List;
 
 import au.moodflip.comm.model.Notification;
-
+//
 public interface NotificationDao {
 	
 	public void createNotification(Notification notification);

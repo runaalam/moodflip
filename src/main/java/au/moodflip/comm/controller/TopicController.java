@@ -26,7 +26,7 @@ import au.moodflip.comm.service.ForumService;
 import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
 import au.moodflip.personalisation.service.UserManager;
-
+//
 @Controller
 @SessionAttributes(value = {"forum", "topic"})
 @RequestMapping(value = "/forums")

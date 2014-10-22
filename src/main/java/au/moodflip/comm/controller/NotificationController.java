@@ -14,7 +14,7 @@ import au.moodflip.comm.model.Notification;
 import au.moodflip.comm.service.NotificationService;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
-
+//
 @Controller
 @RequestMapping(value = "/notification")
 public class NotificationController {

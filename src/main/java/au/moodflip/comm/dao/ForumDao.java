@@ -7,7 +7,7 @@ import java.util.List;
 
 import au.moodflip.comm.model.Forum;
 
-
+//
 public interface ForumDao {
 
 	public void addForum(Forum forum);

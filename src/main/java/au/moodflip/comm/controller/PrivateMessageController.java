@@ -26,7 +26,7 @@ import au.moodflip.comm.service.NotificationService;
 import au.moodflip.comm.service.PrivateMessageService;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
-
+//
 @Controller
 @RequestMapping(value = "/pm")
 public class PrivateMessageController {

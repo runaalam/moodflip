@@ -19,7 +19,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-
+//
 @Entity
 @Table(name = "Topic")
 public class Topic implements Serializable {

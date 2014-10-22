@@ -3,7 +3,7 @@ package au.moodflip.comm.dao;
 import java.util.List;
 
 import au.moodflip.comm.model.Topic;
-
+//
 public interface TopicDao {
 	
 	public void createTopic(Topic topic);
