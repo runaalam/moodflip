@@ -9,12 +9,8 @@
 	<div class="page-container">
 		<!-- include page header -->
 		<jsp:include page="../fragments/bodyHeader.jsp"/>
-		
-		
 	      <div class="row row-offcanvas row-offcanvas-left">
-	      	
 	      	<jsp:include page="../fragments/bodySideBar.jsp"/>
-	      	
 	      		<div class="col-xs-12 col-sm-9">
 					<c:choose>
 						<c:when test="${!empty quesList}">
@@ -26,7 +22,7 @@
 												<td>${question.text}</td>
 							           				<form:input path="responseList[${row.index}].question.id" type="hidden" name="${status.expression}"
 							                		id="${status.expression}" value="${question.id}" />
-												<td><form:radiobuttons path="responseList[${row.index}].answer.id" delimiter="<br>"
+												<td><form:radiobuttons path="responseList[${row.index}].answer.value" delimiter="<br>"
 							                		items="${ansList}" itemLabel="text" itemValue="id"/></td>
 							                </tr>
 										</c:forEach>
