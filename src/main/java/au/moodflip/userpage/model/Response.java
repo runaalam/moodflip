@@ -5,8 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import au.moodflip.personalisation.model.User;
+//
 @Entity
 @Table(name = "response")
 public class Response {
@@ -16,38 +20,59 @@ public class Response {
 	@Column(name = "ID")
 	private long id;
 	
-	private int userId;
-	private int questionId;
-	private int assessmentId;
-	private int answerId;
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name="question_id") 
+	private Question question;
+	
+	@ManyToOne
+	@JoinColumn(name="assessment_id")	
+	private Assessment assessment;
+	
+	@ManyToOne
+	@JoinColumn(name="answer_id") 
+	private Answer answer;
+
 	public long getId() {
 		return id;
 	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
-	public int getUserId() {
-		return userId;
+
+	public Question getQuestion() {
+		return question;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+
+	public User getUser() {
+		return user;
 	}
-	public int getQuestionId() {
-		return questionId;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
-	public int getAssessmentId() {
-		return assessmentId;
+
+	public Assessment getAssessment() {
+		return assessment;
 	}
-	public void setAssessmentId(int assessmentId) {
-		this.assessmentId = assessmentId;
+
+	public void setAssessment(Assessment assessment) {
+		this.assessment = assessment;
 	}
-	public int getAnswerId() {
-		return answerId;
+
+	public Answer getAnswer() {
+		return answer;
 	}
-	public void setAnswerId(int answerId) {
-		this.answerId = answerId;
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
 	}	
 }

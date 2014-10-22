@@ -1,5 +1,5 @@
 package au.moodflip.userpage.dao;
-
+//
 import java.util.List;
 
 import au.moodflip.userpage.model.Assessment;
@@ -13,5 +13,5 @@ public interface AssessmentDao {
 											"Five to seven days last week", 
 											"Nearly every day for two weeks"};
 	
-	public void addAssessment(Assessment assessment);
+	public void save(Assessment assessment);
 }

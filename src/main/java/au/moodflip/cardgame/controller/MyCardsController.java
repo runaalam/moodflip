@@ -1,8 +1,6 @@
 package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
@@ -24,7 +20,7 @@ import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.UsersCardManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
-
+//
 @Controller
 @RequestMapping(value="/card-game/myCards")
 public class MyCardsController {
@@ -40,36 +36,30 @@ public class MyCardsController {
 	private CgUserManager cgUserManager;
 	
 	@RequestMapping
-	public ModelAndView myCards(Model model, Principal principal){
+	public String myCards(Model model, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		Set<Card> cards = new TreeSet<Card>(cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId())));
 		model.addAttribute("cards", cards);
-		return new ModelAndView(FOLDER + "/myCards", "model", model);
+		return FOLDER + "/myCards";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, params="play")
-	public ModelAndView playCard(Model model, @RequestParam(value="play", required=false) long cardId, Principal principal){
+	public String playCard(Model model, @RequestParam(value="play", required=false) long cardId, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		Card card = cardManager.getById(cardId);
 		Mission m = null;
-		Map<String, String> map = new HashMap<String, String>();
-		if (cgUser.getCurrentMission() == null){ // user not doing mission
-			m = card.getMissions().get(0);
-			cgUser.setCurrentMission(m);
-			cgUserManager.update(cgUser);
-//			map.put("title", card.getTitle());
-//			map.put("level", String.valueOf(card.getLevel()));
-//			map.put("symptom", card.getSymptom().getText());
-//			map.put("text", m.getText());
-			model.addAttribute("title", card.getTitle());
-			model.addAttribute("level", String.valueOf(card.getLevel()));
-			model.addAttribute("symptom", card.getSymptom().getText());
-			model.addAttribute("text", m.getText());
+		if (cgUser.getCurrentTask() == null){ // user not doing mission
+			if (card.getTasks().get(0) instanceof Mission){
+				m = (Mission)card.getTasks().get(0);
+				cgUser.setCurrentTask(m);
+				cgUserManager.update(cgUser);
+				model.addAttribute(m);
+			}
 		}else{
-			System.out.println("Already doing a mission");
+			logger.info("Already doing a mission");
 		}
-		return new ModelAndView(FOLDER + "/cardGame", "mission", model);
+		return "redirect:/" + FOLDER;
 	}
 }

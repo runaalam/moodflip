@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
-
+//
 @Repository
 public class AssessmentDaoImpl implements AssessmentDao {
 
@@ -54,7 +54,7 @@ public class AssessmentDaoImpl implements AssessmentDao {
 		return sessionFactory.getCurrentSession().createCriteria(Question.class).list();	
 	}
 	
-	public void addAssessment(Assessment assessment){
+	public void save(Assessment assessment){
 		sessionFactory.getCurrentSession().save(assessment);
 	}
 

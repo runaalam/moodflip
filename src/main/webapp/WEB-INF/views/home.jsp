@@ -1,3 +1,4 @@
+//
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <html>
 <head>

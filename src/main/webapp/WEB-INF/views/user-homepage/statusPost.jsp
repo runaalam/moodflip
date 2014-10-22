@@ -19,6 +19,5 @@
 	    </div><!-- col-xs-12 main -->
 	</div><!-- row -->
 </div><!-- container -->
-<jsp:include page="../fragments/footer.jsp"/>
 </body>
 </html>

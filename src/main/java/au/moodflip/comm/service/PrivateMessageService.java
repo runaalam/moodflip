@@ -3,7 +3,7 @@ package au.moodflip.comm.service;
 import java.util.List;
 
 import au.moodflip.comm.model.PrivateMessage;
-
+//
 public interface PrivateMessageService {
 	
 	public void createPrivateMessage(PrivateMessage pMessage);

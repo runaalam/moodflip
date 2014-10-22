@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
-
+//
 @Entity
 @Table(name = "Forum")
 public class Forum implements Serializable {

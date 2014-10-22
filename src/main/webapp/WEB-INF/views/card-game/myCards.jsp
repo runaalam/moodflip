@@ -1,3 +1,4 @@
+//
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
@@ -48,7 +49,7 @@
 			<li class="active">My cards</li>
 		</ol>
 			<h1>My Cards</h1>
-			<c:forEach var="card" items="${model.cards}">
+			<c:forEach var="card" items="${cards}">
 				<c:out value="${card.title}"/><br/>
 				Level: <c:out value="${card.level }"/>	
 				Symptom: <c:out value="${card.symptom }"/><br/>

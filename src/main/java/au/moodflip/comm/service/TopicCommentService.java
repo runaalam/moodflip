@@ -3,7 +3,7 @@ package au.moodflip.comm.service;
 import java.util.List;
 
 import au.moodflip.comm.model.TopicComment;
-
+//
 public interface TopicCommentService {
 	
 	public void createComment(TopicComment comment);

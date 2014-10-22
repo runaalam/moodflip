@@ -1,3 +1,4 @@
+//
 <% String url = request.getAttribute("javax.servlet.forward.servlet_path").toString(); %>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">

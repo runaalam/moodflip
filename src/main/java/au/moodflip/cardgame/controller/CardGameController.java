@@ -1,12 +1,7 @@
 package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
-
-import javax.validation.constraints.AssertFalse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.model.CardSurvey;
+import au.moodflip.cardgame.model.CardSurvey.Answer;
 import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
+import au.moodflip.cardgame.model.Task;
+import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
-
+//
 @Controller
 @RequestMapping(value = "/card-game")
 public class CardGameController {
@@ -32,11 +32,12 @@ public class CardGameController {
 	private CgUserManager cgUserManager;
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private CardManager cardManager;
     
 	@RequestMapping
-	public ModelAndView home(Locale locale, Principal principal, Model model) {
+	public String home(Locale locale, Principal principal, Model model) {
 		logger.info("Welcome to the card game!");
-		ModelAndView mav = new ModelAndView(FOLDER + "/cardGame");
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		
@@ -46,49 +47,69 @@ public class CardGameController {
 		}
 		System.out.println("cgUser is: " + cgUser);
 		
-		Mission current = cgUser.getCurrentMission();
-		if (current != null){
-			model.addAttribute("title", cgUser.getCurrentMission().getCard().getTitle());
-			model.addAttribute("level", String.valueOf(cgUser.getCurrentMission().getCard().getLevel()));
-			model.addAttribute("symptom", cgUser.getCurrentMission().getCard().getSymptom().getText());
-			model.addAttribute("text", current.getText());
-			mav = new ModelAndView(FOLDER + "/cardGame", "mission", model);
+		Task task = cgUser.getCurrentTask();
+		if (task != null){
+			if (task instanceof Mission){
+				model.addAttribute(((Mission)task));
+				logger.info("Getting mission " + (Mission)task);
+			}else if (task instanceof CardSurvey){
+				model.addAttribute(((CardSurvey)task));
+				model.addAttribute("answers", Answer.values());
+				logger.info("Getting cardSurvey " + (CardSurvey)task);
+			}
 		}
-		return mav;
+		return FOLDER + "/cardGame";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, params="nextMission")
-	public ModelAndView getNextMission(Principal principal, Model model){
+	@RequestMapping(method = RequestMethod.POST, params="nextMission")
+	public String getNextMission(Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		
-		Mission next = cgUser.getCurrentMission().getNext();
-		model.addAttribute("title", cgUser.getCurrentMission().getCard().getTitle());
-		model.addAttribute("level", String.valueOf(cgUser.getCurrentMission().getCard().getLevel()));
-		model.addAttribute("symptom", cgUser.getCurrentMission().getCard().getSymptom().getText());
-		if (next != null){
-			model.addAttribute("text", next.getText());  
+		Task task = cgUser.getCurrentTask().getNext();
+		if (task != null){
+			if (task instanceof Mission){
+				model.addAttribute(((Mission)task));
+			}else if (task instanceof CardSurvey){
+				model.addAttribute(((CardSurvey)task));
+				model.addAttribute("answers", Answer.values());
+			}
 		}
-		cgUser.setCurrentMission(next);
+		cgUser.setCurrentTask(task);
 		cgUserManager.update(cgUser);
-		return new ModelAndView(FOLDER + "/cardGame", "mission", model);
+		return FOLDER + "/cardGame";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, params="finishCard")
-	public ModelAndView getEndCard(Principal principal, Model model){
+	@RequestMapping(method = RequestMethod.POST, params="finish")
+	public String getEndCard(CardSurvey cardSurvey, Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
-		cgUser.setCurrentMission(null); // set to no mission for user
+		logger.info("answered: " + cardSurvey.getAnswer());
+		rateCard(cgUser.getCurrentTask().getCard().getCardId(), cardSurvey.getAnswer());
+		cgUser.setCurrentTask(null); // set to no mission for user
 		cgUserManager.update(cgUser);
-		return new ModelAndView(FOLDER + "/cardGame", "model", model);
+		return "redirect:/" + FOLDER;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, params="newCard")
+	@RequestMapping(method = RequestMethod.POST, params="newCard")
 	public ModelAndView getNewCard(Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
-		cgUser.setCurrentMission(null); // set to no mission for user
+		cgUser.setCurrentTask(null); // set to no mission for user
 		cgUserManager.update(cgUser);
 		return new ModelAndView(FOLDER + "/cardGame", "model", model);
+	}
+	
+	// based on exponential moving avg
+	// http://www.bennadel.com/blog/1627-create-a-running-average-without-storing-individual-values.htm
+	private void rateCard(long cardId, Answer answer){
+		Card card = cardManager.getById(cardId);
+		double baseAvg = card.getAvgRating();
+		long ratingCount = card.getCompletions();
+		int newRating = answer.ordinal() + 1; // ordinal is zero based so add 1 to get rating between 1-5
+		double rating = (baseAvg * ratingCount + newRating) / (ratingCount + 1); 
+		card.setCompletions(card.getCompletions() + 1);
+		card.setAvgRating(rating);
+		cardManager.update(card);
 	}
 }

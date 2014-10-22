@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.model.UsersCard.UsersCardPK;
-
+//
 @Service(value="usersCardManager")
 @Transactional
 public class UsersCardManagerDbImpl implements UsersCardManager{
