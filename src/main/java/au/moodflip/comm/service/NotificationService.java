@@ -14,6 +14,8 @@ public interface NotificationService {
 	
 	public List<Notification> listNotificationByUserId(Long userId);
 	
+	public List<Notification> listNewNotificationByUserId(Long userId);
+	
 	public Notification getNotificationById(Long id);
 	
 	public void editNotification(Notification notification);

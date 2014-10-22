@@ -101,7 +101,7 @@ public class TopicController {
 
             return FOLDER + "/newTopic";
         }
-		topic.setUserId(userService.getUserByUsername(principal.getName()).getId());
+		topic.setUser(userService.getUserByUsername(principal.getName()));
 		topic.setForum(forumService.getForumById(forumId));
 		topic.setCreatedAt(new Date());
 
@@ -116,7 +116,7 @@ public class TopicController {
 		ModelAndView mav = new ModelAndView(FOLDER + "/editTopic");
 		Topic topic = topicService.getTopicById(id);
 		
-		if(topic.getUserId() != userService.getUserByUsername(principal.getName()).getId())
+		if(topic.getUser().getId() != userService.getUserByUsername(principal.getName()).getId())
 			return new ModelAndView("redirect:/403");
 		
 		mav.addObject("topic", topic);
@@ -132,7 +132,7 @@ public class TopicController {
             return FOLDER + "/editTopic";
         }
 		
-		if(topic.getUserId() != userService.getUserByUsername(principal.getName()).getId())
+		if(topic.getUser().getId() != userService.getUserByUsername(principal.getName()).getId())
 			return "redirect:/403";
 
 		topic.setEditedAt(new Date());
@@ -188,7 +188,7 @@ public class TopicController {
 
             return FOLDER + "/newComment";
         }
-		comment.setUserId(userService.getUserByUsername(principal.getName()).getId());
+		comment.setUser(userService.getUserByUsername(principal.getName()));
 		comment.setTopic(topicService.getTopicById(id));
 		comment.setCreatedAt(new Date());
 

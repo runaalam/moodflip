@@ -32,6 +32,8 @@ import au.moodflip.personalisation.service.UserManager;
 public class PrivateMessageController {
 
 	private final String FOLDER = "communication";
+	
+	private static final Long TIMEOUT_SEC = 1*60L;
 
 	@Autowired
 	private PrivateMessageService pMessageService;
@@ -42,7 +44,7 @@ public class PrivateMessageController {
 	@Autowired
 	private NotificationService notificationService;
 	
-	 private Map<DeferredResult<List<PrivateMessage>>, Long> messageRequests = new ConcurrentHashMap<DeferredResult<List<PrivateMessage>>, Long>();
+	private Map<DeferredResult<List<PrivateMessage>>, Long> messageRequests = new ConcurrentHashMap<DeferredResult<List<PrivateMessage>>, Long>();
 
 //	@RequestMapping(method = RequestMethod.GET)
 //	public ModelAndView pageMessages(Principal principal) {
@@ -83,7 +85,7 @@ public class PrivateMessageController {
 	public @ResponseBody DeferredResult<List<PrivateMessage>> updateMessages(
 			@PathVariable("receiverId") Long receiverId, @RequestParam("lastId") Long msgId, Principal principal) {
 		
-		  final DeferredResult<List<PrivateMessage>> result = new DeferredResult<List<PrivateMessage>>(null, Collections.emptyList());
+		  final DeferredResult<List<PrivateMessage>> result = new DeferredResult<List<PrivateMessage>>(TIMEOUT_SEC * 1000, Collections.emptyList());
 		  this.messageRequests.put(result, msgId);
 
 		  result.onCompletion(new Runnable() {

@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -51,6 +52,7 @@ public class User implements Serializable {
 	@ManyToMany
 	@JoinTable
 	@Fetch(FetchMode.SELECT)
+	@JsonIgnore
 	private Set<Role> roles;
 
 	public long getId() {

@@ -36,13 +36,13 @@
 	
 	<div class="row topic">
 	<div class="col-md-2">
-		<p>User: {{topic.userId}}</p>
+		<p>User: {{topic.user.username}}</p>
 	</div>
 	
 	<div class="col-md-10">
 		<div class="row">
 			<div class="col-md-12">
-				<p class="text-right">by {{topic.userId}} &raquo; {{topic.createdAt}}
+				<p class="text-right">by {{topic.user.username}} &raquo; {{topic.createdAt}}
 				<br>
 				<span ng-show="topic.editedAt"> Last edited: {{topic.editedAt}}</span>
 				</p>
@@ -85,13 +85,13 @@
 	
 	<div class="row topic">
 	<div class="col-md-2">
-		<p>User: {{comment.userId}}</p>
+		<p>User: {{comment.user.username}}</p>
 	</div>
 	
 	<div class="col-md-10">
 		<div class="row">
 			<div class="col-md-12">
-				<p class="text-right">by {{comment.userId}} &raquo; {{comment.createdAt}}
+				<p class="text-right">by {{comment.user.username}} &raquo; {{comment.createdAt}}
 				<br>
 				<span ng-show="comment.editedAt"> Last edited: {{comment.editedAt}}</span>
 				</p>

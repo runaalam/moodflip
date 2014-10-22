@@ -20,6 +20,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
+import au.moodflip.personalisation.model.User;
+
 @Entity
 @Table(name = "Topic")
 public class Topic implements Serializable {
@@ -39,8 +41,8 @@ public class Topic implements Serializable {
 	private String content;
 
 	// **TO BE CHANGED**
-	@Column(name = "user_id")
-	private long userId;
+//	@Column(name = "user_id")
+//	private long userId;
 
 	@Column(name = "up_vote")
 	private int upVote;
@@ -59,6 +61,9 @@ public class Topic implements Serializable {
 
 	@ManyToOne
 	private Forum forum;
+	
+	@ManyToOne
+	private User user;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "comment_id")
@@ -89,13 +94,13 @@ public class Topic implements Serializable {
 		this.content = content;
 	}
 
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+//	public long getUserId() {
+//		return userId;
+//	}
+//
+//	public void setUserId(long userId) {
+//		this.userId = userId;
+//	}
 
 	public int getUpVote() {
 		return upVote;
@@ -151,6 +156,14 @@ public class Topic implements Serializable {
 
 	public void setTopicComments(Set<TopicComment> topicComments) {
 		this.topicComments = topicComments;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

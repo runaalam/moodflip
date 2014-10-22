@@ -50,6 +50,11 @@ public class NotificationServiceImpl implements NotificationService {
 	public List<Notification> listNotificationByUserId(Long userId) {
 		return notificationDao.listNotificationByUserId(userId);
 	}
+	
+	@Override
+	public List<Notification> listNewNotificationByUserId(Long userId) {
+		return notificationDao.listNewNotificationByUserId(userId);
+	}
 
 	@Override
 	public Notification getNotificationById(Long id) {
