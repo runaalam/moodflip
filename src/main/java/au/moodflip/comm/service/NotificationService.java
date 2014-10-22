@@ -3,7 +3,7 @@ package au.moodflip.comm.service;
 import java.util.List;
 
 import au.moodflip.comm.model.Notification;
-//
+
 public interface NotificationService {
 
 	public void createNotification(Notification notification);
@@ -13,6 +13,8 @@ public interface NotificationService {
 	public List<Notification> listNotification();
 	
 	public List<Notification> listNotificationByUserId(Long userId);
+	
+	public List<Notification> listNewNotificationByUserId(Long userId);
 	
 	public Notification getNotificationById(Long id);
 	

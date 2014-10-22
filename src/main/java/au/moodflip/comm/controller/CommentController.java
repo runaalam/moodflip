@@ -1,5 +1,5 @@
 package au.moodflip.comm.controller;
-//
+
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +46,7 @@ public class CommentController {
 		ModelAndView mav = new ModelAndView(FOLDER + "/editComment");
 		TopicComment comment = topicCommentService.getCommentById(commentId);
 		
-		if(comment.getUserId() != userService.getUserByUsername(principal.getName()).getId())
+		if(comment.getUser().getId() != userService.getUserByUsername(principal.getName()).getId())
 			return new ModelAndView("redirect:/403");
 		
 		mav.addObject("comment", comment);
@@ -64,7 +64,7 @@ public class CommentController {
             return FOLDER + "/editComment";
         }
 		
-		if(comment.getUserId() != userService.getUserByUsername(principal.getName()).getId())
+		if(comment.getUser().getId() != userService.getUserByUsername(principal.getName()).getId())
 			return "redirect:/403";
 
 		comment.setEditedAt(new Date());

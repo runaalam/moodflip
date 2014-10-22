@@ -14,7 +14,9 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-//
+
+import au.moodflip.personalisation.model.User;
+
 @Entity
 @Table(name = "TopicComment")
 public class TopicComment implements Serializable {
@@ -30,8 +32,8 @@ public class TopicComment implements Serializable {
 	private String content;
 
 	// **TO BE CHANGED**
-	@Column(name = "user_id")
-	private long userId;
+//	@Column(name = "user_id")
+//	private long userId;
 
 	@Column(name = "up_vote")
 	private int upVote;
@@ -44,6 +46,9 @@ public class TopicComment implements Serializable {
 
 	@Column(name = "edited_at")
 	private Date editedAt;
+	
+	@ManyToOne
+	private User user;
 
 	@ManyToOne
 	@JsonIgnore
@@ -65,13 +70,13 @@ public class TopicComment implements Serializable {
 		this.content = content;
 	}
 
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+//	public long getUserId() {
+//		return userId;
+//	}
+//
+//	public void setUserId(long userId) {
+//		this.userId = userId;
+//	}
 
 	public int getUpVote() {
 		return upVote;
@@ -111,6 +116,14 @@ public class TopicComment implements Serializable {
 
 	public void setTopic(Topic topic) {
 		this.topic = topic;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

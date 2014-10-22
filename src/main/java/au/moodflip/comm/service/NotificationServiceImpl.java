@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.comm.dao.NotificationDao;
 import au.moodflip.comm.model.Notification;
-//
+
 @Service
 @Transactional
 public class NotificationServiceImpl implements NotificationService {
@@ -49,6 +49,11 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public List<Notification> listNotificationByUserId(Long userId) {
 		return notificationDao.listNotificationByUserId(userId);
+	}
+	
+	@Override
+	public List<Notification> listNewNotificationByUserId(Long userId) {
+		return notificationDao.listNewNotificationByUserId(userId);
 	}
 
 	@Override
