@@ -45,7 +45,8 @@ public class Assessment{
 	@OneToMany(mappedBy="assessment")
 	private List<Response> responseList;
 	
-	@OneToOne(cascade=CascadeType.ALL, mappedBy="assessment")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name= "resultDetails_id", unique = true)
 	private ResultDetails resultDetails;
 
 	public long getId() {

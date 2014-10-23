@@ -112,13 +112,9 @@ public class AssessmentController {
 		
 		if(assList.size() > 0){
 			Assessment assessment = assList.get(assList.size() - 1);
-			ResultDetails resultDetails = assessment.getResultDetails();
 			mav.addObject("assessment", assessment);
-			mav.addObject("resultDetails", resultDetails);
-			//logger.info("\n ***** resultDetails ****" + resultDetails.getAgitation()); 
 		}
-		logger.info("\n ***** Assessment result page ****" + assList.size()); 
-		
+//		logger.info("\n ***** Assessment result page ****" + assList.size()); 
 		return mav;
 	}
 	

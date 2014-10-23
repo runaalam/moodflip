@@ -1,5 +1,8 @@
 package au.moodflip.userpage.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -86,6 +89,7 @@ Suicidal ideation: Question numbers 14, 15
 		int[] dsmSymptom = new int[9];
 		int mCriteria = 0;
 		int pCriteria = 0;
+		DecimalFormat numFormat = new DecimalFormat("#.#");
 		
 		for(Response r : assessment.getResponseList()) {
 			
@@ -96,53 +100,62 @@ Suicidal ideation: Question numbers 14, 15
 			if(r.getQuestion().getId() == 2 || r.getQuestion().getId() == 4 || r.getQuestion().getId() == 6){
 				if(r.getAnswer().getValue() > 3)
 					dsmSymptom[0] = r.getAnswer().getValue();
+				if (r.getQuestion().getId() == 6 && r.getAnswer().getValue() > 0){
+					resultDetails.setDysphoria(Double.valueOf(numFormat.format(r.getAnswer().getValue()/3.0)));
+				}else resultDetails.setDysphoria(0);
 			} else if(r.getQuestion().getId() == 8 || r.getQuestion().getId() == 10) {
 				if(r.getAnswer().getValue() > 3)
 					dsmSymptom[1] = r.getAnswer().getValue();
+				if (r.getQuestion().getId() == 10 && r.getAnswer().getValue() > 0)
+					resultDetails.setAnhedonia(Double.valueOf(numFormat.format(r.getAnswer().getValue()/2.0)));
+				else resultDetails.setAnhedonia(0); 
 			} else if(r.getQuestion().getId() == 1  || r.getQuestion().getId() == 18) {
 				if(r.getAnswer().getValue() > 2 && r.getAnswer().getValue() > dsmSymptom[2])
 					dsmSymptom[2] = r.getAnswer().getValue();
+				if(r.getQuestion().getId() == 18 && r.getAnswer().getValue() > 0) 
+					resultDetails.setAppetite(Double.valueOf(numFormat.format(r.getAnswer().getValue()/2.0)));
+				else resultDetails.setAppetite(0); 
 			} else if(r.getQuestion().getId() == 5 || r.getQuestion().getId() == 11 || r.getQuestion().getId() == 19) {
 				if(r.getAnswer().getValue() > 2 && r.getAnswer().getValue() > dsmSymptom[3])
 					dsmSymptom[3] = r.getAnswer().getValue();
+				if(r.getQuestion().getId() == 19 && r.getAnswer().getValue() > 0) 
+					resultDetails.setSleep(Double.valueOf(numFormat.format(r.getAnswer().getValue()/3.0)));
+				else resultDetails.setSleep(0); 
 			} else if(r.getQuestion().getId() == 3 || r.getQuestion().getId() == 20) {
 				if(r.getAnswer().getValue() > 2 && r.getAnswer().getValue() > dsmSymptom[4])
 					dsmSymptom[4] = r.getAnswer().getValue();
+				if(r.getQuestion().getId() == 20 && r.getAnswer().getValue() > 0) 
+					resultDetails.setConcentration(Double.valueOf(numFormat.format(r.getAnswer().getValue()/2.0)));
+				else resultDetails.setConcentration(0); 
 			} else if(r.getQuestion().getId() == 9 || r.getQuestion().getId() == 17) {
 				if(r.getAnswer().getValue() > 2 && r.getAnswer().getValue() > dsmSymptom[5])
 					dsmSymptom[5] = r.getAnswer().getValue();
+				if(r.getQuestion().getId() == 17 && r.getAnswer().getValue() > 0) 
+					resultDetails.setGuilt(Double.valueOf(numFormat.format(r.getAnswer().getValue()/2.0)));
+				else resultDetails.setGuilt(0);
 			} else if(r.getQuestion().getId() == 7  || r.getQuestion().getId() == 16) {
 				if(r.getAnswer().getValue() > 2 && r.getAnswer().getValue() > dsmSymptom[6])
 					dsmSymptom[6] = r.getAnswer().getValue();
+				if(r.getQuestion().getId() == 16 && r.getAnswer().getValue() > 0) 
+					resultDetails.setFatigue(Double.valueOf(numFormat.format(r.getAnswer().getValue()/2.0)));
+				else resultDetails.setFatigue(0); 
 			} else if(r.getQuestion().getId() == 12 ||r.getQuestion().getId() == 13) {
 				if(r.getAnswer().getValue() > 2 && r.getAnswer().getValue() > dsmSymptom[7])
 					dsmSymptom[7] = r.getAnswer().getValue();
+				if(r.getQuestion().getId() == 13 && r.getAnswer().getValue() > 0) 
+					resultDetails.setAgitation(Double.valueOf(numFormat.format(r.getAnswer().getValue()/2.0)));
+				else resultDetails.setAgitation(0);
 			} else if(r.getQuestion().getId() == 14 || r.getQuestion().getId() == 15) {
 				if(r.getAnswer().getValue() > 2 && r.getAnswer().getValue() > dsmSymptom[8])
 					dsmSymptom[8] = r.getAnswer().getValue();
+				if(r.getQuestion().getId() == 15 && r.getAnswer().getValue() > 0) 
+					resultDetails.setSuicidalIdeation(Double.valueOf(numFormat.format(r.getAnswer().getValue()/2.0)));
+				else resultDetails.setSuicidalIdeation(0);
 			} 
-			
-			if (r.getQuestion().getId() == 6)
-				resultDetails.setDysphoria(r.getAnswer().getValue());
-			else if (r.getQuestion().getId() == 10)
-				resultDetails.setAnhedonia(r.getAnswer().getValue());
-			else if(r.getQuestion().getId() == 18) 
-				resultDetails.setAppetite(r.getAnswer().getValue());
-			else if(r.getQuestion().getId() == 19) 
-				resultDetails.setSleep(r.getAnswer().getValue());
-			else if(r.getQuestion().getId() == 20) 
-				resultDetails.setConcentration(r.getAnswer().getValue());
-			else if(r.getQuestion().getId() == 17) 
-				resultDetails.setGuilt(r.getAnswer().getValue());
-			else if(r.getQuestion().getId() == 16) 
-				resultDetails.setFatigue(r.getAnswer().getValue());
-			else if(r.getQuestion().getId() == 13) 
-				resultDetails.setAgitation(r.getAnswer().getValue());
-			else if(r.getQuestion().getId() == 15) 
-				resultDetails.setSuicidalIdeation(r.getAnswer().getValue());
 		}
 		
 		assessment.setScore(score);
+		assessment.setResultDetails(resultDetails);
 		
 		for (int i = 2; i < 9; i++){
 			if(dsmSymptom[i] == 3)
@@ -166,7 +179,6 @@ Suicidal ideation: Question numbers 14, 15
 				assessment.setDepressionScale(1);
 		else assessment.setDepressionScale(0);
 		
-		assessment.setResultDetails(resultDetails);
 		return assessment;
 	}
 }
