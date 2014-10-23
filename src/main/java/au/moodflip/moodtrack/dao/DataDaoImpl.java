@@ -38,13 +38,18 @@ public class DataDaoImpl implements DataDao {
                 .setParameter("endDate", reportCmd.getEndDate())
                 .list();
     }
+    
     @Override
     public List<Data> listData(Charts charts) {
         return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Data d" +
-                " WHERE d.user = :user")
+                " WHERE d.user = :user"+
+                " AND d.date BETWEEN :startDate AND :endDate")
                 .setParameter("user", charts.getUser())
+                .setParameter("startDate", charts.getStartDate())
+                .setParameter("endDate", charts.getEndDate())
                 .list();
     }
+
     
     @Override
     public Data findData(Data data) {
