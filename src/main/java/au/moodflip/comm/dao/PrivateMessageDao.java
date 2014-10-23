@@ -1,10 +1,9 @@
 package au.moodflip.comm.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import au.moodflip.comm.model.PrivateMessage;
-//
+
 public interface PrivateMessageDao {
 
 	public void createPrivateMessage(PrivateMessage pMessage);

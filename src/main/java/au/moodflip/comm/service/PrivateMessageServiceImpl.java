@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.comm.dao.PrivateMessageDao;
 import au.moodflip.comm.model.PrivateMessage;
-//
+
 @Service
 public class PrivateMessageServiceImpl implements PrivateMessageService {
 
