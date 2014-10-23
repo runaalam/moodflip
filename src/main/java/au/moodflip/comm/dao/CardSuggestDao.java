@@ -19,4 +19,8 @@ public interface CardSuggestDao {
 	
 	public void removeCardSuggest(Long id);
 
+	public void upVoteComment(Long id);
+
+	public void downVoteComment(Long id);
+
 }

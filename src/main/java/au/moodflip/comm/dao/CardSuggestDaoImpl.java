@@ -54,4 +54,18 @@ public class CardSuggestDaoImpl implements CardSuggestDao {
 		}
 	}
 
+	@Override
+	public void upVoteComment(Long id) {
+		CardSuggest card = (CardSuggest) sessionFactory
+				.getCurrentSession().get(CardSuggest.class, id);
+		card.setUpVote(card.getUpVote() + 1);
+	}
+
+	@Override
+	public void downVoteComment(Long id) {
+		CardSuggest card = (CardSuggest) sessionFactory
+				.getCurrentSession().get(CardSuggest.class, id);
+		card.setUpVote(card.getUpVote() - 1);
+	}
+
 }

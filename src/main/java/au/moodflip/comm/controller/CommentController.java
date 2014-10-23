@@ -27,7 +27,7 @@ import au.moodflip.personalisation.service.UserManager;
 @RequestMapping(value = "/forums/comment")
 public class CommentController {
 	
-	private final String FOLDER = "communication";
+	private static final String FOLDER = "communication";
 	
 	@Autowired
 	private TopicCommentService topicCommentService;

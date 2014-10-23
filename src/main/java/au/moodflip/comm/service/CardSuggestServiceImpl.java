@@ -46,4 +46,14 @@ public class CardSuggestServiceImpl implements CardSuggestService {
 		cardSuggestDao.removeCardSuggest(id);
 	}
 
+	@Override
+	public void upVoteComment(Long id) {
+		cardSuggestDao.upVoteComment(id);
+	}
+
+	@Override
+	public void downVoteComment(Long id) {
+		cardSuggestDao.downVoteComment(id);
+	}
+
 }

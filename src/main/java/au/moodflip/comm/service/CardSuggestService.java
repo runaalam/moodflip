@@ -18,4 +18,8 @@ public interface CardSuggestService {
 	
 	public void removeCardSuggest(Long id);
 
+	public void upVoteComment(Long id);
+
+	public void downVoteComment(Long id);
+
 }

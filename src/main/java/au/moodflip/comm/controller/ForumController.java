@@ -21,7 +21,7 @@ import au.moodflip.comm.service.ForumService;
 @RequestMapping(value = "/forums")
 public class ForumController {
 
-	private final String FOLDER = "communication";
+	private static final String FOLDER = "communication";
 
 	@Autowired
 	private ForumService forumService;
