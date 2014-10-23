@@ -80,8 +80,30 @@
             		<div class="panel-heading">
                 		<h3 class="panel-title">Assessment Result </h3>
             		</div>
-                	<div class="panel-body">
-                   		<table class="table">
+            		
+             	<div class="panel-body">
+	             	<c:choose>
+		             	<c:when test="${not empty assessment}">
+			             	<table>
+			             		<tr><td>Assessment date: </td><td><c:out value="${assessment.date}" /></td></tr>
+			             		<tr><td>Assessment score:</td><td><c:out value="${assessment.score}"/>/60</td></tr>
+			             		<tr><td>Depression scale: </td><td><c:out value="${assessment.depressionScale}"/></td></tr>
+			             		<tr><td>Sadness:</td><td><c:out value="${resultDetails.dysphoria}"/></td></tr>
+			             		<tr><td>Loss of Interest:</td><td><c:out value="${resultDetails.anhedonia}"/></td></tr>
+			             		<tr><td>Appetite:</td><td><c:out value="${resultDetails.appetite}"/></td></tr>
+			             		<tr><td>Sleep:</td><td><c:out value="${resultDetails.sleep}"/></td></tr>
+			             		<tr><td>Thinking:</td><td><c:out value="${resultDetails.concentration}"/></td></tr>
+			             		<tr><td>Guilt:</td><td><c:out value="${resultDetails.guilt}"/></td></tr>
+			             		<tr><td>Fatigue:</td><td><c:out value="${resultDetails.fatigue}"/></td></tr>
+			             		<tr><td>Movement:</td><td><c:out value="${resultDetails.agitation}"/></td></tr>
+			             		<tr><td>Suicidal:</td><td><c:out value="${resultDetails.suicidalIdeation}"/></td></tr>
+			             	</table>
+		             		<br><br><br>
+		             		<div id="chart_div"></div>	
+		             	</c:when>
+		             	<c:when test="${empty assessment}">There is no assessment result.</c:when>
+	           		</c:choose>
+                   	   <!-- 	<table class="table">
 	                   		<tr><td>Id</td>
 								<td>Score</td>
 								<td>Depression Scale</td>
@@ -100,11 +122,11 @@
 								</c:when>
 								<c:when test="${empty assList}">There is no assessment result.</c:when>
 							</c:choose>
-						</table>
-					</div>
+						</table> --> 
+					</div> 
 				</div><!-- panel-default -->
 				</br></br>			
-									<div id="chart_div"></div>		
+				<!--  <div id="chart_div"></div>	-->	
 			</div><!-- panel-group -->			
 	    </div><!-- col-xs-12 main -->
 	</div><!-- row -->

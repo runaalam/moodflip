@@ -25,6 +25,7 @@ import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.ChartData;
 import au.moodflip.userpage.model.Question;
+import au.moodflip.userpage.model.ResultDetails;
 import au.moodflip.userpage.model.Status;
 import au.moodflip.userpage.model.Activity;
 import au.moodflip.userpage.service.ActivityService;
@@ -75,7 +76,8 @@ public class AssessmentController {
 	}
 
 	@RequestMapping(value = "/depression-assessment", method = RequestMethod.POST)
-	public String submitAssessment(@ModelAttribute("assessment") Assessment assessment, @ModelAttribute("activity") Activity activity,
+	public String submitAssessment(@ModelAttribute("assessment") Assessment assessment, 
+			@ModelAttribute("activity") Activity activity,
 			BindingResult result, SessionStatus sessionStatus, Principal principal) {
 		if (result.hasErrors()) {
 			//logger
@@ -106,11 +108,15 @@ public class AssessmentController {
 		
 		User user = userManager.getUserByUsername(principal.getName());
 		List<Assessment> assList = assessmentService.listAssessmentByUserId(user.getId());
-		mav.addObject("assList", assList);
+		//mav.addObject("assList", assList);
 		
-		Assessment latestAssess = assessmentService.getAssessmentsById(assList.get(assList.size() - 1).getId());
-		mav.addObject("latestAssess", latestAssess);
-		
+		if(assList.size() > 0){
+			Assessment assessment = assList.get(assList.size() - 1);
+			ResultDetails resultDetails = assessment.getResultDetails();
+			mav.addObject("assessment", assessment);
+			mav.addObject("resultDetails", resultDetails);
+			//logger.info("\n ***** resultDetails ****" + resultDetails.getAgitation()); 
+		}
 		logger.info("\n ***** Assessment result page ****" + assList.size()); 
 		
 		return mav;
@@ -123,8 +129,8 @@ public class AssessmentController {
 		User user = userManager.getUserByUsername(principal.getName());
 		List<Assessment> assList = assessmentService.listAssessmentByUserId(user.getId());
 		
-//		return UserPageUtils.prepareChartData(assList);
-		return UserPageUtils.prepareDummyChartData(); 
+		return UserPageUtils.prepareChartData(assList);
+//		return UserPageUtils.prepareDummyChartData(); 
 	}	
 }
 	
