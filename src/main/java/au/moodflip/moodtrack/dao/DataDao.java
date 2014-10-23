@@ -2,6 +2,8 @@ package au.moodflip.moodtrack.dao;
 
 import java.util.List;
 
+
+import au.moodflip.moodtrack.model.Charts;
 import au.moodflip.moodtrack.model.Data;
 import au.moodflip.moodtrack.model.ReportCmd;
 
@@ -13,6 +15,8 @@ public interface DataDao {
     
     public List<Data> listData(ReportCmd reportCmd);
 
-
-    Data findData(Data data);
+    public List<Data> listData(Charts charts);
+    
+    public Data findData(Data data);
+    
 }
