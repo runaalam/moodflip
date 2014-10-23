@@ -29,6 +29,8 @@ import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.UsersCardManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
+import au.moodflip.userpage.model.Activity;
+import au.moodflip.userpage.service.ActivityService;
 
 @Controller
 @RequestMapping(value="/card-game/myCards")
@@ -46,6 +48,8 @@ public class MyCardsController {
 	private CgUserManager cgUserManager;
 	@Autowired
 	private CardEventManager cardPlayedManager;
+	@Autowired
+	private ActivityService activityService;
 	
 	@RequestMapping
 	public String myCards(Model model, Principal principal){
@@ -78,6 +82,8 @@ public class MyCardsController {
 				cgUser.setCurrentTaskEvent(me);
 				cgUserManager.update(cgUser);
 				model.addAttribute(m);
+				// add playing card activity to user homepage
+				activityService.addActivity(new Activity(user, "started playing card " + card.getTitle(), new Date())) ;
 			}
 		}else{
 			logger.info("Already doing a mission");

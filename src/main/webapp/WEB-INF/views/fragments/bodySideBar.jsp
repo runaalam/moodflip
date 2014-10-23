@@ -13,7 +13,7 @@
                     	<span class="glyphicon glyphicon-home"></span> Home</a>
                 </h4>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
+            <div id="collapseOne" class="panel-collapse collapse">
                 <div class="panel-body">
                     <table class="table">
                         <tr>
@@ -50,22 +50,27 @@
                   <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Card Game</a>
               </h4>
           </div>
-          <div id="collapseTwo" class="panel-collapse collapse">
+          <div id="collapseTwo" class="panel-collapse collapse"> 
               <div class="panel-body">
                   <table class="table">
-                      <tr>
+                  <tr>
                           <td>
-                              <a href="#">My Cards</a> 
+                              <a href="<c:url value="/card-game/"/>">Card Game</a> 
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <a href="#">Custom Cards</a>
+                              <a href="<c:url value="/card-game/myCards"/>">My Cards</a> 
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <a href="<c:url value="/card-game/customCards"/>">Custom Cards</a>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <a href="#">Game Stats</a>
+                                <a href="<c:url value="/card-game/playHistory"/>">Play History</a>
                             </td>
                         </tr>
                     </table>

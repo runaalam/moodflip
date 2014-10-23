@@ -3,53 +3,17 @@
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Custom cards</title>
-<!-- Bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-</head>
-<body>
-<nav class="navbar navbar-inverse" role="navigation">
-	<div class="container">
-		<!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	    	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-	    		<span class="icon-bar"></span>
-	      	</button>
-	      <a class="navbar-brand" href="#">MoodFlip</a>
-	    </div>
-	    
-	    <p class="navbar-text navbar-right">100 pts Level 2</p>
-	    <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">User123</a></p>
-	</div>
-</nav>
 
+<html>
+	<jsp:include page="../fragments/headTag.jsp"/>
+<body> 
+<!-- include page header -->
+<jsp:include page="../fragments/bodyHeader.jsp"/>
 <div class="container">
 	<div class="row">
-		<div class="col-md-2">
-			<div class="nav">
-				<ul class="nav nav-pills nav-stacked">
-				  	<li><a href="<c:url value="/card-game"/>">Card game</a></li>
-				  	<li><a href="<c:url value="/card-game/myCards"/>">My Cards</a></li>
-					<li class="active"><a href="<c:url value="/card-game/customCards"/>">Custom cards</a></li>
-				  	<li><a href="<c:url value="/card-game/playHistory"/>">Play History</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-md-10">
-			<ol class="breadcrumb">
-		    	<li><a href="<c:url value="/"/>">Home</a></li>
-		  		<li><a href="<c:url value="/card-game"/>">Card game</a></li>
-		  		<li class="active">Custom Cards</li>
-			</ol>
+    	<!-- include Sidebar --> 	
+	    <jsp:include page="../fragments/bodySideBar.jsp"/>
+	    <div class="col-xs-12 col-sm-9">
 			<h1>Custom cards</h1><br/>
 			<a href="<c:url value="/card-game/customCards?new"/>">Create new card</a>
 			
@@ -85,13 +49,10 @@
 						</c:forEach>
 					</tbody>
 				</table>
-			</div>
-		</div>
-	</div>
-</div>
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+			</div> <!-- panel panel-default -->
+		</div><!-- /.col-xs-12 main -->	
+	</div><!--/.row-->
+</div><!-- container -->
+<jsp:include page="../fragments/footer.jsp"/>
 </body>
 </html>

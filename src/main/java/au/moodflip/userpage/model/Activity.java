@@ -16,7 +16,13 @@ import au.moodflip.personalisation.model.User;
 @Entity
 @Table(name = "activity")
 public class Activity {
-	
+	public Activity() { }
+	public Activity(User user, String desc, Date date) { 
+		this.user = user;
+		this.description = desc;
+		this.activityDate = date;
+	}
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
