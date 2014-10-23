@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,10 +38,6 @@ public class Topic implements Serializable {
 	@Type(type="text")
 	@NotBlank
 	private String content;
-
-	// **TO BE CHANGED**
-//	@Column(name = "user_id")
-//	private long userId;
 
 	@Column(name = "up_vote")
 	private int upVote;
@@ -93,14 +88,6 @@ public class Topic implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-//	public long getUserId() {
-//		return userId;
-//	}
-//
-//	public void setUserId(long userId) {
-//		this.userId = userId;
-//	}
 
 	public int getUpVote() {
 		return upVote;

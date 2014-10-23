@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,19 +21,23 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.service.CardManager;
+import au.moodflip.comm.model.CardSuggest;
 import au.moodflip.comm.model.Topic;
 import au.moodflip.comm.model.TopicComment;
+import au.moodflip.comm.service.CardSuggestService;
 import au.moodflip.comm.service.ForumService;
 import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
 import au.moodflip.personalisation.service.UserManager;
-//
+
 @Controller
 @SessionAttributes(value = {"forum", "topic"})
 @RequestMapping(value = "/forums")
 public class TopicController {
 
-	private final String FOLDER = "communication";
+	private static final String FOLDER = "communication";
 
 	@Autowired
 	private TopicService topicService;
@@ -42,6 +47,12 @@ public class TopicController {
 
 	@Autowired
 	private ForumService forumService;
+	
+	@Autowired
+	private CardSuggestService cardSuggestService;
+	
+	@Autowired
+	private CardManager cardManager;
 	
 	@Autowired
 	private UserManager userService;
@@ -193,6 +204,42 @@ public class TopicController {
 		comment.setCreatedAt(new Date());
 
 		topicCommentService.createComment(comment);
+		status.setComplete();
+		return "redirect:/forums/topic/{id}";
+	}
+	
+	/**
+	 * Card Suggestion
+	 */
+	
+	@RequestMapping(value = "/topic/{id}/suggestCard", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ModelAndView newCardSuggest(@PathVariable("id") Long id) {
+		ModelAndView mav = new ModelAndView(FOLDER + "/suggestCard");
+		mav.addObject("symptoms", Card.Symptom.values());
+		mav.addObject("topicId", id);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/topic/{id}/suggestCard", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public String createCardSuggest(@PathVariable("id") Long id,
+			@RequestBody List<Long> suggestedCards, BindingResult result,
+			SessionStatus status, Principal principal) {
+		if (result.hasErrors()) {
+			// logger
+
+			return FOLDER + "/suggestCard";
+		}
+		for (int i = 0; i < suggestedCards.size(); i++) {
+			CardSuggest suggestedCard = new CardSuggest();
+			suggestedCard.setCard(cardManager.getById(suggestedCards.get(i)));
+			suggestedCard.setTopic(topicService.getTopicById(id));
+			suggestedCard.setUser(userService.getUserByUsername(principal
+					.getName()));
+			cardSuggestService.addCardSuggest(suggestedCard);
+		}
+
 		status.setComplete();
 		return "redirect:/forums/topic/{id}";
 	}
