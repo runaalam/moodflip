@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,9 @@ public class InitDbService {
 	
 	@Autowired
 	private CardManager cardManager;
+	
+	@Autowired
+    private SessionFactory sessionFactory;
 
 	@PostConstruct
 	private void init() {
@@ -194,5 +198,35 @@ public class InitDbService {
 //			    logger.info("FINISHED IMPORTING CARD DATA");
 //			}
 //		});
+		tmpl.execute(new TransactionCallbackWithoutResult() {
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+                initializeData();
+            }
+        });
+    }
+
+
+		
+		private void initializeData() {
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999990,1,2,3,4,5,7,'2014-09-01',4,5,6,7,8,8,9,10,3,4,5,6,1,7,0,1,6,7,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999991,10,9,10,8,0,7,'2014-09-02',2,3,4,5,6,7,8,10,10,0,1,2,5,3,4,5,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999992,0,0,0,0,0,7,'2014-09-03',0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999993,2,3,4,5,6,5,'2014-09-04',10,0,3,4,5,6,7,1,2,3,4,5,3,7,1,2,3,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999994,0,0,0,0,0,6,'2014-09-05',1,2,3,4,5,6,7,8,9,10,2,3,6,4,5,1,1,1,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999995,4,5,6,7,8,1,'2014-09-06',0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999996,0,0,0,0,0,7,'2014-09-07',0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999997,0,0,0,0,0,7,'2014-09-08',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(9999998,0,0,3,4,6,7,'2014-09-09',3,4,5,0,0,1,10,2,3,4,6,7,5,3,4,7,8,1,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999910,0,0,0,0,0,7,'2014-09-11',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999911,0,0,0,0,0,7,'2014-09-12',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999921,0,0,0,0,0,7,'2014-09-13',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999931,0,0,0,0,0,7,'2014-09-14',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999941,1,2,4,10,6,7,'2014-09-15',8,9,1,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999951,0,0,0,0,0,7,'2014-09-16',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999961,0,0,0,0,0,7,'2014-09-17',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999971,0,0,0,0,0,7,'2014-09-18',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999981,1,0,6,2,0,7,'2014-09-19',1,8,9,1,2,4,5,6,7,8,1,8,5,1,2,3,5,9,2)").executeUpdate();
+
 	}
 }
