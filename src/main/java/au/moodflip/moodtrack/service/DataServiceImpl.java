@@ -4,11 +4,14 @@ import java.util.List;
 
 
 
+
+
+import au.moodflip.moodtrack.model.Charts;
 import au.moodflip.moodtrack.model.ReportCmd;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import au.moodflip.moodtrack.dao.DataDao;
 import au.moodflip.moodtrack.model.Data;
@@ -36,6 +39,9 @@ public class DataServiceImpl implements DataService {
     public List<Data> listData(ReportCmd reportCmd) {
         return dataDao.listData(reportCmd);
     }
-
+    
+    public List<Data> listData(Charts charts) {
+        return dataDao.listData(charts);
+    }
 
 }

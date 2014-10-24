@@ -31,7 +31,7 @@ import au.moodflip.personalisation.service.UserManager;
 @RequestMapping(value = "/pm")
 public class PrivateMessageController {
 
-	private final String FOLDER = "communication";
+	private static final String FOLDER = "communication";
 	
 	private static final Long TIMEOUT_SEC = 1*60L;
 

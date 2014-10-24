@@ -2,11 +2,12 @@ package au.moodflip.moodtrack.model;
 
 import au.moodflip.personalisation.model.User;
 
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Charts implements Serializable {
 
@@ -22,7 +23,19 @@ public class Charts implements Serializable {
         this.user = user;
     }
 
-    public Date getStartDate() {
+   
+
+	
+
+	public Charts() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+
+	public Date getStartDate() {
         return startDate;
     }
 
@@ -45,6 +58,21 @@ public class Charts implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+    List<String> dates = new ArrayList<String>();
+	List<Integer> moodRating = new ArrayList<Integer>();
+
+	public List<String> getDates() {
+		return dates;
+	}
+	public void setDates(List<String> dates) {
+		this.dates = dates;
+	}
+	public List<Integer> getMoodRating() {
+		return moodRating;
+	}
+	public void setMoodRating(List<Integer> moodRating) {
+		this.moodRating = moodRating;
+	}	
 }
 
 

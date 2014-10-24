@@ -1,22 +1,45 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
 <head>
-
-
-
-     <title>ExpressYourMood</title>
-     <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>ExpressYourMood</title>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 </head>
+
 <body>
-<%@ include file="/WEB-INF/views/navbar.jsp"%>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+
+<nav class="navbar navbar-inverse" role="navigation">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	    	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+	    		<span class="icon-bar"></span>
+	      	</button>
+	      <a class="navbar-brand" href="#">MoodFlip</a>
+	    </div>
+	    
+	    <p class="navbar-text navbar-right"><c:out value="${globalPoints}"/> pts Level 2</p>
+	    <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">User123</a></p>
+	</div>
+</nav>
+
+<div class="container">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
   <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
   <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+  
 <script>
     $(function () {
         $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
@@ -26,11 +49,6 @@
 
 <h1>Data</h1>
 
-<div>
-    <div>
-
-    </div>
-</div>
 
 
 <div>
@@ -59,13 +77,17 @@
 </s:hasBindErrors>
 
 <form:form action="" method="POST" name="command">
-    <div>
+    <div class="nav">
+    <ul class="nav nav-pills nav-stacked">
+    
         <table>
             <tr>Date
                 <form:input path="date" type="text" id="date"/>
                 <form:errors path="date" cssClass="error"/>
             </tr>
-
+			</div>
+			
+			<div>
             <tr>
                 <th>Rate Your Mood</th>
                 <td>

@@ -25,36 +25,32 @@ public class ResultDetails {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@OneToOne
-	@JoinColumn(name = "assessment_id")
-	private Assessment assessment;
-	
 	@Column(name = "dysphoria")
-	private float dysphoria;
+	private double dysphoria;
 	
 	@Column(name = "anhedonia")
-	private float anhedonia;
+	private double anhedonia;
 	
 	@Column(name = "appetite")
-	private float appetite;
+	private double appetite;
 	
 	@Column(name = "sleep")
-	private float sleep;
+	private double sleep;
 	
 	@Column(name = "concentration")
-	private float concentration;
+	private double concentration;
 	
 	@Column(name = "guilt")
-	private float guilt;
+	private double guilt;
 	
 	@Column(name = "fatigue")
-	private float fatigue;
+	private double fatigue;
 	
 	@Column(name = "agitation")
-	private float agitation;
+	private double agitation;
 	
 	@Column(name = "suicidalIdeation")
-	private float suicidalIdeation;
+	private double suicidalIdeation;
 
 	public long getId() {
 		return id;
@@ -71,102 +67,75 @@ public class ResultDetails {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public Assessment getAssessment() {
-		return assessment;
-	}
-
-	public void setAssessment(Assessment assessment) {
-		this.assessment = assessment;
-	}
-
-	public float getDysphoria() {
+	public double getDysphoria() {
 		return dysphoria;
 	}
-
-	public void setDysphoria(float dysphoria) {
-		if(dysphoria >= 1)
-			dysphoria = dysphoria/3;
-		else dysphoria = 0;
+	public void setDysphoria(double dysphoria) {
+		this.dysphoria = dysphoria;
 	}
 
-	public float getAnhedonia() {
+	public double getAnhedonia() {
 		return anhedonia;
 	}
 
-	public void setAnhedonia(float anhedonia) {
-		if(anhedonia >= 1)
-			anhedonia = anhedonia/2;
-		else anhedonia = 0;
+	public void setAnhedonia(double anhedonia) {
+		this.anhedonia = anhedonia;
 	}
 
-	public float getAppetite() {
+	public double getAppetite() {
 		return appetite;
 	}
 
-	public void setAppetite(float appetite) {
-		if(appetite >= 1)
-			appetite = appetite/2;
-		else appetite = 0;
+	public void setAppetite(double appetite) {
+		this.appetite = appetite;
 	}
 
-	public float getSleep() {
+	public double getSleep() {
 		return sleep;
 	}
 
-	public void setSleep(float sleep) {
-		if(sleep >= 1)
-			sleep = sleep/3;
-		else sleep = 0;
+	public void setSleep(double sleep) {
+		this.sleep = sleep;
 	}
 
-	public float getConcentration() {
+	public double getConcentration() {
 		return concentration;
 	}
 
-	public void setConcentration(float concentration) {
-		if(concentration >= 1)
-			concentration = concentration/2;
-		else concentration = 0;
+	public void setConcentration(double concentration) {
+		this.concentration = concentration;
 	}
 
-	public float getGuilt() {
+	public double getGuilt() {
 		return guilt;
 	}
 
-	public void setGuilt(float guilt) {
-		if(guilt >= 1)
-			guilt = guilt/2;
-		else guilt = 0;
+	public void setGuilt(double guilt) {
+		this.guilt = guilt;
 	}
 
-	public float getFatigue() {
+	public double getFatigue() {
 		return fatigue;
 	}
 
-	public void setFatigue(float fatigue) {
-		if(fatigue >= 1)
-			fatigue = fatigue/2;
-		else fatigue = 0;
+	public void setFatigue(double fatigue) {
+		this.fatigue = fatigue;
 	}
 
-	public float getAgitation() {
+	public double getAgitation() {
 		return agitation;
 	}
 
-	public void setAgitation(float agitation) {
-		if(agitation >= 1)
-			agitation = agitation/2;
-		else agitation = 0;
+	public void setAgitation(double agitation) {
+		this.agitation = agitation;
 	}
 
-	public float getSuicidalIdeation() {
+	public double getSuicidalIdeation() {
 		return suicidalIdeation;
 	}
 
-	public void setSuicidalIdeation(float suicidalIdeation) {
-		if(suicidalIdeation >= 1)
-			suicidalIdeation = suicidalIdeation/2;
-		else suicidalIdeation = 0;
+	public void setSuicidalIdeation(double suicidalIdeation) {
+		this.suicidalIdeation = suicidalIdeation;
 	}
+	
 }

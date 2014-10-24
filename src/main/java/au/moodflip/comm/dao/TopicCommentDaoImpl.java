@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import au.moodflip.comm.model.TopicComment;
-//
+
 @Repository
 public class TopicCommentDaoImpl implements TopicCommentDao {
 

@@ -2,8 +2,9 @@ package au.moodflip.moodtrack.dao;
 
 import java.util.List;
 
-
+import au.moodflip.moodtrack.model.Charts;
 import au.moodflip.moodtrack.model.ReportCmd;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,19 @@ public class DataDaoImpl implements DataDao {
                 .setParameter("endDate", reportCmd.getEndDate())
                 .list();
     }
+    
+    @Override
+    public List<Data> listData(Charts charts) {
+        return sessionFactory.getCurrentSession().createQuery("SELECT d FROM Data d" +
+                " WHERE d.user = :user"+
+                " AND d.date BETWEEN :startDate AND :endDate")
+                .setParameter("user", charts.getUser())
+                .setParameter("startDate", charts.getStartDate())
+                .setParameter("endDate", charts.getEndDate())
+                .list();
+    }
 
+    
     @Override
     public Data findData(Data data) {
         List<Data> list = sessionFactory.getCurrentSession().createQuery("SELECT d FROM Data d" +
