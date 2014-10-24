@@ -14,9 +14,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import au.moodflip.personalisation.annotation.UniqueUsername;
 
@@ -38,6 +39,7 @@ public class User implements Serializable {
 	private String username;
 	
 	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "banned")

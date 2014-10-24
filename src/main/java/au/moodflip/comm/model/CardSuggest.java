@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.personalisation.model.User;
 
@@ -29,6 +31,7 @@ public class CardSuggest implements Serializable {
 	private int downVote;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Topic topic;
 	
 	@ManyToOne

@@ -36,7 +36,8 @@
 	
 	<div class="row topic">
 	<div class="col-md-2">
-		<p>User: {{topic.user.username}}</p>
+		<img src="<c:url value="/resources/comm/pic/default_avatar.png" />" alt="avatar" class="img-circle user-pic center-block">
+		<h4 class="text-center">{{topic.user.username}}</h4>
 	</div>
 	
 	<div class="col-md-10">
@@ -55,8 +56,8 @@
 		</div>
 		<div class="row post-btn">
 			<div class="col-md-12">
-				<a href="<c:url value="/forums/topic/edit/{{topic.id}}"/>"><button type="button" class="btn btn-default">Edit</button></a>
-				<a href="<c:url value="/forums/topic/delete/{{topic.id}}"/>"><button type="button" class="btn btn-danger">Delete</button></a>
+				<a href="<c:url value="/forums/topic/edit/{{topic.id}}"/>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</button></a>
+				<a href="<c:url value="/forums/topic/delete/{{topic.id}}"/>"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button></a>
 				
 				<div class="pull-right">
 				
@@ -77,6 +78,12 @@
 	<div class="row topic">
 		<div class="col-md-12">
 			<p>Suggested Cards</p>
+			<div ng-repeat="card in cards">
+				<p>{{card.card.title}} (suggested by {{card.user.username}})</p>
+			</div>
+			<div class="pull-right forum-btn">
+			<a href="<c:url value="/forums/topic/{{topic.id}}/suggestCard"/>"><button type="button" class="btn btn-primary">Suggest Card</button></a>
+			</div>
 		</div>
 	</div>
 	
@@ -85,7 +92,8 @@
 	
 	<div class="row topic">
 	<div class="col-md-2">
-		<p>User: {{comment.user.username}}</p>
+		<img src="<c:url value="/resources/comm/pic/default_avatar.png" />" alt="avatar" class="img-circle user-pic center-block">
+		<h4 class="text-center">{{comment.user.username}}</h4>
 	</div>
 	
 	<div class="col-md-10">
@@ -104,8 +112,8 @@
 		</div>
 		<div class="row post-btn">
 			<div class="col-md-12">
-				<a href="<c:url value="/forums/comment/edit/{{comment.id}}"/>"><button type="button" class="btn btn-default">Edit</button></a>
-				<button type="button" class="btn btn-danger" ng-click="deleteComment(comment.id)">Delete</button>
+				<a href="<c:url value="/forums/comment/edit/{{comment.id}}"/>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</button></a>
+				<button type="button" class="btn btn-danger" ng-click="deleteComment(comment.id)"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 				
 				<div class="pull-right">
 				

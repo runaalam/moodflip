@@ -94,110 +94,123 @@ public class InitDbService {
 				}
 			}
 		});
-//		tmpl.execute(new TransactionCallbackWithoutResult() {
-//			@Override
-//			protected void doInTransactionWithoutResult(TransactionStatus arg0) {
-//				logger.info("BEGIN IMPORTING CARD DATA");
-//				Scanner sc2 = null;
-//		    	InputStream is = getClass().getResourceAsStream("/db/card_game_data.txt"); // reads from src/main/resources
-//		    	if (is == null){
-//		    		System.out.println("inputstream null");
-//		    		return; 
-//		    	}
-//		    	sc2 = new Scanner(is);
-//			    StringBuilder buf = new StringBuilder();
-//			    List<Task> missions = new ArrayList<Task>();
-//			    String intro = null;
-//			    String title = null;
-//			    Integer level = null;
-//			    Symptom symptom = null;
-//			    Card card = null;
-//			    int i = 0;
-//			    boolean bad = false;
-//			    while (sc2.hasNextLine()) {
-//		    		i++;
-//		    		String s = sc2.nextLine();
-//		    		if (s.startsWith("123intro123")){
-////			    			System.out.println("====================Found intro========================");
-//		    			intro = buf.toString();
-////			    			System.out.println(intro);
-//		    			buf.setLength(0);
-//		    			continue;
-//		    		}else if (s.startsWith("123outro123")){
-////			    			System.out.println("===================Found outro=====================");
-//		    			String outro = buf.toString();
-////			    			System.out.println(outro);
-//		    			if (title.length() == 0){
-//		    				System.out.println("found empty title around line " + i);
-//		    				bad = true;
-//		    			}
-//		    			if (level == 0){
-//		    				System.out.println("found empty level around line " + i);
-//		    				bad = true;
-//		    			}
-//		    			if (symptom == null){
-//		    				System.out.println("found empty symptom around line " + i);
-//		    				bad = true;
-//		    			}
-//		    			if (intro.length() == 0){
-//		    				System.out.println("found empty intro around line " + i);
-//		    				bad = true;
-//		    			}
-//		    			if (outro.length() == 0){
-//		    				System.out.println("found empty outro around line " + i);
-//		    				bad = true;
-//		    			}
-//		    			if (missions.size() == 0){
-//		    				System.out.println("found empty mission around line " + i);
-//		    				bad = true;
-//		    			}
-//		    			if (bad){
-//		    				sc2.close();
-//		    				return;
-//		    			}
-//		    			card = new Card(title, level, symptom, intro, missions, outro, 0, 0, 0);
-//		    			CardSurvey cardSurvey = new CardSurvey("This task was helpful");
-//		    			card.getTasks().add(cardSurvey);
-//		    			cardManager.add(card);
-//		    			// reset vars for next card
-//		    			missions = new ArrayList<Task>();
-//		    			bad = false;
-//		    			buf.setLength(0);
-//		    			continue;
-//		    		}else if (s.startsWith("123mission123")){
-////			    			System.out.println("===================Found mission=====================");
-//		    			String mission = buf.toString();
-////			    			System.out.println(mission);
-//		    			missions.add(new Mission(mission));
-//		    			buf.setLength(0);
-//		    			continue;
-//		    		}else if (s.startsWith("123title123")){
-////			    			System.out.println("===================Found title=====================");
-//		    			title = buf.toString().trim();
-////			    			System.out.println(title);
-//		    			buf.setLength(0);
-//		    			continue;
-//		    		}else if (s.startsWith("123level123")){
-////			    			System.out.println("===================Found lvl=====================");
-//		    			level = Integer.parseInt(buf.toString().trim());
-////			    			System.out.println("[" + level + "]");
-//		    			buf.setLength(0);
-//		    			continue;
-//		    		}else if (s.startsWith("123symptom123")){
-////			    			System.out.println("===================Found symptom=====================");
-//		    			symptom = Symptom.values()[Integer.parseInt(buf.toString().trim())];
-////			    			System.out.println(symptom);
-//		    			buf.setLength(0);
-//		    			continue;
-//		    		}
-////			            System.out.println(s);
-//		            buf.append(s);
-//		            buf.append(System.getProperty("line.separator"));
-//			    }
-//			    sc2.close();
-//			    logger.info("FINISHED IMPORTING CARD DATA");
-//			}
-//		});
+		tmpl.execute(new TransactionCallbackWithoutResult() {
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus arg0) {
+				logger.info("BEGIN IMPORTING CARD DATA");
+				Scanner sc2 = null;
+		    	InputStream is = getClass().getResourceAsStream("/db/card_game_data.txt"); // reads from src/main/resources
+		    	if (is == null){
+		    		System.out.println("inputstream null");
+		    		return; 
+		    	}
+		    	sc2 = new Scanner(is);
+			    StringBuilder buf = new StringBuilder();
+			    List<Task> missions = new ArrayList<Task>();
+			    String intro = null;
+			    String title = null;
+			    Integer level = null;
+			    Symptom symptom = null;
+			    Card card = null;
+			    int i = 0;
+			    boolean bad = false;
+			    while (sc2.hasNextLine()) {
+		    		i++;
+		    		String s = sc2.nextLine();
+		    		if (s.startsWith("123intro123")){
+//			    			System.out.println("====================Found intro========================");
+		    			intro = buf.toString();
+//			    			System.out.println(intro);
+		    			buf.setLength(0);
+		    			continue;
+		    		}else if (s.startsWith("123outro123")){
+//			    			System.out.println("===================Found outro=====================");
+		    			String outro = buf.toString();
+//			    			System.out.println(outro);
+		    			if (title.length() == 0){
+		    				System.out.println("found empty title around line " + i);
+		    				bad = true;
+		    			}
+		    			if (level == 0){
+		    				System.out.println("found empty level around line " + i);
+		    				bad = true;
+		    			}
+		    			if (symptom == null){
+		    				System.out.println("found empty symptom around line " + i);
+		    				bad = true;
+		    			}
+		    			if (intro.length() == 0){
+		    				System.out.println("found empty intro around line " + i);
+		    				bad = true;
+		    			}
+		    			if (outro.length() == 0){
+		    				System.out.println("found empty outro around line " + i);
+		    				bad = true;
+		    			}
+		    			if (missions.size() == 0){
+		    				System.out.println("found empty mission around line " + i);
+		    				bad = true;
+		    			}
+		    			if (bad){
+		    				sc2.close();
+		    				return;
+		    			}
+
+						logger.info("intro len: " + intro.length());
+						logger.info("outro len: " + outro.length());
+						logger.info("title len: " + title.length());
+						logger.info("level : " + level);
+						logger.info("symptom : " + symptom.getText());
+						for (Task t : missions) {
+							if (t instanceof Mission) {
+								Mission m = (Mission) t;
+								logger.info("mission : " + m.getText().length());
+							}
+						}
+						
+		    			card = new Card(title, level, symptom, intro, missions, outro, 0, 0, 0);
+		    			CardSurvey cardSurvey = new CardSurvey("This task was helpful");
+		    			card.getTasks().add(cardSurvey);
+		    			cardManager.add(card);
+		    			// reset vars for next card
+		    			missions = new ArrayList<Task>();
+		    			bad = false;
+		    			buf.setLength(0);
+		    			continue;
+		    		}else if (s.startsWith("123mission123")){
+//			    			System.out.println("===================Found mission=====================");
+		    			String mission = buf.toString();
+//			    			System.out.println(mission);
+		    			missions.add(new Mission(mission));
+		    			buf.setLength(0);
+		    			continue;
+		    		}else if (s.startsWith("123title123")){
+//			    			System.out.println("===================Found title=====================");
+		    			title = buf.toString().trim();
+//			    			System.out.println(title);
+		    			buf.setLength(0);
+		    			continue;
+		    		}else if (s.startsWith("123level123")){
+//			    			System.out.println("===================Found lvl=====================");
+		    			level = Integer.parseInt(buf.toString().trim());
+//			    			System.out.println("[" + level + "]");
+		    			buf.setLength(0);
+		    			continue;
+		    		}else if (s.startsWith("123symptom123")){
+//			    			System.out.println("===================Found symptom=====================");
+		    			symptom = Symptom.values()[Integer.parseInt(buf.toString().trim())];
+//			    			System.out.println(symptom);
+		    			buf.setLength(0);
+		    			continue;
+		    		}
+//			            System.out.println(s);
+		            buf.append(s);
+		            buf.append(System.getProperty("line.separator"));
+			    }
+			    sc2.close();
+			    logger.info("FINISHED IMPORTING CARD DATA");
+			}
+		});
 		tmpl.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {

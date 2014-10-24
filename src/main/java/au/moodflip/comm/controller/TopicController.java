@@ -223,25 +223,17 @@ public class TopicController {
 	
 	@RequestMapping(value = "/topic/{id}/suggestCard", method = RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public String createCardSuggest(@PathVariable("id") Long id,
-			@RequestBody List<Long> suggestedCards, BindingResult result,
-			SessionStatus status, Principal principal) {
-		if (result.hasErrors()) {
-			// logger
-
-			return FOLDER + "/suggestCard";
-		}
-		for (int i = 0; i < suggestedCards.size(); i++) {
+	public @ResponseBody String createCardSuggest(@PathVariable("id") Long id,
+			@RequestBody Long[] suggestedCards, Principal principal) {
+		for (int i = 0; i < suggestedCards.length; i++) {
 			CardSuggest suggestedCard = new CardSuggest();
-			suggestedCard.setCard(cardManager.getById(suggestedCards.get(i)));
+			suggestedCard.setCard(cardManager.getById(suggestedCards[i]));
 			suggestedCard.setTopic(topicService.getTopicById(id));
 			suggestedCard.setUser(userService.getUserByUsername(principal
 					.getName()));
 			cardSuggestService.addCardSuggest(suggestedCard);
 		}
-
-		status.setComplete();
-		return "redirect:/forums/topic/{id}";
+		return "/forums/topic/" + id;
 	}
 
 }

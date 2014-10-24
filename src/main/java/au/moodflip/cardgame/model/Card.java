@@ -24,11 +24,15 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Cards")
 public class Card implements Serializable, Comparable<Card>{
 	private static final long serialVersionUID = 1L;
 
+	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	public enum Symptom{
 		SADNESS("Sadness"), 
 		LOSS_OF_INTEREST("Loss of interest"),
@@ -121,6 +125,7 @@ public class Card implements Serializable, Comparable<Card>{
 	@OneToMany
 	@JoinColumn(name="card_idFK")
 	@IndexColumn(name="task_index")
+	@JsonIgnore
 	public List<Task> getTasks() { return tasks; }
 	public void setTasks(List<Task> tasks) { this.tasks = tasks; }
 	private List<Task> tasks;

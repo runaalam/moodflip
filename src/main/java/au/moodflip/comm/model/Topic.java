@@ -15,9 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import au.moodflip.personalisation.model.User;
 

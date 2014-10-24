@@ -1,6 +1,8 @@
 package au.moodflip.comm.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +41,19 @@ public class CardSuggestController {
 	}
 	
 	@RequestMapping(value = "/listCards", method = RequestMethod.GET)
-	public @ResponseBody Set<Card> listCards(@RequestParam(value = "symptom", required = false) Card.Symptom symptom) {
-		Set<Card> cards = symptom == null ? cardManager.getCards() : cardManager.getCards(symptom);
+	public @ResponseBody Set<Card> listCards(@RequestParam(value = "symptom", required = false) String symptom) {
+		Map<String, Card.Symptom> lookup = new HashMap<String, Card.Symptom>();
+		for (Card.Symptom s : Card.Symptom.values()) {
+            lookup.put(s.getText(), s);
+        }
+		Set<Card> cards = symptom == null ? cardManager.getCards() : cardManager.getCards(lookup.get(symptom));
 		return cards;
+	}
+	
+	@RequestMapping(value = "/listSymptoms", method = RequestMethod.GET)
+	public @ResponseBody Card.Symptom[] listSymptoms() {
+		Card.Symptom[] symptoms = Card.Symptom.values();
+		return symptoms;
 	}
 	
 	@RequestMapping(value = "/up_vote/{suggestId}", method = RequestMethod.GET)

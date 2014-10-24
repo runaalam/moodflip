@@ -18,6 +18,10 @@ moodFlip.controller('ForumsCtrl', [ '$scope', '$http', function($scope, $http) {
 			}
 		});
 		
+		$http.get(appUrl+'/forums/card_suggest/list?topicId='+topicId).success(function(data) {
+			$scope.cards = data;
+		});
+		
 	};
 	
 	$scope.upVoteTopic = function () {
