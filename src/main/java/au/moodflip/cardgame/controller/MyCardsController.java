@@ -55,8 +55,8 @@ public class MyCardsController {
 	public String myCards(Model model, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
-//		Set<Card> cards = new TreeSet<Card>(cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId())));
-		Set<Card> cards = new TreeSet<Card>(cardManager.getCards()); // get all cards
+		Set<Card> cards = new TreeSet<Card>(cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId())));
+//		Set<Card> cards = new TreeSet<Card>(cardManager.getCards()); // get all cards
 		model.addAttribute("cards", cards);
 		return FOLDER + "/myCards";
 	}

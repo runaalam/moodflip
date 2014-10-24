@@ -14,6 +14,9 @@
     	<!-- include Sidebar --> 	
 	    <jsp:include page="../fragments/bodySideBar.jsp"/>
 	    <div class="col-xs-12 col-sm-9">
+	    <div class="alert alert-success hide">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		</div>
 			<h1>Custom cards</h1><br/>
 			<a href="<c:url value="/card-game/customCards?new"/>">Create new card</a>
 			
@@ -35,9 +38,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${model.customCards}" var="card">
+						<c:forEach items="${model.customCards}" var="card" varStatus="i">
 							<tr>
-								<td><a href="<c:url value="/card-game/customCards?delete=${card.cardId}"/>">Delete</a></td>
+								<td>
+									<a href="<c:url value="/card-game/customCards?delete=${card.cardId}"/>">Delete</a>
+									<a href="#" class="share" data-toggle="popover" title="Share card with user">Share</a>
+									<div id="popover-content" class="hide">
+										<form class="form-inline" role="form">
+									  		<input type="text" name="user" class="form-control" placeholder="Enter user"/>
+									  		<input type="hidden" id="test" name="cardId" value="${card.cardId}"/>
+									  		<input type="submit" value="Send" class="btn btn-default"/>	
+									  		<div id="shareStatus"></div>
+								  		</form>
+									</div>
+								</td>
 								<td><a href="<c:url value="/card-game/customCards?edit=${card.cardId}"/>"><c:out value="${card.title}"/></a></td>
 								<td><c:out value="${card.level}"/></td>
 								<td><c:out value="${card.symptom.text}"/></td>
@@ -49,10 +63,12 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				
 			</div> <!-- panel panel-default -->
 		</div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->
 </div><!-- container -->
 <jsp:include page="../fragments/footer.jsp"/>
 </body>
+<script src="<c:url value="/resources/card-game/js/customCards.js" />" type="text/javascript"></script>
 </html>

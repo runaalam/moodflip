@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,6 +33,7 @@ import au.moodflip.cardgame.model.UsersCard.UsersCardPK;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.UsersCardManager;
+import au.moodflip.comm.service.NotificationService;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
 
@@ -49,14 +51,16 @@ public class CustomCardController {
     private UserManager userManager;
     @Autowired
     private UsersCardManager usersCardManager;
+    @Autowired
+    private NotificationService notificationService;
 	
 	@RequestMapping
 	public ModelAndView customCards(Model model, Principal principal){
 		logger.info("Enter customCards()");
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
-//		Set<Card> cards = cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId()));
-		Set<Card> cards = cardManager.getCards(); // get all cards
+		Set<Card> cards = cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId()));
+//		Set<Card> cards = cardManager.getCards(); // get all cards 
 		model.addAttribute("customCards", cards);
 		logger.info("Exit customCards()");
 		return new ModelAndView(FOLDER + "/customCards", "model", model);
@@ -136,5 +140,20 @@ public class CustomCardController {
 		logger.info("deleting userid {} cardid {}", cgUser.getCgUserId(), cardId);
 		usersCardManager.delete(new UsersCardPK(cgUser.getCgUserId(), cardId));
 		return "redirect:/" + FOLDER + "/customCards";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, params={"user", "cardId"})
+	@ResponseBody
+	public String shareCard(Model model, @RequestParam(value="user") String user, @RequestParam(value="cardId") long cardId, RedirectAttributes ra, Principal principal){
+		logger.info("Enter shareCard()");
+		logger.info("got user:" + user + " cardId:" + cardId);
+		Card card = cardManager.getById(cardId);
+		User u1 = userManager.getUserByUsername(principal.getName());
+		User u2 = userManager.getUserByUsername(user);
+		if (u2 == null){
+			return "invalid user";
+		}
+		notificationService.createNotification("User " + u1.getUsername() + " shared card \"" + card.getTitle() + "\" with you", "card-game/cardBrowser?view=" + cardId, u2.getId());
+		return "share sent";
 	}
 }

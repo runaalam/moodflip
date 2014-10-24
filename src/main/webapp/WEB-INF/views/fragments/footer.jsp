@@ -8,7 +8,6 @@
 <script>
 $(document).ready(function() {
 	var pathname = window.location.pathname; 
-	console.log("path " + pathname);
 	if (pathname.match("card-game")){
 		$("#collapseTwo").addClass("in");
 	}

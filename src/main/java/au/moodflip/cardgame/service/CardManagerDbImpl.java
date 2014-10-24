@@ -41,15 +41,15 @@ public class CardManagerDbImpl implements CardManager{
 	@Override
 	public Card getById(long id) {
 		Card card = (Card)sessionFactory.getCurrentSession().get(Card.class, id);
-		logger.info("Got card: " + card);
+//		logger.info("Got card: " + card);
 		return card;
 	}
 
 	@Override
 	public Card update(Card card) {
-		System.out.println("in update");
+//		logger.info("in update");
 		linkCardsAndTasks(card);
-		System.out.println("applying update");
+//		logger.info("applying update");
 		sessionFactory.getCurrentSession().merge(card);
 		return card;
 	}

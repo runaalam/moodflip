@@ -53,7 +53,7 @@
           <div id="collapseTwo" class="panel-collapse collapse"> 
               <div class="panel-body">
                   <table class="table">
-                  <tr>
+                  	  <tr>
                           <td>
                               <a href="<c:url value="/card-game/"/>">Card Game</a> 
                           </td>
@@ -73,6 +73,11 @@
                                 <a href="<c:url value="/card-game/playHistory"/>">Play History</a>
                             </td>
                         </tr>
+                        <tr>
+                        	<td>
+                            	<a href="<c:url value="/card-game/cardBrowser"/>">Card Browser</a> 
+                          	</td>
+                      	</tr>
                     </table>
                 </div>
             </div>
