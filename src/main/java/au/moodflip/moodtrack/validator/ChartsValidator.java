@@ -23,7 +23,8 @@ public class ChartsValidator implements Validator {
         Charts charts = (Charts) o;
 
         if (charts.getStartDate() == null) {
-            errors.reject("startDate", "start.date.required");
+            errors.rejectValue("startDate", "start.date.required");
+            return;
         }
 
         Date endDate = charts.getEndDate() != null ? charts.getEndDate() : new Date();
@@ -36,8 +37,8 @@ public class ChartsValidator implements Validator {
                 .daysBetween(new DateTime(charts.getStartDate()), new DateTime(endDate))
                 .getDays();
 
-        if (chartsRange < 7) {
-            errors.reject("charts.date.range");
+        if (chartsRange != 6) {
+            errors.reject("chart.date.range");
         }
 
     }
