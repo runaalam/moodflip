@@ -259,6 +259,11 @@
 			<version>1.0.0.GA</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.sitemesh</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
