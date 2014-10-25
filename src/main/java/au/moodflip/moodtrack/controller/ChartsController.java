@@ -64,6 +64,18 @@ public class ChartsController {
 
     }
     
+    @ResponseBody
+    @RequestMapping(value = "/drawColumnChart", method = RequestMethod.GET)
+    public Charts drawColumnChart(@ModelAttribute("command") Charts charts) {
+
+        List<Data> list = dataService.listData(charts);
+
+        Charts prepareColumnChartData = ChartsUtils.prepareColumnChartData(list);
+
+        return prepareColumnChartData;
+
+    }
+    
     
 
     @RequestMapping(value = "/charts", method = RequestMethod.POST)
@@ -79,10 +91,13 @@ public class ChartsController {
 
         List<Data> data = dataService.listData(charts);
 
-        modelMap.put("moodRating", data);
+       // modelMap.put("moodRating" , data);
+        
+      
+
 
         return new ModelAndView(new RedirectView("/charts", true));
-    }
-
-
+    
+    
+    }  
 }

@@ -23,17 +23,9 @@ public class Charts implements Serializable {
         this.user = user;
     }
 
-   
-
-	
-
 	public Charts() {
 		// TODO Auto-generated constructor stub
 	}
-
-
-
-
 
 	public Date getStartDate() {
         return startDate;
@@ -60,6 +52,9 @@ public class Charts implements Serializable {
     }
     List<String> dates = new ArrayList<String>();
 	List<Integer> moodRating = new ArrayList<Integer>();
+	List<Integer> copedWithTask = new ArrayList<Integer>();
+	List<Integer> hoursOfSleeping = new ArrayList<Integer>();
+	List<Integer> exerciseHours = new ArrayList<Integer>();
 
 	public List<String> getDates() {
 		return dates;
@@ -72,7 +67,29 @@ public class Charts implements Serializable {
 	}
 	public void setMoodRating(List<Integer> moodRating) {
 		this.moodRating = moodRating;
-	}	
+	}
+	
+	public List<Integer> getHoursOfSleeping() {
+		return hoursOfSleeping;
+	}
+	public void setHoursOfSleeping(List<Integer> hoursOfSleeping) {
+		this.hoursOfSleeping = hoursOfSleeping;
+	}
+	
+	public List<Integer> getExerciseHours(){
+		return exerciseHours;
+	}
+	public void setExerciseHours(List<Integer> exerciseHours) {
+		this.exerciseHours = exerciseHours;
+	}
+	
+	public List<Integer> getCopedWithTask(){
+		return copedWithTask;
+	}
+	public void setCopedWithTask(List<Integer> copedWithTask) {
+		this.copedWithTask = copedWithTask;
+	}
+	
 }
 
 

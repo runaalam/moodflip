@@ -11,6 +11,27 @@
 
     
     <title>Charts</title>
+    
+    <s:hasBindErrors name="command">
+    <div id="div_global_error" align="center">
+        <h1>
+            Error!!
+        </h1>
+
+        <div id="global_errors">
+            <s:bind path="command">
+                <ul class="header-list">
+                    <c:forEach items="${status.errorMessages}" var="err">
+                        <li>
+                            <c:out value='${err}'/>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </s:bind>
+        </div>
+    </div>
+	</s:hasBindErrors>
+	
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -21,13 +42,16 @@
 
     <script type="text/javascript">
     //alert("start");
-    
+    // LINE CHART
     google.load('visualization', '1', {'packages':['corechart']});
+   //google.load('visualization', '2', {'packages':['corechart']});
+   // google.load('visualization', '3', {'packages':['corechart']});
     
     //Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(prepareChart);
-    
-    function drawLineChart(dates, moodRating, div) {
+   // google.setOnLoadCallback(prepareChart1);
+    // Line Chart 
+   function drawLineChart(dates, moodRating, copedWithTask, div) {
 //		alert("in function draw");
 
 //    	alert(dates);
@@ -36,26 +60,29 @@
 
     	data.addColumn('string', 'Dates');
     	data.addColumn('number', 'Mood');
+    	data.addColumn('number', 'Coped with Task');
     	
         var rows = dates.length;
         data.addRows(rows);
                
         for (var i=0; i < rows; i++) {            
-        	for (var j=0; j < 2; j++) {                           
+        	for (var j=0; j < 3; j++) {                           
         		if(j == 0) {
             		data.setCell(i,j, dates[i]);
-                } else {
+                } else if (j == 1) {
                     data.setCell(i,j, moodRating[i]);
+                } else { data.setCell(i,j, copedWithTask[i])
+                	
                 }
         	}
         }      	
         var options = {
-            'title':'Chart',
+            'title':' ',
             legend: { position: 'bottom' }
         };
 
     	var chart = new google.visualization.LineChart(document.getElementById(div));
-    	chart.draw(data, options);
+    	chart.draw(data, {width: 800, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
     }
  
     function prepareChart() {
@@ -71,16 +98,72 @@
     	//alert(data);
     	array = $.parseJSON(data);
     	//alert(array.dates);
-    	//alert(array.scores);
+    	//alert(array.moodRating);
 
-    	drawLineChart(array.dates, array.moodRating,'chart_div');
+    	drawLineChart(array.dates, array.moodRating, array.copedWithTask,'chart_div');
+   } 
+    //END LINE CHART
+    
+    //COLUMN CHART
+  
+/*        function drawColumnChart(dates, hoursOfSleeping, div) {
+//		alert("in function draw");
+
+//    	alert(dates);
+//    	alert(hoursOfSleeping);
+    	var data = new google.visualization.DataTable();
+
+    	data.addColumn('string', 'Dates');
+    	data.addColumn('number', 'Sleep');
+    	
+        var rows = dates.length;
+        data.addRows(rows);
+               
+        for (var i=0; i < rows; i++) {            
+        	for (var j=0; j < 2; j++) {                           
+        		if(j == 0) {
+            		data.setCell(i,j, dates[i]);
+                } else {
+                    data.setCell(i,j, hoursOfSleeping[i]);
+                }
+        	}
+        }      	
+        var options = {
+            'title':'Chart',
+            legend: { position: 'bottom' }
+        };
+
+    	var chart1 = new google.visualization.ColumnChart(document.getElementById(div));
+    	chart1.draw(data, {width: 500, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
     }
+ 
+    function prepareChart() {
+		//alert("button clicked");
+    	var array;
+    	   
+    	var data = $.ajax({
+            url: "drawColumnChart",
+    	          dataType:"json",
+    	          async: false
+    	          }).responseText;
+
+    	//alert(data);
+    	array = $.parseJSON(data);
+    	//alert(array.dates);
+    	//alert(array.hoursOfSleeping);
+
+    	drawColumnChart(array.dates, array.hoursOfSleeping,'chart_div1');
+    } */
 
         $(function () {
             $("#startDate").datepicker({ dateFormat: 'dd/mm/yy'});
             $("#endDate").datepicker({ dateFormat: 'dd/mm/yy'});
         });
+        
+        
     </script>
+    
+
 
 </head>
   <body>
@@ -123,9 +206,11 @@
     </div>
 </form:form>
 
-  <div id="chart_div"></div>
 <!--Div that will hold the line chart-->
-    <%--<div id="chart_div" style="width:400; height:300"></div>--%>
+   <div id="chart_div"></div>
+<!--Div that will hold the column chart-->
+   <!-- <div id="chart_div1" style="width:600; height:500"></div>-->
+    
     
     
  

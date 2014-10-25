@@ -3,6 +3,7 @@ package au.moodflip.moodtrack.utils;
 
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,17 +17,38 @@ public class ChartsUtils {
 			Charts charts = new Charts();
 			List<String> dates = new ArrayList<String>();
 			List<Integer> moodRating= new ArrayList<Integer>();
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");		
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+			List<Integer> copedWithTask= new ArrayList<Integer>();
 			
 			for(Data data: datas) {
 				dates.add(formatter.format(data.getDate()));
 				moodRating.add(data.getMoodRating());
+				copedWithTask.add(data.getCopedWithTask());
 			}
 			
 			charts.setDates(dates);
 			charts.setMoodRating(moodRating);
+			charts.setCopedWithTask(copedWithTask);
 			
 			return charts;		
+		}
+		
+		public static Charts prepareColumnChartData(List<Data> datas) {
+			
+			Charts bCharts = new Charts();
+			List<String> dates = new ArrayList<String>();
+			List<Integer> hoursOfSleeping= new ArrayList<Integer>();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");		
+			
+			for(Data data: datas) {
+				dates.add(formatter.format(data.getDate()));
+				hoursOfSleeping.add(data.getHoursOfSleeping());
+			}
+			
+			bCharts.setDates(dates);
+			bCharts.setHoursOfSleeping(hoursOfSleeping);
+			
+			return bCharts;		
 		}
 		
 		public static Charts prepareDummyChartData() {
@@ -51,7 +73,9 @@ public class ChartsUtils {
 			charts.setMoodRating(moodRating);
 			
 			return charts;		
-		}	
+		}
+
+
 	}
 
 
