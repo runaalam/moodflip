@@ -1,9 +1,14 @@
 package au.moodflip.service;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -31,6 +36,11 @@ import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.RoleManager;
 import au.moodflip.personalisation.service.UserManager;
+import au.moodflip.userpage.model.Answer;
+import au.moodflip.userpage.model.Assessment;
+import au.moodflip.userpage.model.Question;
+import au.moodflip.userpage.model.Response;
+import au.moodflip.userpage.service.AssessmentService;
 
 @Service
 @Transactional
@@ -51,6 +61,9 @@ public class InitDbService {
 	
 	@Autowired
     private SessionFactory sessionFactory;
+	
+	@Autowired
+	private AssessmentService assessmentService;
 
 	@PostConstruct
 	private void init() {
@@ -118,15 +131,11 @@ public class InitDbService {
 		    		i++;
 		    		String s = sc2.nextLine();
 		    		if (s.startsWith("123intro123")){
-//			    			System.out.println("====================Found intro========================");
 		    			intro = buf.toString();
-//			    			System.out.println(intro);
 		    			buf.setLength(0);
 		    			continue;
 		    		}else if (s.startsWith("123outro123")){
-//			    			System.out.println("===================Found outro=====================");
 		    			String outro = buf.toString();
-//			    			System.out.println(outro);
 		    			if (title.length() == 0){
 		    				System.out.println("found empty title around line " + i);
 		    				bad = true;
@@ -156,17 +165,17 @@ public class InitDbService {
 		    				return;
 		    			}
 
-						logger.info("intro len: " + intro.length());
-						logger.info("outro len: " + outro.length());
-						logger.info("title len: " + title.length());
-						logger.info("level : " + level);
-						logger.info("symptom : " + symptom.getText());
-						for (Task t : missions) {
-							if (t instanceof Mission) {
-								Mission m = (Mission) t;
-								logger.info("mission : " + m.getText().length());
-							}
-						}
+//						logger.info("intro len: " + intro.length());
+//						logger.info("outro len: " + outro.length());
+//						logger.info("title len: " + title.length());
+//						logger.info("level : " + level);
+//						logger.info("symptom : " + symptom.getText());
+//						for (Task t : missions) {
+//							if (t instanceof Mission) {
+//								Mission m = (Mission) t;
+//								logger.info("mission : " + m.getText().length());
+//							}
+//						}
 						
 		    			card = new Card(title, level, symptom, intro, missions, outro, 0, 0, 0);
 		    			CardSurvey cardSurvey = new CardSurvey("This task was helpful");
@@ -178,32 +187,23 @@ public class InitDbService {
 		    			buf.setLength(0);
 		    			continue;
 		    		}else if (s.startsWith("123mission123")){
-//			    			System.out.println("===================Found mission=====================");
 		    			String mission = buf.toString();
-//			    			System.out.println(mission);
 		    			missions.add(new Mission(mission));
 		    			buf.setLength(0);
 		    			continue;
 		    		}else if (s.startsWith("123title123")){
-//			    			System.out.println("===================Found title=====================");
 		    			title = buf.toString().trim();
-//			    			System.out.println(title);
 		    			buf.setLength(0);
 		    			continue;
 		    		}else if (s.startsWith("123level123")){
-//			    			System.out.println("===================Found lvl=====================");
 		    			level = Integer.parseInt(buf.toString().trim());
-//			    			System.out.println("[" + level + "]");
 		    			buf.setLength(0);
 		    			continue;
 		    		}else if (s.startsWith("123symptom123")){
-//			    			System.out.println("===================Found symptom=====================");
 		    			symptom = Symptom.values()[Integer.parseInt(buf.toString().trim())];
-//			    			System.out.println(symptom);
 		    			buf.setLength(0);
 		    			continue;
 		    		}
-//			            System.out.println(s);
 		            buf.append(s);
 		            buf.append(System.getProperty("line.separator"));
 			    }
@@ -217,6 +217,47 @@ public class InitDbService {
                 initializeData();
             }
         });
+		tmpl.execute(new TransactionCallbackWithoutResult() {
+			// populate random assessment data
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus arg0) {
+				logger.info("IMPORTING ASSESSMENT DATA");
+				User user = userService.getUserByUsername("user");
+				List<Question> quesList = assessmentService.getQuestions();
+				Random rand = new Random();
+				List<Response> rList;
+				Response r = null;
+				Assessment assessment;
+				SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+				
+				// create 12 survey assessments with random data
+				for (int i=0; i < 12; i++){
+					quesList = assessmentService.getQuestions();
+					assessment = new Assessment();
+					rList = new ArrayList<Response>();
+					for (Question q : quesList){
+						r = new Response();
+						Answer a = new Answer();
+						a.setValue(rand.nextInt(5));	
+						r.setAnswer(a);
+						r.setQuestion(q);
+						r.setUser(user);
+						r.setAssessment(assessment);
+						rList.add(r);
+					}
+					assessment.setResponseList(rList);
+					assessment.setUser(user);
+					try {
+						Date t = ft.parse("2014-10-" + String.format("%02d", i+1)); // start at day 1
+						assessment.setDate(t);
+						assessmentService.save(assessment);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
+				logger.info("FINISHED IMPORTING ASSESSMENT DATA");
+			}
+		});
     }
 
 

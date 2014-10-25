@@ -38,7 +38,7 @@
 									</c:forEach>
 								 <tbody>
 							</table>
-							<p align = "center"><input type="button" class="btn btn-primary btn-lg" value="submit"></p>
+							<p align = "center"><input type="submit" class="btn btn-primary btn-lg" value="submit"></p>
 						</form:form>
 					</c:when>
 					<c:when test="${empty quesList}">There is no questions.</c:when>
