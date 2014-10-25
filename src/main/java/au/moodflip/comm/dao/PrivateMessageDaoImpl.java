@@ -1,5 +1,6 @@
 package au.moodflip.comm.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import au.moodflip.comm.model.PrivateMessage;
+import au.moodflip.personalisation.model.User;
 
 @Repository
 public class PrivateMessageDaoImpl implements PrivateMessageDao {
@@ -16,40 +18,9 @@ public class PrivateMessageDaoImpl implements PrivateMessageDao {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public void createPrivateMessage(PrivateMessage pMessage) {
-		sessionFactory.getCurrentSession().save(pMessage);
-	}
-
-	@Override
-	public List<PrivateMessage> listPrivateMessage() {
-		return sessionFactory.getCurrentSession()
-				.createQuery("from PrivateMessage").list();
-	}
-
-	@Override
-	public List<PrivateMessage> listPrivateMessageBySenderId(Long senderId) {
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from PrivateMessage where senderId = :senderId");
-		query.setParameter("senderId", senderId);
-		return query.list();
-	}
-
-	@Override
-	public List<PrivateMessage> listPrivateMessageByReceiverId(Long receiverId) {
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from PrivateMessage where receiverId = :receiverId");
-		query.setParameter("receiverId", receiverId);
-		return query.list();
-	}
-
-	@Override
-	public List<PrivateMessage> listPrivateMessageByUserId(Long userId) {
-		Query query = sessionFactory
-				.getCurrentSession()
-				.createQuery(
-						"from PrivateMessage where senderId = :userId or receiverId = :userId");
-		query.setParameter("userId", userId);
-		return query.list();
+	public PrivateMessage createPrivateMessage(PrivateMessage pMessage) {
+		return (PrivateMessage) sessionFactory.getCurrentSession().get(
+				PrivateMessage.class, sessionFactory.getCurrentSession().save(pMessage));
 	}
 
 	@Override
@@ -74,26 +45,26 @@ public class PrivateMessageDaoImpl implements PrivateMessageDao {
 
 	@Override
 	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(
-			Long userId_1, Long userId_2) {
+			User sender, User receiver) {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from PrivateMessage where (senderId = :userId_1 and receiverId = :userId_2) or (senderId = :userId_2 and receiverId = :userId_1)");
-		query.setParameter("userId_1", userId_1);
-		query.setParameter("userId_2", userId_2);
+						"from PrivateMessage where (sender.id = :userId_1 and receiver.id = :userId_2) or (sender.id = :userId_2 and receiver.id = :userId_1) order by created_at");
+		query.setParameter("userId_1", sender.getId());
+		query.setParameter("userId_2", receiver.getId());
 		return query.list();
 	}
 
 	@Override
 	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(
-			Long userId_1, Long userId_2, Long msgId) {
+			User sender, User receiver, Date datetime) {
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
-						"from PrivateMessage where ID > :msgId and ((senderId = :userId_1 and receiverId = :userId_2) or (senderId = :userId_2 and receiverId = :userId_1))");
-		query.setParameter("msgId", msgId);
-		query.setParameter("userId_1", userId_1);
-		query.setParameter("userId_2", userId_2);
+						"from PrivateMessage where created_at > :datetime and (sender.id = :userId_2 and receiver.id = :userId_1) order by created_at");
+		query.setParameter("datetime", datetime);
+		query.setParameter("userId_1", sender.getId());
+		query.setParameter("userId_2", receiver.getId());
 		return query.list();
 	}
 

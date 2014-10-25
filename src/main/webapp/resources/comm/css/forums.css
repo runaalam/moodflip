@@ -44,3 +44,19 @@
 	width: 100px;
 	height: 100px;
 }
+
+.cards {
+	overflow-x: auto;
+    white-space: nowrap;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.card {
+	width: 275px;
+	margin: 0 20px;
+	display: inline-block;
+    float: none;
+    word-wrap:break-word;
+    white-space: normal;
+}

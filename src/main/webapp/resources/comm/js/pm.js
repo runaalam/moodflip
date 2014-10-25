@@ -11,46 +11,41 @@ moodFlip.controller('PrivateMessageCtrl', ['$scope', '$http', '$timeout', '$q', 
 				$scope.cancel();
 			}
 			$scope.listMessage();
-			$scope.userSelected = true;
 		}
 	};
 	
 	$scope.listMessage = function () {
-		$http.get('pm/'+$scope.receiverId).success(function(data) {
+		$scope.requestTime = (new Date()).getTime();
+		$http.get(appUrl+'/pm/'+$scope.receiverId+'/list').success(function(data) {
 			$scope.messages = data;
 			for (var i=0,  tot=$scope.messages.length; i < tot; i++) {
 				$scope.messages[i].createdAt = new Date($scope.messages[i].createdAt).toLocaleString();
 			}
 		}).then(function () {
+			setTimeout(scrollChatAreaToBottom, 1500);
 			$scope.updateMessage();
 		});
 	};
 	
 	$scope.updateMessage = function () {
 		ongoing = true;
-		if($scope.messages.length > 0) {
-			$http.get('pm/'+$scope.receiverId+"/update?lastId="+$scope.messages[$scope.messages.length-1].id, { timeout: canceler.promise }).success(function(data) {
-				if(data.length > 0){
-					for (var i=0,  tot=data.length; i < tot; i++) {
-						data[i].createdAt = new Date(data.createdAt).toLocaleString();
-					}
-					$scope.messages = $scope.messages.concat(data);
+		var lastRequestTime = (new Date()).getTime();
+		$http.get(appUrl+'/pm/'+$scope.receiverId+"/update?datetime="+$scope.requestTime, { timeout: canceler.promise }).success(function(data) {
+			if(data.length > 0){
+				for (var i=0,  tot=data.length; i < tot; i++) {
+					data[i].createdAt = new Date(data[i].createdAt).toLocaleString();
 				}
-			}).then(function () {
-				$scope.updateMessage();
-			});
-		} else {
-			$http.get('pm/'+$scope.receiverId+"/update?lastId=0", { timeout: canceler.promise }).success(function(data) {
-				if(data.length > 0){
-					for (var i=0,  tot=data.length; i < tot; i++) {
-						data[i].createdAt = new Date(data.createdAt).toLocaleString();
-					}
-					$scope.messages = $scope.messages.concat(data);
-				}
-			}).then(function () {
-				$scope.updateMessage();
-			});
-		}
+				$scope.messages = $scope.messages.concat(data);
+				scrollChatAreaToBottom();
+			}
+		}).then(function () {
+			$scope.requestTime = lastRequestTime;
+			$scope.updateMessage();
+		});
+	};
+	
+	function scrollChatAreaToBottom () {
+		$(".chat-texts").animate({ scrollTop: $(".chat-texts")[0].scrollHeight }, "slow");
 	};
 	
 	$scope.cancel = function(){
@@ -60,9 +55,12 @@ moodFlip.controller('PrivateMessageCtrl', ['$scope', '$http', '$timeout', '$q', 
 	};
 	
 	$scope.send = function () {
-		$http.post('pm/'+$scope.receiverId, $scope.message).success(function(data) {
+		$http.post(appUrl+'/pm/'+$scope.receiverId, $scope.message).success(function(data) {
 			$scope.message = "";
+			data.createdAt = new Date(data.createdAt).toLocaleString();
 			$scope.messages.push(data);
+		}).then(function () {
+			scrollChatAreaToBottom();
 		});
 	};
 	

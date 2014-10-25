@@ -35,6 +35,7 @@
     	<filter-name>hibernateFilter</filter-name>
     	<filter-class>
         	org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+        <async-supported>true</async-supported>
     	<init-param>
     		<param-name>sessionFactoryBeanName</param-name>
         	<param-value>sessionFactory</param-value>

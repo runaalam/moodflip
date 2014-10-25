@@ -161,17 +161,15 @@ public class TopicController {
 	}
 
 	@RequestMapping(value = "/topic/up_vote/{id}", method = RequestMethod.GET)
-	public ModelAndView upVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forums/topic/{id}");
+	public @ResponseBody Boolean upVote(@PathVariable("id") Long id) {
 		topicService.upVoteTopic(id);
-		return mav;
+		return true;
 	}
 
 	@RequestMapping(value = "/topic/down_vote/{id}", method = RequestMethod.GET)
-	public ModelAndView downVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forums/topic/{id}");
+	public @ResponseBody Boolean downVote(@PathVariable("id") Long id) {
 		topicService.downVoteTopic(id);
-		return mav;
+		return true;
 	}
 	
 	
