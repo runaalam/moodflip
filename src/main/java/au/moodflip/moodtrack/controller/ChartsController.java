@@ -7,17 +7,21 @@ import au.moodflip.moodtrack.utils.ChartsUtils;
 import au.moodflip.moodtrack.validator.ChartsValidator;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -38,9 +42,11 @@ public class ChartsController {
 
     @RequestMapping(value = "/charts", method = RequestMethod.GET)
     public String getCharts(Principal principal,
-                            HttpSession session,
+                            HttpSession session,HttpServletRequest request,
                             ModelMap model) {
         User user = userManager.getUserByUsername(principal.getName());
+        boolean drawGraph = ServletRequestUtils.getBooleanParameter(request, "drawGraph", false);
+        model.put("drawGraph", drawGraph);
 
         Object object = session.getAttribute("command");
         if (object == null || !(object instanceof Charts)) {
@@ -76,7 +82,7 @@ public class ChartsController {
 
     }
     
-    
+
 
     @RequestMapping(value = "/charts", method = RequestMethod.POST)
     public ModelAndView getChartData(@ModelAttribute("command") Charts charts,
@@ -89,11 +95,11 @@ public class ChartsController {
             return new ModelAndView(FOLDER + "/charts");
         }
 
-        List<Data> data = dataService.listData(charts);
+        //List<Data> data = dataService.listData(charts);
 
        // modelMap.put("moodRating" , data);
         
-      
+        modelMap.put("drawGraph", true);
 
 
         return new ModelAndView(new RedirectView("/charts", true));

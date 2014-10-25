@@ -22,7 +22,8 @@ public class ReportValidator implements Validator {
         ReportCmd reportCmd = (ReportCmd) o;
 
         if (reportCmd.getStartDate() == null) {
-            errors.reject("startDate", "start.date.required");
+            errors.rejectValue("startDate", "start.date.required");
+            return;
         }
 
         Date endDate = reportCmd.getEndDate() != null ? reportCmd.getEndDate() : new Date();
@@ -36,7 +37,11 @@ public class ReportValidator implements Validator {
                 .getDays();
 
         if (reportRange < 7) {
-            errors.reject("report.date.range");
+            errors.reject("report.min.date.range");
+        }
+
+        if (reportRange > 31) {
+            errors.reject("report.max.date.range");
         }
 
     }

@@ -100,7 +100,9 @@
 		             			<br><br><br>
 		             			<div id="chart_div"></div>	
 		             		</c:when>
-	             			<c:when test="${empty assessment}">There is no assessment result.</c:when>
+	             			<c:when test="${empty assessment}">You have'nt done any assessment.
+	             				<a href="<c:url value="/user-homepage/depression-assessment"/>">click here</a> to start assessment 
+	             			</c:when>
 	           			</c:choose>
 					</div> 
 				</div><!-- panel-default -->

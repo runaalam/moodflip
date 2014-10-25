@@ -47,25 +47,17 @@
 
 <h1>Reports</h1>
 
-<s:hasBindErrors name="command">
-    <div id="div_global_error" align="center">
-        <h1>
-            Error!!
-        </h1>
-
-        <div id="global_errors">
-            <s:bind path="command">
-                <ul class="header-list">
-                    <c:forEach items="${status.errorMessages}" var="err">
-                        <li>
-                            <c:out value='${err}'/>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </s:bind>
-        </div>
-    </div>
-</s:hasBindErrors>
+ <s:hasBindErrors name="command">
+      <div id="div_global_error" align="center">
+          <div id="global_errors">
+              <s:bind path="command">
+                  <c:forEach items="${status.errorMessages}" var="err">
+                      <c:out value='${err}'/><br/>
+                  </c:forEach>
+              </s:bind>
+          </div>
+      </div>
+  </s:hasBindErrors>
 
 
 <form:form action="" method="POST" name="command">

@@ -15,7 +15,8 @@
 	    <div class="col-xs-12 col-sm-9">
         		<div class="panel panel-default">
                 	<div class="panel-body">
-               			<p>By <c:out value="${status.user.name}" /><br><br><br>
+               			<p>By <c:out value="${status.user.name}" />
+               			<br><br><br>
                        	<c:out value="${status.content}" />
 					</div>
 				</div><!-- panel-default -->	
