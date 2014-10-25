@@ -92,7 +92,7 @@ public class AssessmentController {
 		
 		sessionStatus.setComplete();
 		
-		String activityDesc = "Completed assesment test with";
+		String activityDesc = "Completed assesment test";
 		activity.setUser(user);
 		activity.setDescription(activityDesc);
 		activity.setActivityDate(new Date());

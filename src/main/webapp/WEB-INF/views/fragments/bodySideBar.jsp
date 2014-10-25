@@ -18,26 +18,22 @@
                     <table class="table">
                         <tr>
                             <td>
-                                <span class="glyphicon glyphicon-pencil text-primary"></span>
                                 <a href="<c:url value="/user-homepage"/>">My Status</a>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <span class="glyphicon glyphicon-flash text-success"></span>
                               <a href="<c:url value="/user-homepage/depression-assessment"/>">Depression Assessment</a>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <span class="glyphicon glyphicon-file text-info"></span>
                               <a href="<c:url value="/user-homepage/assessment-result"/>">Assessment Result</a>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <span class="glyphicon glyphicon-comment text-success"></span>
-                              <a href="<c:url value="/user-homepage/other-post"/>">Other's Status</a>
+                              <a href="<c:url value="/user-homepage/other-post"/>">Other's post</a>
                           </td>
                       </tr>
                   </table>
