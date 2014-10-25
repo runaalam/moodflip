@@ -45,6 +45,7 @@
         $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
     });
 </script>
+<h3><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></h3>
 
 
 <h1>Data</h1>

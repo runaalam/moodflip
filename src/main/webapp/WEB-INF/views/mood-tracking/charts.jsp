@@ -11,6 +11,7 @@
 
     
     <title>Charts</title>
+  
     
     <s:hasBindErrors name="command">
     <div id="div_global_error" align="center">
@@ -33,14 +34,23 @@
 	</s:hasBindErrors>
 	
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	
 
+	
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
 
     <script type="text/javascript">
+    
+    $(function () {
+        $("#startDate").datepicker({ dateFormat: 'dd/mm/yy'});
+        $("#endDate").datepicker({ dateFormat: 'dd/mm/yy'});
+    });
+    
     //alert("start");
     // LINE CHART
     google.load('visualization', '1', {'packages':['corechart']});
@@ -51,7 +61,7 @@
     google.setOnLoadCallback(prepareChart);
    // google.setOnLoadCallback(prepareChart1);
     // Line Chart 
-   function drawLineChart(dates, moodRating, copedWithTask, div) {
+/*   function drawLineChart(dates, moodRating, copedWithTask, div) {
 //		alert("in function draw");
 
 //    	alert(dates);
@@ -82,6 +92,13 @@
         };
 
     	var chart = new google.visualization.LineChart(document.getElementById(div));
+    	
+    	 // Wait for the chart to finish drawing before calling the getImageURI() method.
+        google.visualization.events.addListener(chart, 'ready', function () {
+          chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+          console.log(chart_div.innerHTML);
+        });
+    	
     	chart.draw(data, {width: 800, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
     }
  
@@ -104,9 +121,11 @@
    } 
     //END LINE CHART
     
+   */  
+    
     //COLUMN CHART
   
-/*        function drawColumnChart(dates, hoursOfSleeping, div) {
+       function drawColumnChart(dates, hoursOfSleeping, div) {
 //		alert("in function draw");
 
 //    	alert(dates);
@@ -134,6 +153,12 @@
         };
 
     	var chart1 = new google.visualization.ColumnChart(document.getElementById(div));
+    	
+    	// Wait for the chart to finish drawing before calling the getImageURI() method.
+        google.visualization.events.addListener(chart1, 'ready', function () {
+          chart_div.innerHTML = '<img src="' + chart1.getImageURI() + '">';
+          console.log(chart_div.innerHTML);
+        });
     	chart1.draw(data, {width: 500, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
     }
  
@@ -152,22 +177,21 @@
     	//alert(array.dates);
     	//alert(array.hoursOfSleeping);
 
-    	drawColumnChart(array.dates, array.hoursOfSleeping,'chart_div1');
-    } */
+    	drawColumnChart(array.dates, array.hoursOfSleeping,'chart_div');
+    } 
 
-        $(function () {
-            $("#startDate").datepicker({ dateFormat: 'dd/mm/yy'});
-            $("#endDate").datepicker({ dateFormat: 'dd/mm/yy'});
-        });
-        
-        
-    </script>
+       
+   //end Column chart      
+       
+  
+      
+ 
     
 
-
+    </script>
 </head>
   <body>
-
+	
   <nav class="navbar navbar-inverse" role="navigation">
       <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
@@ -185,6 +209,9 @@
           <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">User123</a></p>
       </div>
   </nav>
+  
+  <h3><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></h3>
+  <h1>Charts</h1>
 
   <form:form action="" method="POST" name="command">
     <div>
@@ -203,6 +230,7 @@
         <div>
             <input type="submit" id="save" name="save" value="Generate Chart"/>
         </div>
+       
     </div>
 </form:form>
 
