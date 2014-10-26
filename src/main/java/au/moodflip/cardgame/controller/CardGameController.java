@@ -79,7 +79,7 @@ public class CardGameController{
 		return FOLDER + "/cardGame";
 	}
 	
-    @RequestMapping(method = RequestMethod.POST, params="nextMission")
+    @RequestMapping(method = RequestMethod.GET, params="nextMission")
 	public String getNextTask(Principal principal, Model model){
 		logger.info("Get next task - getNextTask()");
 		User user = userManager.getUserByUsername(principal.getName());
@@ -162,7 +162,7 @@ public class CardGameController{
 		return "redirect:/" + FOLDER;
 	}
 	
-    @RequestMapping(method = RequestMethod.POST, params="newCard")
+    @RequestMapping(method = RequestMethod.GET, params="newCard")
 	public ModelAndView getNewCard(Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());

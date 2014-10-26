@@ -124,10 +124,11 @@ public class CardManagerDbImpl implements CardManager{
 				break;
 			}
 		}
-		String hql = "select c.cardId FROM Card as c WHERE c.cardId NOT IN (SELECT cardId FROM PlaylistItem as p WHERE p.playlist.userId = :userId)  AND c.symptom = :symptom ORDER BY c.avgRating DESC LIMIT 1";
+		String hql = "select c.cardId FROM Card as c WHERE c.cardId NOT IN (SELECT cardId FROM PlaylistItem as p WHERE p.playlist.userId = :userId)  AND c.symptom = :symptom ORDER BY c.avgRating DESC";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("symptom", topSymptoms[0]);
 		query.setParameter("userId", userId);
+		query.setMaxResults(1);
 		List<Long> res = query.list();
 		query.setParameter("symptom", topSymptoms[1]);
 		List<Long> res2 = query.list();
@@ -179,5 +180,20 @@ public class CardManagerDbImpl implements CardManager{
 	        result.put( entry.getKey(), entry.getValue() );
 	    }
 	    return result;
+	}
+
+	// try to get 3 random cards that aren't in playlist.  can return [0..3] cards 
+	@Override
+	public List<Card> randomCards(long userId) {
+		String hql = "FROM Card as c WHERE c.cardId NOT IN (SELECT cardId FROM PlaylistItem as p WHERE p.playlist.userId = :userId) ORDER BY RAND()";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("userId", userId);
+		query.setMaxResults(3);
+		List<Card> cards = new ArrayList<Card>();
+		if (query.list().size() > 0)
+			for (Object o : query.list()){
+				cards.add((Card)o);
+			}
+		return cards;
 	}
 }

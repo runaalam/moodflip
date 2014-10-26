@@ -79,7 +79,8 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<a href="<c:url value="/card-game/myCards?recommend"/>">Recommend me cards</a>
+			<a class="btn btn-default" href="<c:url value="/card-game/myCards?recommend"/>">Recommend me cards</a>
+			<a class="btn btn-default" href="<c:url value="/card-game/myCards?random"/>">Lucky Trip</a>
 		</div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->
 </div><!-- container -->

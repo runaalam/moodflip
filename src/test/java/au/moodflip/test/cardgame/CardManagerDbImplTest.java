@@ -28,7 +28,7 @@ public class CardManagerDbImplTest {
 	@Autowired
 	private CardManager cardManager;
 	
-	@Test
+//	@Test
 	public void testGetCardsBySymptom(){
 		// add some cards
 		List<Task> missions = new ArrayList<Task>(); 
@@ -68,7 +68,7 @@ public class CardManagerDbImplTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testTaskIteration(){
 		// create a card
 		List<Task> missions = new ArrayList<Task>(); 
@@ -86,6 +86,16 @@ public class CardManagerDbImplTest {
 				System.out.println("CardSurvey: ");
 			}
 			System.out.println("\tcur:" + t + "\n\tnext:" + t.getNext());
+		}
+	}
+	
+	@Test
+	public void testRandomCards(){
+		List<Card> list = cardManager.randomCards(1L);
+		if (list.size() > 0){
+			for (Card c : list){
+				System.out.printf("%s %s\n", c.getTitle(), c.getCardId());
+			}
 		}
 	}
 }
