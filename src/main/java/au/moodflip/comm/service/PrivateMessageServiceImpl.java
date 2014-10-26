@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.comm.dao.PrivateMessageDao;
 import au.moodflip.comm.model.PrivateMessage;
+import au.moodflip.personalisation.model.User;
 
 @Service
 public class PrivateMessageServiceImpl implements PrivateMessageService {
@@ -17,49 +18,28 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
     private PrivateMessageDao privateMessageDao;
 	
 	@Transactional
-	public void createPrivateMessage(PrivateMessage pMessage) {
-		privateMessageDao.createPrivateMessage(pMessage);
+	public PrivateMessage createPrivateMessage(PrivateMessage pMessage) {
+		return privateMessageDao.createPrivateMessage(pMessage);
 	}
 	
 	@Transactional
-	public PrivateMessage createPrivateMessage(String message, Long senderId, Long receiverId) {
+	public PrivateMessage createPrivateMessage(String message, User sender, User receiver) {
 		PrivateMessage pm = new PrivateMessage();
 		pm.setContent(message);
-		pm.setSenderId(senderId);
-		pm.setReceiverId(receiverId);
+		pm.setSender(sender);
+		pm.setReceiver(receiver);
 		pm.setCreatedAt(new Date());
-		createPrivateMessage(pm);
-		return pm;
-	}
-
-	@Transactional
-	public List<PrivateMessage> listPrivateMessage() {
-		return privateMessageDao.listPrivateMessage();
-	}
-
-	@Transactional
-	public List<PrivateMessage> listPrivateMessageBySenderId(Long senderId) {
-		return privateMessageDao.listPrivateMessageBySenderId(senderId);
-	}
-
-	@Transactional
-	public List<PrivateMessage> listPrivateMessageByReceiverId(Long receiverId) {
-		return privateMessageDao.listPrivateMessageByReceiverId(receiverId);
-	}
-
-	@Transactional
-	public List<PrivateMessage> listPrivateMessageByUserId(Long userId) {
-		return privateMessageDao.listPrivateMessageByUserId(userId);
+		return createPrivateMessage(pm);
 	}
 	
 	@Transactional
-	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2) {
-		return privateMessageDao.listPrivateMessageBySenderAndReceiverId(userId_1, userId_2);
+	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(User sender, User receiver) {
+		return privateMessageDao.listPrivateMessageBySenderAndReceiverId(sender, receiver);
 	}
 	
 	@Transactional
-	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2, Long msgId) {
-		return privateMessageDao.updatePrivateMessageBySenderAndReceiverId(userId_1, userId_2, msgId);
+	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(User sender, User receiver, Date datetime) {
+		return privateMessageDao.updatePrivateMessageBySenderAndReceiverId(sender, receiver, datetime);
 	}
 
 	@Transactional

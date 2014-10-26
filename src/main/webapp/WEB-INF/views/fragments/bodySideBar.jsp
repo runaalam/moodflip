@@ -13,31 +13,27 @@
                     	<span class="glyphicon glyphicon-home"></span> Home</a>
                 </h4>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
+            <div id="collapseOne" class="panel-collapse collapse">
                 <div class="panel-body">
                     <table class="table">
                         <tr>
                             <td>
-                                <span class="glyphicon glyphicon-pencil text-primary"></span>
                                 <a href="<c:url value="/user-homepage"/>">My Status</a>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <span class="glyphicon glyphicon-flash text-success"></span>
                               <a href="<c:url value="/user-homepage/depression-assessment"/>">Depression Assessment</a>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <span class="glyphicon glyphicon-file text-info"></span>
                               <a href="<c:url value="/user-homepage/assessment-result"/>">Assessment Result</a>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <span class="glyphicon glyphicon-comment text-success"></span>
-                              <a href="<c:url value="/user-homepage/other-post"/>">Other's Status</a>
+                              <a href="<c:url value="/user-homepage/other-post"/>">Other's post</a>
                           </td>
                       </tr>
                   </table>
@@ -50,24 +46,34 @@
                   <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Card Game</a>
               </h4>
           </div>
-          <div id="collapseTwo" class="panel-collapse collapse">
+          <div id="collapseTwo" class="panel-collapse collapse"> 
               <div class="panel-body">
                   <table class="table">
-                      <tr>
+                  	  <tr>
                           <td>
-                              <a href="#">My Cards</a> 
+                              <a href="<c:url value="/card-game/"/>">Card Game</a> 
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <a href="#">Custom Cards</a>
+                              <a href="<c:url value="/card-game/myCards"/>">My Cards</a> 
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <a href="<c:url value="/card-game/customCards"/>">Custom Cards</a>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <a href="#">Game Stats</a>
+                                <a href="<c:url value="/card-game/playHistory"/>">Play History</a>
                             </td>
                         </tr>
+                        <tr>
+                        	<td>
+                            	<a href="<c:url value="/card-game/cardBrowser"/>">Card Browser</a> 
+                          	</td>
+                      	</tr>
                     </table>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 <% String url = request.getAttribute("javax.servlet.forward.servlet_path").toString(); %>
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -23,8 +23,7 @@
 				<li><a href="<c:url value="/login"/>">Login</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-				<li><a href="<c:url value="/user/profile/"/>"><sec:authentication property="principal.username" /></a></li>
-				<td><a href="<c:url value="/user/edit/${user.id}"/>">edit</a></td>
+				<li><a href=""><sec:authentication property="principal.username" /></a></li>
 				<li><a href="<c:url value="/logout"/>">Logout</a></li>
 				</sec:authorize>
 			</ul>

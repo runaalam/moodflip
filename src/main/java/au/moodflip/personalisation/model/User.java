@@ -17,6 +17,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import au.moodflip.personalisation.annotation.UniqueUsername;
 
 @Entity
@@ -39,6 +41,7 @@ public class User implements Serializable {
 	
 	@Size(min = 6, message = "Password must be at least 6 characters!")
 	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 
 	@Column(name = "banned")
@@ -53,6 +56,7 @@ public class User implements Serializable {
 	@ManyToMany
 	@JoinTable
 	@Fetch(FetchMode.SELECT)
+	@JsonIgnore
 	private Set<Role> roles;
 
 	public long getId() {

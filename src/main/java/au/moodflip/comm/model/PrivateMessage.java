@@ -8,9 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
+
+import au.moodflip.personalisation.model.User;
 
 @Entity
 @Table(name = "PrivateMessage")
@@ -25,11 +28,11 @@ public class PrivateMessage implements Serializable{
 	@NotBlank
 	private String content;
 	
-	@Column(name = "sender_id")
-	private Long senderId;
+	@ManyToOne
+	private User sender;
 	
-	@Column(name = "receiver_id")
-	private Long receiverId;
+	@ManyToOne
+	private User receiver;
 	
 	@Column(name = "created_at")
 	private Date createdAt;
@@ -50,20 +53,20 @@ public class PrivateMessage implements Serializable{
 		this.content = content;
 	}
 
-	public Long getSenderId() {
-		return senderId;
+	public User getSender() {
+		return sender;
 	}
 
-	public void setSenderId(Long senderId) {
-		this.senderId = senderId;
+	public void setSender(User sender) {
+		this.sender = sender;
 	}
 
-	public Long getReceiverId() {
-		return receiverId;
+	public User getReceiver() {
+		return receiver;
 	}
 
-	public void setReceiverId(Long receiverId) {
-		this.receiverId = receiverId;
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
 	}
 
 	public Date getCreatedAt() {

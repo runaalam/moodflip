@@ -4,18 +4,19 @@ import java.util.Date;
 import java.util.List;
 
 import au.moodflip.comm.model.PrivateMessage;
+import au.moodflip.personalisation.model.User;
 
 public interface PrivateMessageDao {
 
-	public void createPrivateMessage(PrivateMessage pMessage);
+	public PrivateMessage createPrivateMessage(PrivateMessage pMessage);
 
-	public List<PrivateMessage> listPrivateMessage();
-
-	public List<PrivateMessage> listPrivateMessageBySenderId(Long senderId);
-
-	public List<PrivateMessage> listPrivateMessageByReceiverId(Long receiverId);
-
-	public List<PrivateMessage> listPrivateMessageByUserId(Long userId);
+//	public List<PrivateMessage> listPrivateMessage();
+//
+//	public List<PrivateMessage> listPrivateMessageBySenderId(Long senderId);
+//
+//	public List<PrivateMessage> listPrivateMessageByReceiverId(Long receiverId);
+//
+//	public List<PrivateMessage> listPrivateMessageByUserId(Long userId);
 
 	public PrivateMessage getPrivateMessageById(Long id);
 
@@ -24,9 +25,9 @@ public interface PrivateMessageDao {
 	public void removePrivateMessage(Long id);
 
 	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(
-			Long userId_1, Long userId_2);
+			User sender, User receiver);
 
 	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(
-			Long userId_1, Long userId_2, Long msgId);
+			User sender, User receiver, Date datetime);
 
 }

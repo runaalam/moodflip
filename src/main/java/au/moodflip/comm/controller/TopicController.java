@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +21,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.service.CardManager;
+import au.moodflip.comm.model.CardSuggest;
 import au.moodflip.comm.model.Topic;
 import au.moodflip.comm.model.TopicComment;
+import au.moodflip.comm.service.CardSuggestService;
 import au.moodflip.comm.service.ForumService;
 import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
@@ -32,7 +37,7 @@ import au.moodflip.personalisation.service.UserManager;
 @RequestMapping(value = "/forums")
 public class TopicController {
 
-	private final String FOLDER = "communication";
+	private static final String FOLDER = "communication";
 
 	@Autowired
 	private TopicService topicService;
@@ -42,6 +47,12 @@ public class TopicController {
 
 	@Autowired
 	private ForumService forumService;
+	
+	@Autowired
+	private CardSuggestService cardSuggestService;
+	
+	@Autowired
+	private CardManager cardManager;
 	
 	@Autowired
 	private UserManager userService;
@@ -101,7 +112,7 @@ public class TopicController {
 
             return FOLDER + "/newTopic";
         }
-		topic.setUserId(userService.getUserByUsername(principal.getName()).getId());
+		topic.setUser(userService.getUserByUsername(principal.getName()));
 		topic.setForum(forumService.getForumById(forumId));
 		topic.setCreatedAt(new Date());
 
@@ -116,7 +127,7 @@ public class TopicController {
 		ModelAndView mav = new ModelAndView(FOLDER + "/editTopic");
 		Topic topic = topicService.getTopicById(id);
 		
-		if(topic.getUserId() != userService.getUserByUsername(principal.getName()).getId())
+		if(topic.getUser().getId() != userService.getUserByUsername(principal.getName()).getId())
 			return new ModelAndView("redirect:/403");
 		
 		mav.addObject("topic", topic);
@@ -132,7 +143,7 @@ public class TopicController {
             return FOLDER + "/editTopic";
         }
 		
-		if(topic.getUserId() != userService.getUserByUsername(principal.getName()).getId())
+		if(topic.getUser().getId() != userService.getUserByUsername(principal.getName()).getId())
 			return "redirect:/403";
 
 		topic.setEditedAt(new Date());
@@ -150,17 +161,15 @@ public class TopicController {
 	}
 
 	@RequestMapping(value = "/topic/up_vote/{id}", method = RequestMethod.GET)
-	public ModelAndView upVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forums/topic/{id}");
+	public @ResponseBody Boolean upVote(@PathVariable("id") Long id) {
 		topicService.upVoteTopic(id);
-		return mav;
+		return true;
 	}
 
 	@RequestMapping(value = "/topic/down_vote/{id}", method = RequestMethod.GET)
-	public ModelAndView downVote(@PathVariable("id") Long id) {
-		ModelAndView mav = new ModelAndView("redirect:/forums/topic/{id}");
+	public @ResponseBody Boolean downVote(@PathVariable("id") Long id) {
 		topicService.downVoteTopic(id);
-		return mav;
+		return true;
 	}
 	
 	
@@ -188,13 +197,41 @@ public class TopicController {
 
             return FOLDER + "/newComment";
         }
-		comment.setUserId(userService.getUserByUsername(principal.getName()).getId());
+		comment.setUser(userService.getUserByUsername(principal.getName()));
 		comment.setTopic(topicService.getTopicById(id));
 		comment.setCreatedAt(new Date());
 
 		topicCommentService.createComment(comment);
 		status.setComplete();
 		return "redirect:/forums/topic/{id}";
+	}
+	
+	/**
+	 * Card Suggestion
+	 */
+	
+	@RequestMapping(value = "/topic/{id}/suggestCard", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ModelAndView newCardSuggest(@PathVariable("id") Long id) {
+		ModelAndView mav = new ModelAndView(FOLDER + "/suggestCard");
+		mav.addObject("symptoms", Card.Symptom.values());
+		mav.addObject("topicId", id);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/topic/{id}/suggestCard", method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public @ResponseBody String createCardSuggest(@PathVariable("id") Long id,
+			@RequestBody Long[] suggestedCards, Principal principal) {
+		for (int i = 0; i < suggestedCards.length; i++) {
+			CardSuggest suggestedCard = new CardSuggest();
+			suggestedCard.setCard(cardManager.getById(suggestedCards[i]));
+			suggestedCard.setTopic(topicService.getTopicById(id));
+			suggestedCard.setUser(userService.getUserByUsername(principal
+					.getName()));
+			cardSuggestService.addCardSuggest(suggestedCard);
+		}
+		return "/forums/topic/" + id;
 	}
 
 }

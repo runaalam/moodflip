@@ -36,13 +36,17 @@
 	
 	<div class="row topic">
 	<div class="col-md-2">
-		<p>User: {{topic.userId}}</p>
+		<img src="<c:url value="/resources/comm/pic/default_avatar.png" />" alt="avatar" class="img-circle user-pic center-block">
+		<h4 class="text-center">{{topic.user.username}}</h4>
+		<span ng-hide="topic.user.username == '<sec:authentication property="principal.username" />'">
+		<a target="_blank" href="<c:url value="/pm/{{topic.user.id}}"/>"><button type="button" class="btn btn-default center-block"><span class="glyphicon glyphicon-comment"></span> PM</button></a>
+		</span>
 	</div>
 	
 	<div class="col-md-10">
 		<div class="row">
 			<div class="col-md-12">
-				<p class="text-right">by {{topic.userId}} &raquo; {{topic.createdAt}}
+				<p class="text-right">by {{topic.user.username}} &raquo; {{topic.createdAt}}
 				<br>
 				<span ng-show="topic.editedAt"> Last edited: {{topic.editedAt}}</span>
 				</p>
@@ -55,8 +59,10 @@
 		</div>
 		<div class="row post-btn">
 			<div class="col-md-12">
-				<a href="<c:url value="/forums/topic/edit/{{topic.id}}"/>"><button type="button" class="btn btn-default">Edit</button></a>
-				<a href="<c:url value="/forums/topic/delete/{{topic.id}}"/>"><button type="button" class="btn btn-danger">Delete</button></a>
+				<span ng-show="topic.user.username == '<sec:authentication property="principal.username" />'">
+				<a href="<c:url value="/forums/topic/edit/{{topic.id}}"/>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</button></a>
+				<a href="<c:url value="/forums/topic/delete/{{topic.id}}"/>"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button></a>
+				</span>
 				
 				<div class="pull-right">
 				
@@ -76,7 +82,26 @@
 	
 	<div class="row topic">
 		<div class="col-md-12">
-			<p>Suggested Cards</p>
+			<h3>Suggested Cards</h3>
+			<div class="row cards">
+				<div class="span3 card" ng-repeat="card in cards">
+				<div class="thumbnail">
+			      <div class="caption">
+			      	<div class="text-right"><small>Card ID: {{card.card.cardId}}</small></div>
+			        <h3>{{card.card.title}}</h3>
+			        <p>Level: {{card.card.level}}</p>
+			        <p>Symptom: {{card.card.symptom.text}}</p>
+			        <p>Average Rating: {{card.card.avgRating}}</p>
+			        <p><small>Completions: {{card.card.completions}}</small>
+			        <br>
+			        <small>Attempts: {{card.card.attempts}}</small></p>
+			      </div>
+			    </div>
+				</div>
+			</div>
+			<div class="pull-right forum-btn">
+			<a href="<c:url value="/forums/topic/{{topic.id}}/suggestCard"/>"><button type="button" class="btn btn-primary">Suggest Card</button></a>
+			</div>
 		</div>
 	</div>
 	
@@ -85,13 +110,17 @@
 	
 	<div class="row topic">
 	<div class="col-md-2">
-		<p>User: {{comment.userId}}</p>
+		<img src="<c:url value="/resources/comm/pic/default_avatar.png" />" alt="avatar" class="img-circle user-pic center-block">
+		<h4 class="text-center">{{comment.user.username}}</h4>
+		<span ng-hide="comment.user.username == '<sec:authentication property="principal.username" />'">
+		<a target="_blank" href="<c:url value="/pm/{{comment.user.id}}"/>"><button type="button" class="btn btn-default center-block"><span class="glyphicon glyphicon-comment"></span> PM</button></a>
+		</span>
 	</div>
 	
 	<div class="col-md-10">
 		<div class="row">
 			<div class="col-md-12">
-				<p class="text-right">by {{comment.userId}} &raquo; {{comment.createdAt}}
+				<p class="text-right">by {{comment.user.username}} &raquo; {{comment.createdAt}}
 				<br>
 				<span ng-show="comment.editedAt"> Last edited: {{comment.editedAt}}</span>
 				</p>
@@ -104,8 +133,10 @@
 		</div>
 		<div class="row post-btn">
 			<div class="col-md-12">
-				<a href="<c:url value="/forums/comment/edit/{{comment.id}}"/>"><button type="button" class="btn btn-default">Edit</button></a>
-				<button type="button" class="btn btn-danger" ng-click="deleteComment(comment.id)">Delete</button>
+				<span ng-show="comment.user.username == '<sec:authentication property="principal.username" />'">
+				<a href="<c:url value="/forums/comment/edit/{{comment.id}}"/>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</button></a>
+				<button type="button" class="btn btn-danger" ng-click="deleteComment(comment.id)"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+				</span>
 				
 				<div class="pull-right">
 				

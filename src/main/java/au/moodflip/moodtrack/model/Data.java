@@ -2,17 +2,23 @@
 package au.moodflip.moodtrack.model;
 
 
-
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 
+import au.moodflip.personalisation.model.User;
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 import org.springframework.format.annotation.DateTimeFormat;
- 
 
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -22,47 +28,141 @@ public class Data implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqData")
     @SequenceGenerator(name = "seqData", sequenceName = "data_seq", allocationSize = 3)
     private int id;
-    
-    
-    @Column(name = "date" ,length = 65536)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private DateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date date;
+
+    @Transient
+    private List<Integer> moodRatingValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     private int moodRating;
+
+    @Transient
+    private List<Integer> copedWithTaskValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int copedWithTask;
+
+    @Transient
+    private List<Integer> hoursOfSleepingValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int hoursOfSleeping;
+
+    @Transient
+    private List<Integer> exerciseHoursValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int exerciseHours;
 
+    @Transient
+    private List<Integer> interestedValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int interested;
+
+    @Transient
+    private List<Integer> irritableValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int irritable;
 
+    @Transient
+    private List<Integer> distressedValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int distressed;
+
+    @Transient
+    private List<Integer> alertValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int alert;
 
+    @Transient
+    private List<Integer> excitedValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int excited;
+
+    @Transient
+    private List<Integer> ashamedValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int ashamed;
 
+    @Transient
+    private List<Integer> upsetValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int upset;
+
+    @Transient
+    private List<Integer> inspiredValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int inspired;
 
+    @Transient
+    private List<Integer> strongValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int strong;
+
+    @Transient
+    private List<Integer> nervousValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int nervous;
 
+    @Transient
+    private List<Integer> guiltyValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int guilty;
+
+    @Transient
+    private List<Integer> determinedValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int determined;
 
+    @Transient
+    private List<Integer> scaredValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int scared;
+
+    @Transient
+    private List<Integer> attentiveValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int attentive;
 
+    @Transient
+    private List<Integer> hostileValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int hostile;
+
+    @Transient
+    private List<Integer> jitteryValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int jittery;
 
+    @Transient
+    private List<Integer> enthusiasticValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int enthusiastic;
+
+    @Transient
+    private List<Integer> activeValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int active;
 
+    @Transient
+    private List<Integer> proudValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int proud;
+
+    @Transient
+    private List<Integer> afraidValues = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     private int afraid;
+
+    public Data() {
+    }
+
+    public Data(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;
@@ -71,15 +171,22 @@ public class Data implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    public void setDate(DateTime date) {
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
         this.date = date;
     }
-
-    public DateTime getDate() {
-        return this.date;
-    }
-
-
 
     public int getMoodRating() {
         return moodRating;
@@ -272,7 +379,101 @@ public class Data implements Serializable {
     public void setAfraid(int afraid) {
         this.afraid = afraid;
     }
-    
-    
+
+    public List<Integer> getMoodRatingValues() {
+        return moodRatingValues;
+    }
+
+    public List<Integer> getCopedWithTaskValues() {
+        return copedWithTaskValues;
+    }
+
+    public List<Integer> getHoursOfSleepingValues() {
+        return hoursOfSleepingValues;
+    }
+
+    public List<Integer> getExerciseHoursValues() {
+        return exerciseHoursValues;
+    }
+
+    public List<Integer> getInterestedValues() {
+        return interestedValues;
+    }
+
+    public List<Integer> getIrritableValues() {
+        return irritableValues;
+    }
+
+    public List<Integer> getDistressedValues() {
+        return distressedValues;
+    }
+
+    public List<Integer> getAlertValues() {
+        return alertValues;
+    }
+
+    public List<Integer> getExcitedValues() {
+        return excitedValues;
+    }
+
+    public List<Integer> getAshamedValues() {
+        return ashamedValues;
+    }
+
+    public List<Integer> getUpsetValues() {
+        return upsetValues;
+    }
+
+    public List<Integer> getInspiredValues() {
+        return inspiredValues;
+    }
+
+    public List<Integer> getStrongValues() {
+        return strongValues;
+    }
+
+    public List<Integer> getNervousValues() {
+        return nervousValues;
+    }
+
+    public List<Integer> getGuiltyValues() {
+        return guiltyValues;
+    }
+
+    public List<Integer> getDeterminedValues() {
+        return determinedValues;
+    }
+
+    public List<Integer> getScaredValues() {
+        return scaredValues;
+    }
+
+    public List<Integer> getAttentiveValues() {
+        return attentiveValues;
+    }
+
+    public List<Integer> getHostileValues() {
+        return hostileValues;
+    }
+
+    public List<Integer> getJitteryValues() {
+        return jitteryValues;
+    }
+
+    public List<Integer> getEnthusiasticValues() {
+        return enthusiasticValues;
+    }
+
+    public List<Integer> getActiveValues() {
+        return activeValues;
+    }
+
+    public List<Integer> getProudValues() {
+        return proudValues;
+    }
+
+    public List<Integer> getAfraidValues() {
+        return afraidValues;
+    }
 }
 

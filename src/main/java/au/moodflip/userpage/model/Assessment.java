@@ -3,6 +3,7 @@ package au.moodflip.userpage.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import au.moodflip.personalisation.model.User;
 
 @Entity
 @Table(name = "assessment")
@@ -22,37 +26,35 @@ public class Assessment{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private int id;
+	private long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private UserCopy user;
+	@JoinColumn(name="user_id")	
+	private User user;
 	
 	@Column(name = "date")
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	private Date date;
 	
 	@Column(name = "score")
 	private int score;
 	
-	@OneToMany
-	@JoinColumn(name = "response_id")
+	@Column(name = "depressionScale")
+	private int depressionScale;
+	
+	@OneToMany(mappedBy="assessment")
 	private List<Response> responseList;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name= "resultDetails_id", unique = true)
+	private ResultDetails resultDetails;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
-	}
-
-	public UserCopy getUser() {
-		return user;
-	}
-
-	public void setUser(UserCopy user) {
-		this.user = user;
 	}
 
 	public Date getDate() {
@@ -71,6 +73,14 @@ public class Assessment{
 		this.score = score;
 	}
 
+	public int getDepressionScale() {
+		return depressionScale;
+	}
+
+	public void setDepressionScale(int depressionScale) {
+		this.depressionScale = depressionScale;
+	}
+
 	public List<Response> getResponseList() {
 		return responseList;
 	}
@@ -79,4 +89,19 @@ public class Assessment{
 		this.responseList = responseList;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public ResultDetails getResultDetails() {
+		return resultDetails;
+	}
+
+	public void setResultDetails(ResultDetails resultDetails) {
+		this.resultDetails = resultDetails;
+	}
 }

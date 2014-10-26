@@ -29,7 +29,14 @@ public class NotificationDaoImpl implements NotificationDao {
 	@Override
 	public List<Notification> listNotificationByUserId(Long userId) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Notification where userId = :userId");
+				"from Notification where userId = :userId order by id");
+		query.setParameter("userId", userId);
+		return query.list();
+	}
+	
+	public List<Notification> listNewNotificationByUserId(Long userId) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Notification where userId = :userId and read = false order by id");
 		query.setParameter("userId", userId);
 		return query.list();
 	}

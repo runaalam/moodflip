@@ -2,10 +2,7 @@ package au.moodflip.comm.service;
 
 import java.util.List;
 
-
-
 import au.moodflip.comm.model.Forum;
-
 
 public interface ForumService {
 

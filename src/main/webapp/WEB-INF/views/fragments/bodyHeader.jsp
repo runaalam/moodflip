@@ -12,7 +12,7 @@
 		        <span class="icon-bar"></span>
 	    		<span class="icon-bar"></span>
 	      	</button>
-	      <a class="navbar-brand" href="#"><fmt:message key="heading" /></a>
+	      <a class="navbar-brand" href="<c:url value="/" />"><fmt:message key="heading" /></a>
 	    </div>
 	    
 	    <p class="navbar-text navbar-right">100 pts Level 2</p>

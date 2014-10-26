@@ -65,7 +65,7 @@
 				<tr>
 					<td><c:out value="${topic.createdAt}" /></td>
 					<td><c:out value="${topic.editedAt}" /></td>
-					<td><c:out value="${topic.userId}" /></td>
+					<td><c:out value="${topic.user.username}" /></td>
 					<td><c:out value="" /></td>
 					<td><c:out value="" /></td>
 					<td><c:out value="" /></td>

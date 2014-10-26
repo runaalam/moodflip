@@ -1,12 +1,15 @@
-INSERT INTO  category (desc) VALUES ('Sadness(Dysphoria)');
-INSERT INTO  category (desc) VALUES ('Loss of Interest(Anhedonia)');
-INSERT INTO  category (desc) VALUES ('Appetite');
-INSERT INTO  category (desc) VALUES ('Sleep');
-INSERT INTO  category (desc) VALUES ('Thinking / concentratio');
-INSERT INTO  category (desc) VALUES ('Guilt(Worthlessness)');
-INSERT INTO  category (desc) VALUES ('Tired(Fatigue)');
-INSERT INTO  category (desc) VALUES ('Movement(Agitation)');
-INSERT INTO  category (desc) VALUES ('Suicidal indecation');
+DELETE FROM question;
+DELETE FROM category;
+
+INSERT INTO  category VALUES (1,'Sadness(Dysphoria)');
+INSERT INTO  category VALUES (2,'Loss of Interest(Anhedonia)');
+INSERT INTO  category VALUES (3,'Appetite');
+INSERT INTO  category VALUES (4,'Sleep');
+INSERT INTO  category VALUES (5,'Thinking / concentratio');
+INSERT INTO  category VALUES (6,'Guilt(Worthlessness)');
+INSERT INTO  category VALUES (7,'Tired(Fatigue)');
+INSERT INTO  category VALUES (8,'Movement(Agitation)');
+INSERT INTO  category VALUES (9,'Suicidal indecation');
 
 INSERT INTO  question VALUES (1,'My appetite was poor.', 3);
 INSERT INTO  question VALUES (2, 'I could not shake off the blues.', 1);

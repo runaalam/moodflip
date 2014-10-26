@@ -1,126 +1,216 @@
 package au.moodflip.userpage.controller;
 
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import au.moodflip.comm.model.Forum;
-import au.moodflip.userpage.model.Answer;
-import au.moodflip.userpage.model.Assessment;
-import au.moodflip.userpage.model.Question;
-import au.moodflip.userpage.model.Response;
+import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.service.UserManager;
 import au.moodflip.userpage.model.Status;
+import au.moodflip.userpage.model.Activity;
+import au.moodflip.userpage.model.StatusComment;
+import au.moodflip.userpage.service.ActivityService;
 import au.moodflip.userpage.service.AssessmentService;
 import au.moodflip.userpage.service.StatusService;
 
 
 @Controller
 @RequestMapping(value = "/user-homepage")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class UserHomepageController {
+	
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserHomepageController.class);
 
 	private final String FOLDER = "user-homepage";
 	
 	@Autowired
+	private UserManager userManager;
+	
+	@Autowired
 	private AssessmentService assessmentService;	
 
 	@Autowired
-	StatusService statusService;
+	private StatusService statusService;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView home(Locale locale) {
-            logger.info("Welcome home!, " + "Locale: " + locale);
-            ModelAndView mav = new ModelAndView("userHomepage");
-            return mav;
-    }
+	@Autowired
+	private ActivityService activityService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView home(Model model) {
+	public ModelAndView home(Principal principal) {
 		logger.info("Welcome to the user home page system!");
-		model.addAttribute(new Status());
-		List<Status> statusList = statusService.listStatus();
-		model.addAttribute("statusList", statusList);
 		ModelAndView mav = new ModelAndView(FOLDER + "/userHomepage");
+		
+		User user = userManager.getUserByUsername(principal.getName());
+		List<Activity> activityList = activityService.getActivityListByUserId(user.getId());
+		mav.addObject("activityList", activityList);
+		
+		List<Status> statusList = statusService.listStatusByUserId(user.getId());
+		mav.addObject("statusList", statusList);
+		
+		mav.addObject("myStatusNew", new Boolean(true));
+		
+		Status status = new Status();
+		mav.addObject("status", status);
+		
+		Activity activity = new Activity();
+		mav.addObject("userActivitynew",activity);
 		return mav;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String statusPost(@ModelAttribute Status status, BindingResult bindingResult, SessionStatus sessionStatus) {
+	public String saveStatusPost(@ModelAttribute("status") Status status,@ModelAttribute("activity") Activity activity,
+			Principal principal, BindingResult bindingResult, SessionStatus sessionStatus, HttpSession session) {
 		logger.info("Save new status");
 		if (bindingResult.hasErrors()){
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
 			return FOLDER + "/userHomepage";
 		}
+		
+		User user = userManager.getUserByUsername(principal.getName());
+		status.setUser(user);
 		statusService.saveStatus(status);
+		sessionStatus.setComplete();
+		
+		String activityDesc = "Write Status";
+		activity.setUser(user);
+		activity.setDescription(activityDesc);
+		activity.setActivityDate(new Date());
+		activityService.addActivity(activity);
+		sessionStatus.setComplete();
+		
+		return "redirect:/user-homepage";
+	}
+	
+	@RequestMapping(value = "/my-status/statusId/{statusId}", method = RequestMethod.GET)
+	public ModelAndView editMyStatus(@PathVariable("statusId") Long statusId){
+		ModelAndView mav = new ModelAndView(FOLDER + "/status");
+		
+		Status status = statusService.getStatusById(statusId);
+		mav.addObject("status", status);
+		
+		List<StatusComment> statusCommentList = new ArrayList<StatusComment>(status.getStatusComments());
+		mav.addObject("statusCommentList", statusCommentList);
+		
+		StatusComment statusComment = new StatusComment();
+		mav.addObject("statusComment", statusComment);
+		
+		return mav;
+	
+	}
+	
+	@RequestMapping(value = "/my-status/statusId/{statusId}", method = RequestMethod.POST)
+	public String commentPost(@PathVariable("statusId") Long statusId, Model model, Principal principal,
+			@ModelAttribute("statusComment") StatusComment statusComment,Activity activity,
+			BindingResult bindingResult, SessionStatus sessionStatus) {
+		logger.info("Save new Comment");
+		if (bindingResult.hasErrors()){
+			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
+			return FOLDER + "/userHomepage";
+		}
+		model.addAttribute("statusId", statusId);
+		Status status = statusService.getStatusById(statusId);
+		statusComment.setStatus(status);
+		status.getStatusComments().add(statusComment);
+//		statusCommentService.addComment(statusComment);
+		statusService.saveStatus(status);
+		sessionStatus.setComplete();
+		
+		User user = userManager.getUserByUsername(principal.getName());
+		String activityDesc = "Write comment on a status";
+		activity.setUser(user);
+		activity.setDescription(activityDesc);
+		activity.setActivityDate(new Date());
+		activityService.addActivity(activity);
+		sessionStatus.setComplete();
+		
+		String redirUrl = "redirect:/user-homepage/other-post/statusId/{statusId}";
+		logger.info("redirUrl:" + redirUrl);
+		return redirUrl;
+	}
+	
+	@RequestMapping(value = "/edit/{statusId}", method = RequestMethod.GET)
+	public ModelAndView showMyStatus(@PathVariable("statusId") Long statusId, Principal principal){
+		ModelAndView mav = new ModelAndView(FOLDER + "/userHomepage");
+		
+		User user = userManager.getUserByUsername(principal.getName());
+		Status status = statusService.getStatusById(statusId);
+		mav.addObject("status", status);
+		logger.info("*****Edit status GET*******" + status.getId() + "  " +status.getUser());
+		
+		List<Activity> activityList = activityService.getActivityListByUserId(user.getId());
+		mav.addObject("activityList", activityList);
+		
+		mav.addObject("myStatusNew", new Boolean(false));
+	
+		List<Status> statusList = statusService.listStatusByUserId(user.getId());
+		mav.addObject("statusList", statusList);
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/edit/{statusId}", method = RequestMethod.POST)
+	public String editMyStatus(@PathVariable("statusId") Long statusId, @ModelAttribute("status") Status status,
+			Principal principal, BindingResult bindingResult, SessionStatus sessionStatus){
+		if (bindingResult.hasErrors()){
+			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
+			return FOLDER + "/userHomepage";
+		}
+		
+		User user = userManager.getUserByUsername(principal.getName());
+		status.setId(statusId);
+		status.setUser(user);
+		statusService.editStatus(status);
+		sessionStatus.setComplete();
+		logger.info("*****Edit status POST*******" + status.getId());
+		
+		Activity activity = new Activity();
+		String activityDesc = "Update Status";
+		activity.setUser(status.getUser());
+		activity.setDescription(activityDesc);
+		activity.setActivityDate(new Date());
+		activityService.addActivity(activity);
+		sessionStatus.setComplete();
+		
+		return "redirect:/user-homepage";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, params="delete")
+	public String deleteMyStatus(@RequestParam(value="delete", required=false) long statusId, 
+			 Principal principal,  SessionStatus sessionStatus){
+		
+		statusService.removeStatus(statusId);
+		sessionStatus.setComplete();
+		
+		User user = userManager.getUserByUsername(principal.getName());
+		String activityDesc = "Delete Status";
+		Activity activity = new Activity();
+		activity.setUser(user);
+		activity.setDescription(activityDesc);
+		activity.setActivityDate(new Date());
+		activityService.addActivity(activity);
 		sessionStatus.setComplete();
 		return "redirect:/user-homepage";
 	}
 	
-	@RequestMapping(value = "/depression-assessment", method = RequestMethod.GET)
-	public ModelAndView assessmentSurvey() {
-
-		ModelAndView mav = new ModelAndView(FOLDER + "/questions");
-		List<Question> quesList = assessmentService.getQuestions();
-		mav.addObject("quesList", quesList);
-		List<Answer> answerList = assessmentService.getAnswers();
-		mav.addObject("ansList", answerList);
-
-		Assessment assessment = new Assessment();
-		mav.addObject("assessment", assessment);
-		return mav;
-	}
-
-	@RequestMapping(value = "/depression-assessment", method = RequestMethod.POST)
-	public String create(@ModelAttribute("assessment") Assessment assessment,
-			BindingResult result, SessionStatus status) {
-		if (result.hasErrors()) {
-			//logger
-			
-            return FOLDER + "/questions";
-        }
-
-		status.setComplete();
-		
-		String testStatus = "Completed assesment test with individual score of (" 
-							+ assessment.getResponseList().get(0).getAnswerId() + "+"
-							+ assessment.getResponseList().get(1).getAnswerId() + "+"
-							+ assessment.getResponseList().get(2).getAnswerId() + "+"
-							+ assessment.getResponseList().get(3).getAnswerId() + "+"
-							+ assessment.getResponseList().get(4).getAnswerId() + ")";
-		Status newStatus = new Status();
-		newStatus.setContent(testStatus);
-		newStatus.setSubmitDate(new Date());
-		statusService.saveStatus(newStatus);
-		return "redirect:/user-homepage";
-	}	
-	
-	@RequestMapping(value = "/assessment-result", method = RequestMethod.GET)
-	public ModelAndView assessmentResult() {
-		ModelAndView mav = new ModelAndView(FOLDER + "/assessmentResult");
-		return mav;
-	}
-	
-	@RequestMapping(value = "/other-post", method = RequestMethod.GET)
-	public ModelAndView otherPost() {
-		ModelAndView mav = new ModelAndView(FOLDER + "/statusPost");
-		return mav;
-	}
-	 
 }

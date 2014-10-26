@@ -13,5 +13,9 @@ public interface AssessmentDao {
 											"Five to seven days last week", 
 											"Nearly every day for two weeks"};
 	
-	public void addAssessment(Assessment assessment);
+	public void save(Assessment assessment);
+	
+	public  List<Assessment> listAssessmentByUserId(Long userId);
+	
+	public Assessment getAssessmentsById(Long id);
 }

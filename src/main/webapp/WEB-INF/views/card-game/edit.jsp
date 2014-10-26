@@ -1,58 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ include file="/WEB-INF/views/include.jsp" %>
+<%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>New card</title>
-<!-- Bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<style>
-		.error { color: red; }
-</style>
-</head>
-<body>
-<nav class="navbar navbar-inverse" role="navigation">
-	<div class="container">
-		<!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	    	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-		        <span class="sr-only">Toggle navigation</span>
-		        <span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-	    		<span class="icon-bar"></span>
-	      	</button>
-	      <a class="navbar-brand" href="#">MoodFlip</a>
-	    </div>
-	    
-	    <p class="navbar-text navbar-right">100 pts Level 2</p>
-	    <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">User123</a></p>
-	</div>
-</nav>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<html>
+	<jsp:include page="../fragments/headTag.jsp"/>
+<body> 
+<!-- include page header -->
+<jsp:include page="../fragments/bodyHeader.jsp"/>
 <div class="container">
 	<div class="row">
-		<div class="col-md-2">
-			<ul class="nav nav-pills nav-stacked">
-			  	<li><a href="<c:url value="/card-game"/>">Card game</a></li>
-			  	<li><a href="#">My Cards</a></li>
-				<li class="active"><a href="<c:url value="/card-game/customCards"/>">Custom cards</a></li>
-			  	<li><a href="#">Game Stats</a></li>
-			</ul>
-		</div>
-		<div class="col-md-10">
-			<ol class="breadcrumb">
-				<li><a href="<c:url value="/"/>">Home</a></li>
-			  	<li><a href="<c:url value="/card-game"/>">Card game</a></li>
-			  	<li><a href="<c:url value="/card-game/customCards"/>">Custom Cards</a></li>
-			  	<li class="active">Create/Edit</li>
-			</ol>
+    	<!-- include Sidebar --> 	
+	    <jsp:include page="../fragments/bodySideBar.jsp"/>
+	    <div class="col-xs-12 col-sm-9">
 			<h1>Create/Edit card</h1><br/>
 			<sf:form method="POST" modelAttribute="card" class="form-horizontal" role="form">
 				<div class="form-group">
@@ -87,19 +49,29 @@
 					</div>
 				</div>	
 				<div id="missionsDiv">
-					<c:forEach items="${card.missions}" varStatus="status">
-					 	<div class="form-group aMissionDiv">						
-							<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
-							<div class="col-sm-5">
-								<sf:textarea path="missions[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
+					<c:choose>
+						<c:when test="${fn:length(card.tasks) > 1}">  <!-- old card -->
+							<c:set var="end" scope="request" value="${fn:length(card.tasks) - 1}"/>
+						</c:when>
+						<c:otherwise> <!--  new card -->
+							<c:set var="end" scope="request" value="${1}"/>
+						</c:otherwise>
+					</c:choose>
+					<c:forEach begin="0" end="${lastMissionIndex}" varStatus="status"> 
+						
+						 	<div class="form-group aMissionDiv">			
+						 		<sf:hidden path="tasks[${status.index}]"/>
+								<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
+								<div class="col-sm-5">
+									<sf:textarea path="tasks[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
+								</div>
+							<c:if test="${ status.last }">
+								<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">
+									<button type="button" id="delMissionBtn" class="btn btn-default btn-sm" <c:if test="${lastMissionIndex eq 0}">disabled="disabled"</c:if>>Delete</button>
+									<button type="button" id="addMissionBtn" class="btn btn-default btn-sm">Add</button>
+								</div>
+							</c:if>
 							</div>
-						<c:if test="${ status.last }">
-							<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">
-								<button type="button" id="delMissionBtn" class="btn btn-default btn-sm" <c:if test="${fn:length(card.missions) eq 1}">disabled="disabled"</c:if>>Delete</button>
-								<button type="button" id="addMissionBtn" class="btn btn-default btn-sm">Add</button>
-							</div>
-						</c:if>
-						</div>
 					</c:forEach>
 				</div>
 				<div id="testDiv">
@@ -116,11 +88,10 @@
 				<input type="submit" value="Save card" class="btn btn-primary" />
 			</sf:form>
 			<c:out value="${status}"/>
-		</div>
-	</div>
-</div>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="<c:url value="/resources/card-game/js/edit.js" />" type="text/javascript"></script>
+		</div><!-- /.col-xs-12 main -->	
+	</div><!--/.row-->
+</div><!-- container -->
+<jsp:include page="../fragments/footer.jsp"/>
 </body>
+	<script src="<c:url value="/resources/card-game/js/edit.js" />" type="text/javascript"></script>
 </html>

@@ -5,55 +5,86 @@
 <html ng-app="moodFlip">
 <head>
 <title><fmt:message key="title" /></title>
+<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
+<link rel="stylesheet" href="<c:url value="/resources/comm/css/pm.css" />">
 </head>
 <body>
-	<h1>
-		<fmt:message key="heading" />
-	</h1>
-	<h3>Private Message</h3>
+
+	<%@ include file="/WEB-INF/views/navbar.jsp"%>
 	
-	<div ng-controller="PrivateMessageCtrl" ng-init="setReceiverId(<c:out value="${receiverId}" />)">
+	<div class="container">
 	
-	<c:choose>
-	<c:when test="${!empty users}">
-		<table border="1">
-			<tr>
-				<th>User</th>
-			</tr>
-			<c:forEach items="${users}" var="user">
-			<c:if test="${user.username != currentUser}">
-				<tr>
-					<td><a href="#" ng-click="setReceiverId(${user.id})"><c:out value="${user.username}" /></a></td>
-				</tr>
-			</c:if>
-			</c:forEach>
-		</table>
-	</c:when>
-	<c:when test="${empty users}">
-	There is no user.
-	</c:when>
-	</c:choose>
+	<div ng-controller="PrivateMessageCtrl" ng-init="setReceiverId(<c:out value="${receiver.id}" />)">
+
+
+			<div class="row">
+				<div class="col-md-12">
+					<h3>
+						Private Message - <strong>${receiver.username}</strong>
+					</h3>
+				</div>
+			</div>
+
+			<div class="chat-texts">
+			<div class="row" ng-repeat="message in messages">
+			<div ng-if="message.sender.username == '<sec:authentication property="principal.username" />'">
+				<div class="col-md-2">
+					<img src="<c:url value="/resources/comm/pic/default_avatar.png" />"
+						alt="avatar" class="img-circle user-pic center-block">
+					<h4 class="text-center">{{message.sender.username}}</h4>
+				</div>
+				<div class="col-md-8">
+					<div class="popover right">
+						<div class="arrow"></div>
+						<h3 class="popover-title text-right">{{message.createdAt}}</h3>
+						<div class="popover-content">
+							<p class="newLineOverflow">{{message.content}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="message.sender.username != '<sec:authentication property="principal.username" />'">
+				<div class="col-md-offset-2 col-md-8">
+					<div class="popover left">
+						<div class="arrow"></div>
+						<h3 class="popover-title text-right">{{message.createdAt}}</h3>
+						<div class="popover-content">
+							<p class="newLineOverflow">{{message.content}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<img src="<c:url value="/resources/comm/pic/default_avatar.png" />"
+						alt="avatar" class="img-circle user-pic center-block">
+					<h4 class="text-center">{{message.sender.username}}</h4>
+				</div>
+			</div>
+			</div>
+			</div>
+
+			<div class="row message-input">
+				<div class="col-md-offset-2 col-md-8">
+					<form ng-submit="send()">
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="message">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Send</button>
+						</span>
+					</div>
+					<!-- /input-group -->
+					</form>
+				</div>
+			</div>
+		</div>
 	
-	<hr>
-	
-	<div ng-repeat="message in messages">
-		{{message.senderId}} : {{message.content}} ({{message.createdAt}})
-		<br>
 	</div>
-
-		<form ng-submit="send()" ng-show="userSelected">
-			<input type="text" ng-model="message" name="message" />
-			<input type="submit" id="send" value="Send" />
-		</form>
-
-
-	</div>
-
-
 
 </body>
 
+<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-sanitize.min.js"></script>
 <script src="<c:url value="/resources/comm/js/main.js" />"></script>
 <script src="<c:url value="/resources/comm/js/pm.js" />"></script>
 

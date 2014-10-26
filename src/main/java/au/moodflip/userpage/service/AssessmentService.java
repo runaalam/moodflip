@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
+import au.moodflip.userpage.model.ResultDetails;
 
 @Service
 public interface AssessmentService {
@@ -15,5 +16,11 @@ public interface AssessmentService {
 	
 	List<Answer> getAnswers();
 	
-	public void addAssessment(Assessment assessment);
+	public void save(Assessment assessment);
+	
+	public  List<Assessment> listAssessmentByUserId(Long userId);
+	
+	public Assessment getAssessmentsById(Long id);
+	
+	public Assessment calculateAssessmentScore(Assessment assessment);
 }

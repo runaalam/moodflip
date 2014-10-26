@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +21,7 @@ import au.moodflip.comm.service.ForumService;
 @RequestMapping(value = "/forums")
 public class ForumController {
 
-	private final String FOLDER = "communication";
+	private static final String FOLDER = "communication";
 
 	@Autowired
 	private ForumService forumService;

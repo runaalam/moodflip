@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,9 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import au.moodflip.personalisation.model.User;
 
 @Entity
 @Table(name = "Topic")
@@ -38,10 +40,6 @@ public class Topic implements Serializable {
 	@NotBlank
 	private String content;
 
-	// **TO BE CHANGED**
-	@Column(name = "user_id")
-	private long userId;
-
 	@Column(name = "up_vote")
 	private int upVote;
 
@@ -59,6 +57,9 @@ public class Topic implements Serializable {
 
 	@ManyToOne
 	private Forum forum;
+	
+	@ManyToOne
+	private User user;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "comment_id")
@@ -87,14 +88,6 @@ public class Topic implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
 	}
 
 	public int getUpVote() {
@@ -151,6 +144,14 @@ public class Topic implements Serializable {
 
 	public void setTopicComments(Set<TopicComment> topicComments) {
 		this.topicComments = topicComments;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

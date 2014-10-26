@@ -1,11 +1,9 @@
 package au.moodflip.test.cardgame;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
+//
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,10 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.Card;
+import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.Card.Symptom;
+import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.service.CardManager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,31 +30,21 @@ public class CardManagerDbImplTest {
 	
 	@Test
 	public void testGetCardsBySymptom(){
-		System.out.println(org.hibernate.Version.getVersionString());
 		// add some cards
-		List<Mission> missions = new ArrayList<Mission>(); 
+		List<Task> missions = new ArrayList<Task>(); 
 		Card card = new Card("APPETITE card #1", 1, Symptom.APPETITE, "intro", missions, "outro", 1, 1, 1);
-		missions.add(new Mission("Appetite card #1 Mission 1", card));
+		missions.add(new Mission("Appetite card #1 Mission 1"));
 		cardManager.add(card);
 		
-		missions = new ArrayList<Mission>(); 
+		missions = new ArrayList<Task>(); 
 		card = new Card("APPETITE card #2", 2, Symptom.APPETITE, "intro2", missions, "outro2", 2, 2, 2);
-		missions.add(new Mission("Appetite card #2 Mission 1", card));
-		missions.add(new Mission("Appetite card #2 Mission 2", card));
-		// link missions together
-		for (int i=0; i < missions.size(); i++){
-			if (i-1 >= 0){
-				missions.get(i).setPrev(missions.get(i-1));
-			}
-			if (i+1 < missions.size()){
-				missions.get(i).setNext(missions.get(i+1));
-			}
-		}
+		missions.add(new Mission("Appetite card #2 Mission 1"));
+		missions.add(new Mission("Appetite card #2 Mission 2"));
 		cardManager.add(card);
 
-		missions = new ArrayList<Mission>(); 
+		missions = new ArrayList<Task>(); 
 		card = new Card("SLEEP card #1", 2, Symptom.SLEEP, "intro1", missions, "outro1", 1, 1, 1);
-		missions.add(new Mission("SLEEP card #1 Mission 1", card));
+		missions.add(new Mission("SLEEP card #1 Mission 1"));
 		cardManager.add(card);
 		
 		// get cards by symptom
@@ -65,17 +55,8 @@ public class CardManagerDbImplTest {
 		System.out.println("Appetite cards");
 		for (Card c : appetiteCards){
 			System.out.println(c);
-			List<Mission> m = c.getMissions();
-			System.out.println("getting cardid from mission: " + m.get(0).getCard().getCardId());
-			if (c.getTitle().equals("APPETITE card #2")){
-				System.out.println("Using Mission next & prev props: ");
-				for (Mission a : m){
-					System.out.println("Mission " + a.getMissionId() + ":");
-					System.out.println("\tprev mission: " + a.getPrev());
-					System.out.println("\tcur mission: " + a);
-					System.out.println("\tnext mission: " + a.getNext());
-				}
-			}
+			List<Task> m = c.getTasks();
+			System.out.println("getting cardid from mission 0: " + m.get(0).getCard().getCardId());
 		}
 		System.out.println("Sleep cards");
 		for (Card c : sleepCards){
@@ -86,5 +67,25 @@ public class CardManagerDbImplTest {
 			System.out.println(c);
 		}
 	}
-
+	
+	@Test
+	public void testTaskIteration(){
+		// create a card
+		List<Task> missions = new ArrayList<Task>(); 
+		Card card = new Card("card 1", 1, Symptom.APPETITE, "intro", missions, "outro", 1, 1, 1);
+		missions.add(new Mission("card Mission 1"));
+		missions.add(new Mission("Card Mission 2"));
+		missions.add(new CardSurvey("The weather is great"));
+		long cardId = cardManager.add(card);
+		
+		Card c = cardManager.getById(cardId);
+		for (Task t : c.getTasks()){
+			if (t instanceof Mission){
+				System.out.println("Mission: ");
+			}else if (t instanceof CardSurvey){
+				System.out.println("CardSurvey: ");
+			}
+			System.out.println("\tcur:" + t + "\n\tnext:" + t.getNext());
+		}
+	}
 }
