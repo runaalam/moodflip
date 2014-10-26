@@ -190,6 +190,19 @@ public class MyCardsController {
 		return "redirect:/" + FOLDER + "/myCards";
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, params="random")
+	public String randomCards(Principal principal){
+		User user = userManager.getUserByUsername(principal.getName());
+		CgUser cgUser = cgUserManager.getById(user.getId());
+		List<Card> randomCards = cardManager.randomCards(cgUser.getCgUserId());
+		if (randomCards.size() > 0){
+			for (Card c : randomCards){
+				playlistManager.appendItem(new PlaylistItem(c.getCardId()), cgUser.getCgUserId());
+			}
+		}
+		return "redirect:/" + FOLDER + "/myCards";
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, params="play")
 	public String playCard(Model model, @RequestParam(value="play", required=false) long cardId, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());

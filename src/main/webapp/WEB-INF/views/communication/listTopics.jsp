@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="tg" tagdir="/WEB-INF/tags" %>
-<html>
+<html ng-app="moodFlip">
 <head>
 <title><fmt:message key="title" /></title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
@@ -106,4 +106,5 @@
 
 </body>
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
+<%@ include file="/WEB-INF/views/angularjs/include-js.jsp"%>
 </html>

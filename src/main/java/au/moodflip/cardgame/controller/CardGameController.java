@@ -29,6 +29,7 @@ import au.moodflip.cardgame.model.TaskEvent;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CardEventManager;
 import au.moodflip.cardgame.service.CgUserManager;
+import au.moodflip.cardgame.service.PlaylistManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
 
@@ -46,6 +47,8 @@ public class CardGameController{
     private CardManager cardManager;
     @Autowired
     private CardEventManager cardEventManager;
+    @Autowired
+    private PlaylistManager	playlistManager;
     
     @RequestMapping
 	public String home(Locale locale, Principal principal, Model model, HttpSession session) {
@@ -76,7 +79,7 @@ public class CardGameController{
 		return FOLDER + "/cardGame";
 	}
 	
-    @RequestMapping(method = RequestMethod.POST, params="nextMission")
+    @RequestMapping(method = RequestMethod.GET, params="nextMission")
 	public String getNextTask(Principal principal, Model model){
 		logger.info("Get next task - getNextTask()");
 		User user = userManager.getUserByUsername(principal.getName());
@@ -143,6 +146,7 @@ public class CardGameController{
 	
     @RequestMapping(method = RequestMethod.POST, params="finish")
 	public String getCardSurvey(CardSurvey cardSurvey, Principal principal, Model model){
+    	logger.info("Enter getCardSurvey()");
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());
 		logger.info("answered: " + cardSurvey.getAnswer());
@@ -151,11 +155,14 @@ public class CardGameController{
 		curCardEvent.setComplete(true); 
 		cgUser.setCompletions(cgUser.getCompletions() + 1); // set global completions
 		cgUser.setCurrentTaskEvent(null); // set to no mission for user
+		boolean res = playlistManager.deleteItem(curCardEvent.getCard().getCardId(), cgUser.getCgUserId());// remove from playlist
+		logger.info("removed card from playlist: " + res);
 		cgUserManager.update(cgUser);
+		logger.info("Exit getCardSurvey()");
 		return "redirect:/" + FOLDER;
 	}
 	
-    @RequestMapping(method = RequestMethod.POST, params="newCard")
+    @RequestMapping(method = RequestMethod.GET, params="newCard")
 	public ModelAndView getNewCard(Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
 		CgUser cgUser = cgUserManager.getById(user.getId());

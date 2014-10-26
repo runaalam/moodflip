@@ -74,7 +74,7 @@ public class CardEventManagerDbImpl implements CardEventManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CardPlayHistoryItem> getCardPlayHistory(CgUser user, long cardId) {
+	public CardPlayHistoryItem getCardPlayHistory(CgUser user, long cardId) {
 		String hql = "SELECT date, points, complete FROM CardEvent WHERE user = :user AND card.cardId = :card ORDER BY date DESC";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("user", user);
@@ -84,8 +84,22 @@ public class CardEventManagerDbImpl implements CardEventManager {
 		DateFormat df = DateFormat.getDateTimeInstance();
 		for (Object[] l : list){
 			String pts = String.valueOf(l[1]).equals("null") ? "0" : String.valueOf(l[1]); 
-			res.add(new CardPlayHistoryItem(df.format((Date)l[0]), pts, String.valueOf(l[2])));
+			return new CardPlayHistoryItem(df.format((Date)l[0]), pts, String.valueOf(l[2]));
 		}
+		return new CardPlayHistoryItem("", "", "");
+	}
+
+	@Override
+	public List<CardPlayHistoryItem> getCardPlayHistory(CgUser user) {
+		List<CardPlayHistoryItem> res = new ArrayList<CardPlayHistoryItem>();
+		String hql = "SELECT card.cardId FROM CardEvent WHERE user = :user ORDER BY card.cardId ASC";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("user", user);
+		List<Long> list = query.list();
+		for (Long cardId : list){
+			res.add(getCardPlayHistory(user, cardId));
+		}
+		
 		return res;
 	} 
 }

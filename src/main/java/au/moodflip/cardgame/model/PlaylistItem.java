@@ -36,4 +36,15 @@ public class PlaylistItem {
 	public long getCardId() { return cardId; }
 	public void setCardId(long cardId) { this.cardId = cardId; }
 	private long cardId;
+	
+	// for playlistmmanager.deleteItem
+	@Override
+	public boolean equals(Object o){
+		if (!(o instanceof PlaylistItem)) return false;
+		if (!(this instanceof PlaylistItem)) return false;
+		PlaylistItem p = (PlaylistItem)o;
+		if (this.cardId != p.cardId) return false;
+		if (this.getPlaylist().getUserId() != p.getPlaylist().getUserId()) return false;
+		return true;
+	}
 }

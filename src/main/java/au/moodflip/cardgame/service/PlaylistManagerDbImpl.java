@@ -55,4 +55,21 @@ public class PlaylistManagerDbImpl implements PlaylistManager {
 		sessionFactory.getCurrentSession().merge(playlist);
 	}
 
+	@Override
+	public boolean deleteItem(long cardId, long userId) {
+		boolean res = false;
+		if (userId != 0){
+			Playlist pl = get(userId);
+			if (pl != null){ // playlist exists in db
+				PlaylistItem item = new PlaylistItem(cardId, pl);
+				List<PlaylistItem> items = pl.getPlaylistItems();
+				item.setPlaylist(pl);
+				item.getPlaylist().setUserId(userId);
+				res = items.remove(item);
+				sessionFactory.getCurrentSession().merge(pl);
+			}
+		}
+		return res;
+	}
+
 }

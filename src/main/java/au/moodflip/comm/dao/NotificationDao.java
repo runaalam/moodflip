@@ -12,7 +12,7 @@ public interface NotificationDao {
 	
 	public List<Notification> listNotificationByUserId(Long userId);
 	
-	public List<Notification> listNewNotificationByUserId(Long userId);
+	public List<Notification> listUnreadNotificationByUserId(Long userId);
 	
 	public Notification getNotificationById(Long id);
 	
@@ -23,5 +23,9 @@ public interface NotificationDao {
 	public void setNotificationRead(Long id);
 	
 	public Notification getLatestNotReadNotificationByUserId(Long userId);
+	
+	public List<Notification> updateNotificationByUserId(Long userId, Long id);
+	
+	public List<Notification> updateUnreadNotificationByUserId(Long userId, Long id);
 
 }

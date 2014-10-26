@@ -27,7 +27,7 @@
 				<table class="table table-condensed">
 					<thead>
 						<tr>
-							<th><form:checkbox path="" value=""/></th>
+							<th>Action</th>
 							<th>Title</th>
 							<th>Level</th>
 							<th>Symptom</th>

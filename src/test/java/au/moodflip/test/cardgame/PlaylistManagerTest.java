@@ -56,5 +56,17 @@ public class PlaylistManagerTest {
 		
 		playlistManager.appendItem(new PlaylistItem(4L), user.getId());
 		playlistManager.appendItem(new PlaylistItem(4L), admin.getId());
+		
+		Playlist adminPl = playlistManager.get(admin.getId());
+		System.out.println("Admin's pl:");
+		for (PlaylistItem i : adminPl.getPlaylistItems()){
+			System.out.println(i.getCardId());
+		}
+		
+		playlistManager.deleteItem(4L, admin.getId());
+		System.out.println("Admin's pl:");
+		for (PlaylistItem i : adminPl.getPlaylistItems()){
+			System.out.println(i.getCardId());
+		}
 	}
 }
