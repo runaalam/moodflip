@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import au.moodflip.comm.model.Forum;
 import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.model.User.Privacy;
 import au.moodflip.personalisation.service.RoleManager;
 import au.moodflip.personalisation.service.UserManager;
 
@@ -57,7 +58,7 @@ public class UserController {
 			user.setBanned(false);
 			user.setUsername(httpServletRequest.getParameter("username"));
 			user.setPassword(httpServletRequest.getParameter("password"));
-			user.setPrivacySetting(httpServletRequest.getParameter("privacySetting"));
+			user.setPrivacySetting(Privacy.valueOf("Open"));
 			
 			Set<Role> roles = new HashSet<Role>();
 			roles.add(roleService.findByName("ROLE_USER"));

@@ -3,6 +3,8 @@ package au.moodflip.personalisation.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,9 +16,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import au.moodflip.personalisation.annotation.UniqueUsername;
@@ -24,6 +35,24 @@ import au.moodflip.personalisation.annotation.UniqueUsername;
 @Entity
 @Table(name = "User")
 public class User implements Serializable {
+	
+	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+	public enum Privacy{
+		OPEN("Available to all"), 
+		FRIEND("Friends can see"),
+		SELF("Available to self");
+		
+		private final String text;
+
+		private Privacy(final String text){
+			this.text = text;
+		}
+
+		public String getText() {
+			return text;
+		}
+		
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +80,14 @@ public class User implements Serializable {
 	private Date createdAt;
 	
 	@Column(name = "privacy_setting")
-	private String privacySetting;
+	private Privacy privacy;
+	public void setPrivacySetting(Privacy privacy){
+		this.privacy = privacy;
+	}
+	public Privacy getPrivacySetting(){
+		return privacy;
+	}
+
 	
 	@ManyToMany
 	@JoinTable
@@ -79,10 +115,6 @@ public class User implements Serializable {
 		return createdAt;
 	}
 	
-	public String getPrivacySetting(){
-		return privacySetting;
-	}
-	
 	public void setUsername(String username){
 		this.username = username;
 	}
@@ -106,9 +138,6 @@ public class User implements Serializable {
 		this.createdAt = createdAt;
 	}
 	
-	public void setPrivacySetting(String privacySetting){
-		this.privacySetting = privacySetting;
-	}
 
 	public Date getCreatedAt() {
 		return createdAt;
@@ -125,5 +154,6 @@ public class User implements Serializable {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
 	
 }
