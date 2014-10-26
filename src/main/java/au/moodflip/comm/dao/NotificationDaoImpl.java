@@ -29,14 +29,14 @@ public class NotificationDaoImpl implements NotificationDao {
 	@Override
 	public List<Notification> listNotificationByUserId(Long userId) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Notification where userId = :userId order by id");
+				"from Notification where userId = :userId order by id desc");
 		query.setParameter("userId", userId);
 		return query.list();
 	}
 	
-	public List<Notification> listNewNotificationByUserId(Long userId) {
+	public List<Notification> listUnreadNotificationByUserId(Long userId) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Notification where userId = :userId and read = false order by id");
+				"from Notification where userId = :userId and read = false order by id desc");
 		query.setParameter("userId", userId);
 		return query.list();
 	}
@@ -74,6 +74,25 @@ public class NotificationDaoImpl implements NotificationDao {
 				"from Notification where userId = :userId and read = 0 order by created_at desc");
 		query.setParameter("userId", userId);
 		return (Notification) query.setMaxResults(1).uniqueResult();
+	}
+	
+	@Override
+	public List<Notification> updateNotificationByUserId(Long userId, Long id) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Notification where userId = :userId and id > :id order by id desc");
+		query.setParameter("userId", userId);
+		query.setParameter("id", id);
+		return query.list();
+	}
+
+	@Override
+	public List<Notification> updateUnreadNotificationByUserId(Long userId,
+			Long id) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Notification where userId = :userId and id > :id and read = false order by id desc");
+		query.setParameter("userId", userId);
+		query.setParameter("id", id);
+		return query.list();
 	}
 
 }

@@ -35,7 +35,7 @@
 	
 	<h3><a href="<c:url value="/forums" />">Forums</a></h3>
 	
-	<h3><a href="<c:url value="/notification" />">Notification</a></h3>
+	<h3><a href="<c:url value="/notification" />">Notifications</a></h3>
 
 	<h3><a href="<c:url value="/personalisation"/>">personalisation for different user classes</a></h3>
 

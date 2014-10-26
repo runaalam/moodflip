@@ -68,4 +68,6 @@
 
 </body>
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
+<%@ include file="/WEB-INF/views/angularjs/include-js.jsp"%>
+
 </html>
