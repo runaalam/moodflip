@@ -52,6 +52,7 @@ public class FriendManagerImp implements FriendManager{
 		}
     }
     
+	@Override
     public void addFriendRequest(Friend request) {
 		this.sessionFactory.getCurrentSession().save(request);
 	}
