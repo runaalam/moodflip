@@ -19,7 +19,7 @@
 				</div></div>
 				<br><br><br>
 				<div class="panel panel-default">
-					<div class="panel-heading"><h3 class="panel-title">My status</h3></div>
+					<div class="panel-heading"><h3 class="panel-title"><fmt:message key="userHomepage.status.my"/></h3></div>
   					<div class="bs-example">
 						<table class="table">
 							<c:choose>
@@ -37,13 +37,13 @@
 	                       				</c:forEach>
 									</form:form>
 								</c:when>
-								<c:when test="${empty statusList}">There is no post.</c:when>
+								<c:when test="${empty statusList}"><fmt:message key="userHomepage.status.post.others.empty"/></c:when>
 							</c:choose>
 						</table>
 					</div>
 				</div>
 				<div class="panel panel-default">
-  					<div class="panel-heading"><h3 class="panel-title">My Activity</h3></div>
+  					<div class="panel-heading"><h3 class="panel-title"><fmt:message key="userHomepage.activity.my"/></h3></div>
   						<div class="bs-example">
 	                    <table class="table table-striped"><tbody>
 	      					<c:choose>
@@ -56,7 +56,7 @@
 			                             </tr>
 			                       </c:forEach>
 	     				 		</c:when>
-	      							<c:when test="${empty activityList}">There is no past status or activity</c:when>
+	      							<c:when test="${empty activityList}"><fmt:message key="userHomepage.activity.empty"/></c:when>
 			   				</c:choose>
 			   			</table>
   					</div>

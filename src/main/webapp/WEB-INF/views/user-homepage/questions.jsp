@@ -53,7 +53,7 @@
 									</p>
 								</form:form>
 							</c:when>
-							<c:when test="${empty quesList}">There is no questions.</c:when>
+							<c:when test="${empty quesList}"><fmt:message key="userHomepage.assessment.questions.empty"/></c:when>
 						</c:choose>
 					</div>
 				</div>

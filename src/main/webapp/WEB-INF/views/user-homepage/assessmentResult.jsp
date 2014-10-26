@@ -70,7 +70,7 @@
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Assessment Result</h3>
+						<h3 class="panel-title"><fmt:message key="userHomepage.assessment.results"/></h3>
 					</div>
 					<div class="panel-body">
 						<c:choose>
@@ -132,10 +132,10 @@
 								<br>
 								<div id="chart_div"></div>
 							</c:when>
-							<c:when test="${empty assessment}">You have'nt done any assessment.
+							<c:when test="${empty assessment}"><fmt:message key="userHomepage.assessment.empty"/></br>
 		             				<a
-									href="<c:url value="/user-homepage/depression-assessment"/>">click
-									here</a> to start assessment 
+									href="<c:url value="/user-homepage/depression-assessment"/>">
+									<fmt:message key="userHomepage.assessment.start"/></a> 
 		             			</c:when>
 						</c:choose>
 					</div>
