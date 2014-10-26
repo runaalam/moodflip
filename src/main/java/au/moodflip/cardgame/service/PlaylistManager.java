@@ -8,4 +8,5 @@ public interface PlaylistManager {
 	public void appendItem(PlaylistItem item, long userId);
 	public void update(Playlist playlist);
 	public Playlist get(long userId);
+	public boolean deleteItem(long cardId, long userId);
 }
