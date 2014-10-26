@@ -4,42 +4,53 @@
 <html ng-app="moodFlip">
 <head>
 <title><fmt:message key="title" /></title>
+<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
+<link rel="stylesheet" href="<c:url value="/resources/comm/css/notification.css" />">
 </head>
 <body>
-	<h1>
-		<fmt:message key="heading" />
-	</h1>
-	<h3>Notification</h3>
+
+	<%@ include file="/WEB-INF/views/navbar.jsp"%>
 	
+	<div class="container">
+	
+	<div class="row">
+		<div class="col-md-12">
+			<h3>
+				Notifications
+			</h3>
+		</div>
+	</div>
+
 	<div ng-controller="NotificationCtrl" ng-init="listNotification()">
-		<table ng-show="notifications.length">
-			<tr>
-				<th>Notification</th>
-				<th>Created At</th>
-			</tr>
-			<tr ng-repeat="notification in notifications">
-				<td><a href="<c:url value="{{notification.url}}"/>">{{notification.message}}</a></td>
-				<td>{{notification.createdAt}}</td>
-			</tr>
-		</table>
-		<div ng-hide="notifications.length">No notification</div>
+		<div class="row">
+			<div class="col-md-12">
+					<div class="panel panel-default" ng-show="notifications.length">
+						<table class="table table-hover">
+							<tbody>
+								<tr ng-repeat="notification in notifications">
+									<td><a href="<c:url value="{{notification.url}}"/>"><strong>{{notification.message}}</strong></a></td>
+									<td class="text-right nowrap">
+										{{notification.createdAt}}
+										<button class="btn btn-sm btn-danger" ng-click="removeMessage(notification.id)">
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div ng-hide="notifications.length">No Notifications</div>
+			</div>
+		</div>
 	</div>
 	
-	<!--
-	
-	<br>
-	<br>
-	Example
-	<br>
-	http://localhost:8080/moodflip/notification/create?message="Test message"&url="/forum"&userId=1
-	
-	-->
+	</div>
 
 </body>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-sanitize.min.js"></script>
-<script src="<c:url value="/resources/comm/js/main.js" />"></script>
-<script src="<c:url value="/resources/comm/js/notification.js" />"></script>
+<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
+
+<%@ include file="/WEB-INF/views/angularjs/include-js.jsp"%>
 
 </html>

@@ -181,10 +181,8 @@
 
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-sanitize.min.js"></script>
-<script src="<c:url value="/resources/comm/js/main.js" />"></script>
-<script src="<c:url value="/resources/comm/js/forums.js" />"></script>
+<%@ include file="/WEB-INF/views/angularjs/include-js.jsp"%>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 
 </html>

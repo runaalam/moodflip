@@ -22,7 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
 		Notification latest = notificationDao
 				.getLatestNotReadNotificationByUserId(notification.getUserId());
 		if (latest != null) {
-			if (latest.getMessage().equals(notification.getMessage())) {
+			if (latest.getMessage().equals(notification.getMessage()) && !latest.isRead()) {
 				latest.setCreatedAt(new Date());
 				editNotification(latest);
 				return;
@@ -52,8 +52,8 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 	
 	@Override
-	public List<Notification> listNewNotificationByUserId(Long userId) {
-		return notificationDao.listNewNotificationByUserId(userId);
+	public List<Notification> listUnreadNotificationByUserId(Long userId) {
+		return notificationDao.listUnreadNotificationByUserId(userId);
 	}
 
 	@Override
@@ -74,6 +74,17 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void setNotificationRead(Long id) {
 		notificationDao.setNotificationRead(id);
+	}
+
+	@Override
+	public List<Notification> updateNotificationByUserId(Long userId, Long id) {
+		return notificationDao.updateNotificationByUserId(userId, id);
+	}
+
+	@Override
+	public List<Notification> updateUnreadNotificationByUserId(Long userId,
+			Long id) {
+		return notificationDao.updateUnreadNotificationByUserId(userId, id);
 	}
 
 }
