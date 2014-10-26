@@ -26,12 +26,37 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 	@Override
+	public void editStatus(Status status) {
+		status.setSubmitDate(new Date());
+		statusDao.editStatus(status);
+	}
+
+	@Override
+	public void removeStatus(Long id) {
+		statusDao.removeStatus(id);
+	}
+	
+	@Override
 	public List<Status> listStatus() {
 		 ArrayList<Status> list = (ArrayList<Status>) statusDao.listStatus();
 		 Collections.reverse((List<?>) list);
 		 return list;
 	}
+	
+	@Override
+	public List<Status> listStatusByUserId(Long userId) {
+		 ArrayList<Status> list = (ArrayList<Status>) statusDao.listStatusByUserId(userId);
+		 Collections.reverse((List<?>) list);
+		 return list;
+	}
 
+	@Override
+	public List<Status> listStatusOfOtherUser(Long userId) {
+		 ArrayList<Status> list = (ArrayList<Status>) statusDao.listStatusOfOtherUser(userId);
+		 Collections.reverse((List<?>) list);
+		 return list;
+	}
+	
 	@Override
 	public Status getStatusById(Long id) {
 		return statusDao.getStatusById(id);

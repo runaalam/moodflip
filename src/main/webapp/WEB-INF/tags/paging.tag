@@ -3,7 +3,6 @@
 <%@ attribute name="pagedListHolder" required="true"
 	type="org.springframework.beans.support.PagedListHolder"%>
 <%@ attribute name="pagedLink" required="true" type="java.lang.String"%>
-<link href="css/pagination.css" rel="stylesheet" type="text/css" />
 
 <ul class="pagination">
 

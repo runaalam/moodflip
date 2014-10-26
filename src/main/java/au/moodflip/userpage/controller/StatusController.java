@@ -96,7 +96,7 @@ public class StatusController {
 		sessionStatus.setComplete();
 		
 		User user = userManager.getUserByUsername(principal.getName());
-		String activityDesc = "Write Status";
+		String activityDesc = "Write comment on a status";
 		activity.setUser(user);
 		activity.setDescription(activityDesc);
 		activity.setActivityDate(new Date());
@@ -107,4 +107,6 @@ public class StatusController {
 		logger.info("redirUrl:" + redirUrl);
 		return redirUrl;
 	}
+	
+	
 }

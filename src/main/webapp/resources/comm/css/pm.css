@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+.popover {
+	display: block;
+    float: left;
+    margin: 20px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+}
+
+.user-pic {
+	margin-top: 15px;
+	width: 80px;
+	height: 80px;
+}
+
+.newLineOverflow
+{
+    word-wrap: break-word
+}
+
+.chat-texts {
+	height: 80%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.message-input {
+	margin: 10px 0 10px
+}

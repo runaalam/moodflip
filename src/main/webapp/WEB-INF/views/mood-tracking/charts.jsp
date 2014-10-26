@@ -8,35 +8,10 @@
 
 
 <head>
-
-    
     <title>Charts</title>
-  
-    
-    <s:hasBindErrors name="command">
-    <div id="div_global_error" align="center">
-        <h1>
-            Error!!
-        </h1>
 
-        <div id="global_errors">
-            <s:bind path="command">
-                <ul class="header-list">
-                    <c:forEach items="${status.errorMessages}" var="err">
-                        <li>
-                            <c:out value='${err}'/>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </s:bind>
-        </div>
-    </div>
-	</s:hasBindErrors>
-	
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	
 
-	
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
    
@@ -58,10 +33,12 @@
    // google.load('visualization', '3', {'packages':['corechart']});
     
     //Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(prepareChart);
+    google.setOnLoadCallback(prepareLineChart);
+    google.setOnLoadCallback(prepareBarChart);
    // google.setOnLoadCallback(prepareChart1);
-    // Line Chart 
-/*   function drawLineChart(dates, moodRating, copedWithTask, div) {
+    // Line Chart
+
+   function drawLineChart(dates, moodRating, copedWithTask, div) {
 //		alert("in function draw");
 
 //    	alert(dates);
@@ -95,17 +72,18 @@
     	
     	 // Wait for the chart to finish drawing before calling the getImageURI() method.
         google.visualization.events.addListener(chart, 'ready', function () {
-          chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-          console.log(chart_div.innerHTML);
+        	line_chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+          
         });
     	
     	chart.draw(data, {width: 800, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
     }
- 
-    function prepareChart() {
+
+
+    function prepareLineChart() {
 		//alert("button clicked");
     	var array;
-    	   
+
     	var data = $.ajax({
             url: "drawLineChart",
     	          dataType:"json",
@@ -117,15 +95,14 @@
     	//alert(array.dates);
     	//alert(array.moodRating);
 
-    	drawLineChart(array.dates, array.moodRating, array.copedWithTask,'chart_div');
-   } 
+    	drawLineChart(array.dates, array.moodRating, array.copedWithTask,'line_chart_div');
+   }
     //END LINE CHART
     
-   */  
-    
+
     //COLUMN CHART
   
-       function drawColumnChart(dates, hoursOfSleeping, div) {
+       function drawBarChart(dates, hoursOfSleeping, div) {
 //		alert("in function draw");
 
 //    	alert(dates);
@@ -156,13 +133,13 @@
     	
     	// Wait for the chart to finish drawing before calling the getImageURI() method.
         google.visualization.events.addListener(chart1, 'ready', function () {
-          chart_div.innerHTML = '<img src="' + chart1.getImageURI() + '">';
-          console.log(chart_div.innerHTML);
+        	bar_chart_div.innerHTML = '<img src="' + chart1.getImageURI() + '">';
+          console.log(div.innerHTML);
         });
     	chart1.draw(data, {width: 500, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
     }
  
-    function prepareChart() {
+    function prepareBarChart() {
 		//alert("button clicked");
     	var array;
     	   
@@ -177,8 +154,9 @@
     	//alert(array.dates);
     	//alert(array.hoursOfSleeping);
 
-    	drawColumnChart(array.dates, array.hoursOfSleeping,'chart_div');
-    } 
+
+    	drawBarChart(array.dates, array.hoursOfSleeping,'bar_chart_div');
+    }
 
        
    //end Column chart      
@@ -213,6 +191,19 @@
   <h3><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></h3>
   <h1>Charts</h1>
 
+
+  <s:hasBindErrors name="command">
+      <div id="div_global_error" align="center">
+          <div id="global_errors">
+              <s:bind path="command">
+                  <c:forEach items="${status.errorMessages}" var="err">
+                      <c:out value='${err}'/><br/>
+                  </c:forEach>
+              </s:bind>
+          </div>
+      </div>
+  </s:hasBindErrors>
+
   <form:form action="" method="POST" name="command">
     <div>
         <table>
@@ -235,8 +226,18 @@
 </form:form>
 
 <!--Div that will hold the line chart-->
-   <div id="chart_div"></div>
-<!--Div that will hold the column chart-->
+  <c:if test="${drawGraph == true}">
+  <table>
+      <tr>
+          <td><div id="line_chart_div" style="float: left"></div></td>
+          <td><div id="bar_chart_div" style="float: right"></div></td>
+      </tr>
+  </table>
+</c:if>
+   <%--<div id="line_chart_div" style="float: left"></div>--%>
+  <%--<div id="bar_chart_div" style="float: right"></div>--%>
+  <%--<div id="chart_div"></div>--%>
+  <!--Div that will hold the column chart-->
    <!-- <div id="chart_div1" style="width:600; height:500"></div>-->
     
     

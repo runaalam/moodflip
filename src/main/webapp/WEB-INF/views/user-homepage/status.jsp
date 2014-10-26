@@ -1,21 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
-	<jsp:include page="../fragments/headTag.jsp"/>
-<body> 
-<!-- include page header -->
-<jsp:include page="../fragments/bodyHeader.jsp"/>
-<div class="container">
-	<div class="row">
-    	<!-- include Sidebar --> 	
-	    <jsp:include page="../fragments/bodySideBar.jsp"/>
-	    <div class="col-xs-12 col-sm-9">
+	<head>	
+		<title><fmt:message key="userHomepage.status.details"/></title>
+	</head>
+	
+	<body>
+ 		<div class="col-xs-12 col-sm-9">
         		<div class="panel panel-default">
                 	<div class="panel-body">
-               			<p>By <c:out value="${status.user.name}" /><br><br><br>
+               			<p>By <c:out value="${status.user.name}" />
+               			<br><br><br>
                        	<c:out value="${status.content}" />
 					</div>
 				</div><!-- panel-default -->	
@@ -39,11 +34,7 @@
 				   			</tbody></table>
 	   					</div>
 	   					</form:form>
-				</div><!-- panel-default -->	
-				
+				</div><!-- panel-default -->					
 	    </div><!-- col-xs-12 main -->
-	</div><!-- row -->
-</div><!-- container -->
-<jsp:include page="../fragments/footer.jsp"/>
-</body>
+	</body>
 </html>

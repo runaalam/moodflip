@@ -1,26 +1,28 @@
 package au.moodflip.comm.service;
 
+import java.util.Date;
 import java.util.List;
 
 import au.moodflip.comm.model.PrivateMessage;
+import au.moodflip.personalisation.model.User;
 
 public interface PrivateMessageService {
 	
-	public void createPrivateMessage(PrivateMessage pMessage);
+	public PrivateMessage createPrivateMessage(PrivateMessage pMessage);
 	
-	public PrivateMessage createPrivateMessage(String message, Long senderId, Long receiverId);
+	public PrivateMessage createPrivateMessage(String message, User sender, User receiver);
 
-	public List<PrivateMessage> listPrivateMessage();
+//	public List<PrivateMessage> listPrivateMessage();
+//	
+//	public List<PrivateMessage> listPrivateMessageBySenderId(Long senderId);
+//	
+//	public List<PrivateMessage> listPrivateMessageByReceiverId(Long receiverId);
+//	
+//	public List<PrivateMessage> listPrivateMessageByUserId(Long userId);
 	
-	public List<PrivateMessage> listPrivateMessageBySenderId(Long senderId);
+	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(User sender, User receiver);
 	
-	public List<PrivateMessage> listPrivateMessageByReceiverId(Long receiverId);
-	
-	public List<PrivateMessage> listPrivateMessageByUserId(Long userId);
-	
-	public List<PrivateMessage> listPrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2);
-	
-	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(Long userId_1, Long userId_2, Long msgId);
+	public List<PrivateMessage> updatePrivateMessageBySenderAndReceiverId(User sender, User receiver, Date datetime);
 	
 	public PrivateMessage getPrivateMessageById(Long id);
 	
