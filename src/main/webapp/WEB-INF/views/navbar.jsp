@@ -14,8 +14,8 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li <% if(url.equals("/card-game")){ %> class="active" <% } %>><a href="<c:url value="/card-game"/>">Card Game</a></li>
-				<li <% if(url.equals("/mood-tracking")){ %> class="active" <% } %>><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></li>
+				<li <% if(url.startsWith("/card-game")){ %> class="active" <% } %>><a href="<c:url value="/card-game"/>">Card Game</a></li>
+				<li <% if(url.startsWith("/mood-tracking")){ %> class="active" <% } %>><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></li>
 				<li <% if(url.startsWith("/forums")){ %> class="active" <% } %>><a href="<c:url value="/forums" />">Forums</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

@@ -38,6 +38,7 @@ public class PlayHistoryController {
 		}
 		model.addAttribute(cgUser);
 		model.addAttribute("mainPlayHistoryItems", cardEventManager.getMainPlayHistory(cgUser));
+		model.addAttribute("details", cardEventManager.getCardPlayHistory(cgUser));
 		return FOLDER + "/playHistory"; 
 	}
 	

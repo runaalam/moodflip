@@ -13,5 +13,6 @@ public interface CardEventManager {
 	public List<CardEvent> getAll(CgUser user);
 	public CardEvent get(long id);
 	public List<MainPlayHistoryItem> getMainPlayHistory(CgUser user);
-	public List<CardPlayHistoryItem> getCardPlayHistory(CgUser user, long cardId);
+	public CardPlayHistoryItem getCardPlayHistory(CgUser user, long cardId);
+	public List<CardPlayHistoryItem> getCardPlayHistory(CgUser user);
 }

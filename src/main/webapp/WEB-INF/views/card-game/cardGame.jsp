@@ -16,27 +16,35 @@
 			<h1>Card game main page</h1>
 			<c:choose>
 				<c:when test="${(!empty mission) or (!empty cardSurvey)}">
-					<c:out value="${mission.card.title}"/> <c:out value="${mission.card.level}"/>  <c:out value="${mission.card.symptom.text}"/> <br/>
-					<c:choose>
-						<c:when test="${!empty mission}">
-							<sf:form method="POST" modelAttribute="mission">
-								<label><c:out value="${mission.text}"/></label>
-								<input type="submit" name="newCard" value="New Card">
-								<input type="submit" name="nextMission" value="Next Mission">
-							</sf:form>
-						</c:when>
-						<c:when test="${!empty cardSurvey}">
-							<sf:form method="POST" modelAttribute="cardSurvey">
-								Conclusion: <label><c:out value="${cardSurvey.card.outro}"/></label>
-								Rate this card: <label><c:out value="${cardSurvey.question}"/></label>
-								<sf:select path="answer">
-									<sf:option value="" label="--Please Select"/>
-									<sf:options items="${answers}" itemLabel="text"/>
-								</sf:select>
-								<input type="submit" name="finish" value="Finish"/>
-							</sf:form>
-						</c:when>
-					</c:choose>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h2 class="panel-title"><c:out value="${mission.card.title}"/></h2>
+							<small>Level: <c:out value="${mission.card.level}"/>
+							Symptom: <c:out value="${mission.card.symptom.text}"/> </small>
+						</div>
+						<div class="panel-body">
+							<c:choose>
+								<c:when test="${!empty mission}">
+									<sf:form method="POST" modelAttribute="mission">
+										<label><c:out value="${mission.text}"/></label>
+										<input class="btn btn-default" type="submit" name="newCard" value="New Card">
+										<input class="btn btn-default" type="submit" name="nextMission" value="Next Mission">
+									</sf:form>
+								</c:when>
+								<c:when test="${!empty cardSurvey}">
+									<sf:form method="POST" modelAttribute="cardSurvey">
+										Conclusion: <label><c:out value="${cardSurvey.card.outro}"/></label>
+										Rate this card: <label><c:out value="${cardSurvey.question}"/></label>
+										<sf:select path="answer">
+											<sf:option value="" label="--Please Select"/>
+											<sf:options items="${answers}" itemLabel="text"/>
+										</sf:select>
+										<input type="submit" name="finish" value="Finish"/>
+									</sf:form>
+								</c:when>
+							</c:choose>
+						</div>
+					</div>
 				</c:when>
 				<c:otherwise>
 					You do not have a mission yet. When you're ready, go to <a href="<c:url value="myCards"/>">My Cards</a> on the side bar

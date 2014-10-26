@@ -38,6 +38,8 @@ public class User implements Serializable {
 	@UniqueUsername(message = "Such username already exists!")
 	private String username;
 	
+	
+	@Size(min = 6, message = "Password must be at least 6 characters!")
 	@Column(name = "password")
 	@JsonIgnore
 	private String password;

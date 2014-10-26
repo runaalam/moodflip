@@ -107,7 +107,7 @@ public class InitDbService {
 
 				if (userService.getUserByUsername("user") == null) {
 					User userNormal = new User();
-					userNormal.setBanned(false);
+					userNormal.setBanned(true);
 					userNormal.setUsername("user");
 					userNormal.setPassword("user");
 					Set<Role> roles = new HashSet<Role>();
