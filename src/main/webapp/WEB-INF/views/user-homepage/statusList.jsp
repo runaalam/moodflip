@@ -10,7 +10,7 @@
 	    	<div class="panel-group" id="accordion">
         		<div class="panel panel-default">
             		<div class="panel-heading">
-                		<h3 class="panel-title"> Status post by other user</h3>
+                		<h3 class="panel-title"><fmt:message key="userHomepage.status.post.others"/></h3>
             		</div>
                 	<div class="panel-body">
                    		<table class="table">
@@ -27,7 +27,7 @@
 	                       				</c:forEach>
 									</form:form>
 								</c:when>
-								<c:when test="${empty statusList}">There is no post.</c:when>
+								<c:when test="${empty statusList}"><fmt:message key="userHomepage.status.post.others.empty"/></c:when>
 							</c:choose>
 						</table>
 					</div>

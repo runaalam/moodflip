@@ -17,7 +17,7 @@
 				
 				<div class="panel panel-default">
 					<form:form method="post" modelAttribute="statusComment">
-	   					<div class="panel-heading"><label for="commentContent">Comment</label>
+	   					<div class="panel-heading"><label for="commentContent"><fmt:message key="userHomepage.status.comment"/></label>
 							<form:textarea class="form-control" path="content" id="commentContent" rows="4" cols="50"></form:textarea>
 							<input type="submit" value="Send"/>
 	   					</div>
@@ -29,7 +29,7 @@
 				                       		<tr><td><c:out value="${statusComment.content}"/></td></tr>
 				                       </c:forEach>
 		     				 		</c:when>
-	       							<c:when test="${empty statusCommentList}">There is no past comment for this post</c:when>
+	       							<c:when test="${empty statusCommentList}"><fmt:message key="userHomepage.status.comment.empty"/></c:when>
 				   				</c:choose>
 				   			</tbody></table>
 	   					</div>
