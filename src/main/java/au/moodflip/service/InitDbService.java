@@ -29,9 +29,12 @@ import org.springframework.transaction.support.TransactionTemplate;
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.Mission;
+import au.moodflip.cardgame.model.Playlist;
+import au.moodflip.cardgame.model.PlaylistItem;
 import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.service.CardManager;
+import au.moodflip.cardgame.service.PlaylistManager;
 import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.RoleManager;
@@ -64,9 +67,16 @@ public class InitDbService {
 	
 	@Autowired
 	private AssessmentService assessmentService;
+	
+	@Autowired
+	private PlaylistManager playlistManager;
 
 	@PostConstruct
 	private void init() {
+		// switches to toggle prepopulating data
+		boolean card = true;
+		boolean assessment = true;	
+		boolean playlist = false;
 		TransactionTemplate tmpl = new TransactionTemplate(txManager);
 		tmpl.execute(new TransactionCallbackWithoutResult() {
 			@Override
@@ -107,157 +117,182 @@ public class InitDbService {
 				}
 			}
 		});
-		tmpl.execute(new TransactionCallbackWithoutResult() {
-			@Override
-			protected void doInTransactionWithoutResult(TransactionStatus arg0) {
-				logger.info("BEGIN IMPORTING CARD DATA");
-				Scanner sc2 = null;
-		    	InputStream is = getClass().getResourceAsStream("/db/card_game_data.txt"); // reads from src/main/resources
-		    	if (is == null){
-		    		System.out.println("inputstream null");
-		    		return; 
-		    	}
-		    	sc2 = new Scanner(is);
-			    StringBuilder buf = new StringBuilder();
-			    List<Task> missions = new ArrayList<Task>();
-			    String intro = null;
-			    String title = null;
-			    Integer level = null;
-			    Symptom symptom = null;
-			    Card card = null;
-			    int i = 0;
-			    boolean bad = false;
-			    while (sc2.hasNextLine()) {
-		    		i++;
-		    		String s = sc2.nextLine();
-		    		if (s.startsWith("123intro123")){
-		    			intro = buf.toString();
-		    			buf.setLength(0);
-		    			continue;
-		    		}else if (s.startsWith("123outro123")){
-		    			String outro = buf.toString();
-		    			if (title.length() == 0){
-		    				System.out.println("found empty title around line " + i);
-		    				bad = true;
-		    			}
-		    			if (level == 0){
-		    				System.out.println("found empty level around line " + i);
-		    				bad = true;
-		    			}
-		    			if (symptom == null){
-		    				System.out.println("found empty symptom around line " + i);
-		    				bad = true;
-		    			}
-		    			if (intro.length() == 0){
-		    				System.out.println("found empty intro around line " + i);
-		    				bad = true;
-		    			}
-		    			if (outro.length() == 0){
-		    				System.out.println("found empty outro around line " + i);
-		    				bad = true;
-		    			}
-		    			if (missions.size() == 0){
-		    				System.out.println("found empty mission around line " + i);
-		    				bad = true;
-		    			}
-		    			if (bad){
-		    				sc2.close();
-		    				return;
-		    			}
-
-//						logger.info("intro len: " + intro.length());
-//						logger.info("outro len: " + outro.length());
-//						logger.info("title len: " + title.length());
-//						logger.info("level : " + level);
-//						logger.info("symptom : " + symptom.getText());
-//						for (Task t : missions) {
-//							if (t instanceof Mission) {
-//								Mission m = (Mission) t;
-//								logger.info("mission : " + m.getText().length());
-//							}
-//						}
-						
-		    			card = new Card(title, level, symptom, intro, missions, outro, 0, 0, 0);
-		    			CardSurvey cardSurvey = new CardSurvey("This task was helpful");
-		    			card.getTasks().add(cardSurvey);
-		    			cardManager.add(card);
-		    			// reset vars for next card
-		    			missions = new ArrayList<Task>();
-		    			bad = false;
-		    			buf.setLength(0);
-		    			continue;
-		    		}else if (s.startsWith("123mission123")){
-		    			String mission = buf.toString();
-		    			missions.add(new Mission(mission));
-		    			buf.setLength(0);
-		    			continue;
-		    		}else if (s.startsWith("123title123")){
-		    			title = buf.toString().trim();
-		    			buf.setLength(0);
-		    			continue;
-		    		}else if (s.startsWith("123level123")){
-		    			level = Integer.parseInt(buf.toString().trim());
-		    			buf.setLength(0);
-		    			continue;
-		    		}else if (s.startsWith("123symptom123")){
-		    			symptom = Symptom.values()[Integer.parseInt(buf.toString().trim())];
-		    			buf.setLength(0);
-		    			continue;
-		    		}
-		            buf.append(s);
-		            buf.append(System.getProperty("line.separator"));
-			    }
-			    sc2.close();
-			    logger.info("FINISHED IMPORTING CARD DATA");
-			}
-		});
+		if (card == true){
+			tmpl.execute(new TransactionCallbackWithoutResult() {
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus arg0) {
+					logger.info("BEGIN IMPORTING CARD DATA");
+					Scanner sc2 = null;
+			    	InputStream is = getClass().getResourceAsStream("/db/card_game_data.txt"); // reads from src/main/resources
+			    	if (is == null){
+			    		System.out.println("inputstream null");
+			    		return; 
+			    	}
+			    	sc2 = new Scanner(is);
+				    StringBuilder buf = new StringBuilder();
+				    List<Task> missions = new ArrayList<Task>();
+				    String intro = null;
+				    String title = null;
+				    Integer level = null;
+				    Symptom symptom = null;
+				    Card card = null;
+				    int i = 0;
+				    boolean bad = false;
+				    while (sc2.hasNextLine()) {
+			    		i++;
+			    		String s = sc2.nextLine();
+			    		if (s.startsWith("123intro123")){
+			    			intro = buf.toString();
+			    			buf.setLength(0);
+			    			continue;
+			    		}else if (s.startsWith("123outro123")){
+			    			String outro = buf.toString();
+			    			if (title.length() == 0){
+			    				System.out.println("found empty title around line " + i);
+			    				bad = true;
+			    			}
+			    			if (level == 0){
+			    				System.out.println("found empty level around line " + i);
+			    				bad = true;
+			    			}
+			    			if (symptom == null){
+			    				System.out.println("found empty symptom around line " + i);
+			    				bad = true;
+			    			}
+			    			if (intro.length() == 0){
+			    				System.out.println("found empty intro around line " + i);
+			    				bad = true;
+			    			}
+			    			if (outro.length() == 0){
+			    				System.out.println("found empty outro around line " + i);
+			    				bad = true;
+			    			}
+			    			if (missions.size() == 0){
+			    				System.out.println("found empty mission around line " + i);
+			    				bad = true;
+			    			}
+			    			if (bad){
+			    				sc2.close();
+			    				return;
+			    			}
+	
+	//						logger.info("intro len: " + intro.length());
+	//						logger.info("outro len: " + outro.length());
+	//						logger.info("title len: " + title.length());
+	//						logger.info("level : " + level);
+	//						logger.info("symptom : " + symptom.getText());
+	//						for (Task t : missions) {
+	//							if (t instanceof Mission) {
+	//								Mission m = (Mission) t;
+	//								logger.info("mission : " + m.getText().length());
+	//							}
+	//						}
+							
+			    			card = new Card(title, level, symptom, intro, missions, outro, 0, 0, 0);
+			    			CardSurvey cardSurvey = new CardSurvey("This task was helpful");
+			    			card.getTasks().add(cardSurvey);
+			    			cardManager.add(card);
+			    			// reset vars for next card
+			    			missions = new ArrayList<Task>();
+			    			bad = false;
+			    			buf.setLength(0);
+			    			continue;
+			    		}else if (s.startsWith("123mission123")){
+			    			String mission = buf.toString();
+			    			missions.add(new Mission(mission));
+			    			buf.setLength(0);
+			    			continue;
+			    		}else if (s.startsWith("123title123")){
+			    			title = buf.toString().trim();
+			    			buf.setLength(0);
+			    			continue;
+			    		}else if (s.startsWith("123level123")){
+			    			level = Integer.parseInt(buf.toString().trim());
+			    			buf.setLength(0);
+			    			continue;
+			    		}else if (s.startsWith("123symptom123")){
+			    			symptom = Symptom.values()[Integer.parseInt(buf.toString().trim())];
+			    			buf.setLength(0);
+			    			continue;
+			    		}
+			            buf.append(s);
+			            buf.append(System.getProperty("line.separator"));
+				    }
+				    sc2.close();
+				    logger.info("FINISHED IMPORTING CARD DATA");
+				}
+			});
+		}
 		tmpl.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
                 initializeData();
             }
         });
-		tmpl.execute(new TransactionCallbackWithoutResult() {
-			// populate random assessment data
-			@Override
-			protected void doInTransactionWithoutResult(TransactionStatus arg0) {
-				logger.info("IMPORTING ASSESSMENT DATA");
-				User user = userService.getUserByUsername("user");
-				List<Question> quesList = assessmentService.getQuestions();
-				Random rand = new Random();
-				List<Response> rList;
-				Response r = null;
-				Assessment assessment;
-				SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-				
-				// create 12 survey assessments with random data
-				for (int i=0; i < 12; i++){
-					quesList = assessmentService.getQuestions();
-					assessment = new Assessment();
-					rList = new ArrayList<Response>();
-					for (Question q : quesList){
-						r = new Response();
-						Answer a = new Answer();
-						a.setValue(rand.nextInt(5));	
-						r.setAnswer(a);
-						r.setQuestion(q);
-						r.setUser(user);
-						r.setAssessment(assessment);
-						rList.add(r);
+		if (assessment == true){
+			tmpl.execute(new TransactionCallbackWithoutResult() {
+				// populate random assessment data
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus arg0) {
+					logger.info("IMPORTING ASSESSMENT DATA");
+					User user = userService.getUserByUsername("user");
+					List<Question> quesList = assessmentService.getQuestions();
+					Random rand = new Random();
+					List<Response> rList;
+					Response r = null;
+					Assessment assessment;
+					SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+					
+					// create 12 survey assessments with random data
+					for (int i=0; i < 12; i++){
+						quesList = assessmentService.getQuestions();
+						assessment = new Assessment();
+						rList = new ArrayList<Response>();
+						for (Question q : quesList){
+							r = new Response();
+							Answer a = new Answer();
+							a.setValue(rand.nextInt(5));	
+							r.setAnswer(a);
+							r.setQuestion(q);
+							r.setUser(user);
+							r.setAssessment(assessment);
+							rList.add(r);
+						}
+						assessment.setResponseList(rList);
+						assessment.setUser(user);
+						try {
+							Date t = ft.parse("2014-10-" + String.format("%02d", i+1)); // start at day 1
+							assessment.setDate(t);
+							assessmentService.save(assessment);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
 					}
-					assessment.setResponseList(rList);
-					assessment.setUser(user);
-					try {
-						Date t = ft.parse("2014-10-" + String.format("%02d", i+1)); // start at day 1
-						assessment.setDate(t);
-						assessmentService.save(assessment);
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
+					logger.info("FINISHED IMPORTING ASSESSMENT DATA");
 				}
-				logger.info("FINISHED IMPORTING ASSESSMENT DATA");
-			}
-		});
+			});
+		}
+		if (playlist == true){
+			tmpl.execute(new TransactionCallbackWithoutResult() {
+				// populate playlist for user
+				@Override
+				protected void doInTransactionWithoutResult(TransactionStatus arg0) {		
+					User user = userService.getUserByUsername("user");
+					List<PlaylistItem> playlistItems = new ArrayList<PlaylistItem>();
+					Playlist playlist = new Playlist(user.getId(), playlistItems);
+					playlistItems.add(new PlaylistItem(1L));
+					playlistItems.add(new PlaylistItem(2L));
+					playlistItems.add(new PlaylistItem(3L));
+					playlistItems.add(new PlaylistItem(4L));
+					playlistItems.add(new PlaylistItem(5L));
+					for (PlaylistItem item : playlistItems){
+						item.setPlaylist(playlist);
+					}
+					
+					playlistManager.add(playlist);
+				}
+			});
+		}
     }
 
 

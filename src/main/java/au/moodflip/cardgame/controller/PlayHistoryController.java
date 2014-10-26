@@ -1,12 +1,6 @@
 package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.text.html.FormSubmitEvent.MethodType;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import au.moodflip.cardgame.model.CgUser;
-import au.moodflip.cardgame.model.MainPlayHistoryItem;
 import au.moodflip.cardgame.service.CardEventManager;
 import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.personalisation.model.User;

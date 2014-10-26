@@ -1,8 +1,6 @@
 package au.moodflip.cardgame.controller;
 
 import java.security.Principal;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import au.moodflip.cardgame.model.CgUser;
+import au.moodflip.cardgame.model.PlaylistItem;
 import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CgUserManager;
+import au.moodflip.cardgame.service.PlaylistManager;
 import au.moodflip.cardgame.service.UsersCardManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
@@ -34,6 +31,8 @@ public class CardBrowserController {
 	private CgUserManager cgUserManager;
 	@Autowired
 	private UsersCardManager usersCardManager; 
+	@Autowired
+	private PlaylistManager playlistManager;
 	
 	@RequestMapping
 	public String getCards(Model model){
@@ -49,12 +48,20 @@ public class CardBrowserController {
 		return FOLDER + "/cardBrowser";
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, params="add")
-	public String addCard(Model model, @RequestParam(value="add", required=false) long cardId, Principal principal){
-		logger.info("Enter addCard()");
+	@RequestMapping(method=RequestMethod.GET, params="addToMyCards")
+	public String addToMyCards(Model model, @RequestParam(value="addToMyCards", required=false) long cardId, Principal principal){
+		logger.info("Enter addToMyCards()");
 		User user = userManager.getUserByUsername(principal.getName());
 		usersCardManager.add(new UsersCard(user.getId(), cardId));
 		model.addAttribute(cardManager.getById(cardId));
-		return FOLDER + "/cardBrowser";
+		return "redirect:/" + FOLDER + "/cardBrowser";
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, params="addToPlaylist")
+	public String addToPlaylist(Model model, @RequestParam(value="addToPlaylist", required=false) long cardId, Principal principal){
+		logger.info("Enter addToPlaylist()");
+		User user = userManager.getUserByUsername(principal.getName());
+		playlistManager.appendItem(new PlaylistItem(cardId), user.getId());
+		return "redirect:/" + FOLDER + "/cardBrowser";
 	}
 }

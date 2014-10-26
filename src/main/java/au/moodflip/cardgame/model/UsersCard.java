@@ -34,28 +34,21 @@ public class UsersCard implements Comparable<UsersCard>{
 	public static class UsersCardPK implements Serializable{
 		private static final long serialVersionUID = 1L;
 		
-		@Column(name="user_id")
-		private long userId;
-		@Column(name="card_id")
-		private long cardId;
 		public UsersCardPK() { }
 		public UsersCardPK(long userId, long cardId) { 
 			this.userId = userId;
 			this.cardId = cardId;
 		}
-		
-		public long getUserId() {
-			return userId;
-		}
-		public void setUserId(long userId) {
-			this.userId = userId;
-		}
-		public long getCardId() {
-			return cardId;
-		}
-		public void setCardId(long cardId) {
-			this.cardId = cardId;
-		}
+
+		@Column(name="user_id")
+		public long getUserId() { return userId; }
+		public void setUserId(long userId) { this.userId = userId; }
+		private long userId;
+
+		@Column(name="card_id")
+		public long getCardId() { return cardId; }
+		public void setCardId(long cardId) { this.cardId = cardId; }
+		private long cardId;
 		
 		@Override
 		public int hashCode(){

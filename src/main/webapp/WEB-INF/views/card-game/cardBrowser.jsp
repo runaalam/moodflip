@@ -22,7 +22,8 @@
 		    			<tr><td>Symptom: ${card.symptom.text}</td></tr>
 		    			<tr><td>${card.intro}</td></tr>
 		    		</table>
-		    		<td><a href="<c:url value="/card-game/cardBrowser?add=${card.cardId}"/>">Add card</a></td>
+		    		<a href="<c:url value="/card-game/cardBrowser?addToMyCards=${card.cardId}"/>">Add to Custom Cards</a>
+		    		<a href="<c:url value="/card-game/cardBrowser?addToPlaylist=${c.cardId}"/>">Add to playlist</a>
 		    	</div>
 	    	</c:if>
 	    	
@@ -49,7 +50,8 @@
 		    			<td>${c.completions}</td>
 		    			<td>${c.attempts}</td>
 		    			<td>${c.cardId}</td>
-		    			<td><a href="<c:url value="/card-game/cardBrowser?add=${c.cardId}"/>">Add</a></td>
+		    			<td><a href="<c:url value="/card-game/cardBrowser?addToMyCards=${c.cardId}"/>">Add to Custom Cards</a></td>
+		    			<td><a href="<c:url value="/card-game/cardBrowser?addToPlaylist=${c.cardId}"/>">Add to playlist</a></td>
 		    		</tr>
 		    	</c:forEach>
 		    	</table>

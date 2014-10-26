@@ -14,6 +14,7 @@
 	    <jsp:include page="../fragments/bodySideBar.jsp"/>
 	    <div class="col-xs-12 col-sm-9">
 			<h1>My Cards</h1>
+			<a href="<c:url value="/card-game/myCards?recommend"/>">Recommend me cards</a>
 			<c:forEach var="card" items="${cards}">
 				<c:out value="${card.title}"/><br/>
 				Level: <c:out value="${card.level }"/>	

@@ -1,6 +1,5 @@
 package au.moodflip.cardgame.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -40,6 +39,4 @@ public class CgUser {
 	public int getAttempts() { return attempts; }
 	public void setAttempts(int attempts) { this.attempts = attempts; }
 	private int attempts;
-
-	
 }
