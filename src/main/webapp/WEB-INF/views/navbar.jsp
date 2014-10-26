@@ -23,7 +23,7 @@
 				<li><a href="<c:url value="/login"/>">Login</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-				<li><a href=""><sec:authentication property="principal.username" /></a></li>
+				<li><a href="<c:url value="/user/profile/"/>"><sec:authentication property="principal.username" /></a></li>
 				<td><a href="<c:url value="/user/edit/${user.id}"/>">edit</a></td>
 				<li><a href="<c:url value="/logout"/>">Logout</a></li>
 				</sec:authorize>

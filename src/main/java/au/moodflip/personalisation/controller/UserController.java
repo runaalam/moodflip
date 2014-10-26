@@ -51,11 +51,10 @@ public class UserController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String register(HttpServletRequest httpServletRequest) {
 		
-		
 		if (userManager.getUserByUsername(httpServletRequest.getParameter("username")) == null) {
 			User user = new User();
 			user.setName(httpServletRequest.getParameter("name"));
-			user.setBanned(true);
+			user.setBanned(false);
 			user.setUsername(httpServletRequest.getParameter("username"));
 			user.setPassword(httpServletRequest.getParameter("password"));
 			user.setPrivacySetting(httpServletRequest.getParameter("privacySetting"));
