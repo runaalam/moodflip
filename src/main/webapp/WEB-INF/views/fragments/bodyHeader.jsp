@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
 
+<!-- 
 <nav class="navbar navbar-inverse" role="navigation">
 	<div class="container">
-		<!-- Brand and toggle get grouped for better mobile display -->
+		
 	    <div class="navbar-header">
 	    	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 		        <span class="sr-only">Toggle navigation</span>
@@ -20,3 +21,11 @@
 	</div>
 </nav>
       
+ -->
+ <link rel="stylesheet" href="<c:url value="/resources/shared/css/navbar-fixed-top.css" />">
+ 
+ <div ng-app="moodFlip">
+ 
+<%@ include file="/WEB-INF/views/navbar.jsp"%>
+
+</div>

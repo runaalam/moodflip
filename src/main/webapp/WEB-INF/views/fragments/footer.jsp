@@ -17,3 +17,4 @@ $(document).ready(function() {
 });
 </script>
 
+<%@ include file="/WEB-INF/views/angularjs/include-js.jsp"%>

@@ -64,6 +64,7 @@
 								<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
 								<div class="col-sm-5">
 									<sf:textarea path="tasks[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
+									<sf:errors path="tasks[${status.index}].text" cssClass="error"/>
 								</div>
 							<c:if test="${ status.last }">
 								<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">

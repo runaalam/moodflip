@@ -27,7 +27,7 @@
 						</div>
 					  	<div class="panel-footer">
 						  	<a class="btn btn-default" href="<c:url value="/card-game/cardBrowser?addToMyCards=${card.cardId}"/>">Add to Custom Cards</a>
-			    			<a class="btn btn-default" href="<c:url value="/card-game/cardBrowser?addToPlaylist=${c.cardId}"/>">Add to playlist</a>
+			    			<a class="btn btn-default" href="<c:url value="/card-game/cardBrowser?addToPlaylist=${card.cardId}"/>">Add to playlist</a>
 					  	</div>
 					</div>
 		    	</div>
