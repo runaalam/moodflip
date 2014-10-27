@@ -87,19 +87,20 @@
             <div id="collapseThree" class="panel-collapse collapse">
                 <div class="panel-body">
                     <table class="table">
+                   
                         <tr>
                             <td>
-                                <a href="#">Data</a>
+                                  <a href="<c:url value="/mood-tracking/data"/>">Data</a> 
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <a href="#">Chart</a> 
+                                <a href="<c:url value="/mood-tracking/charts"/>">Charts</a> 
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <a href="#">Report</a>
+                                <a href="<c:url value="/mood-tracking/reports"/>">Reports</a> 
                             </td>
                         </tr>
                     </table>

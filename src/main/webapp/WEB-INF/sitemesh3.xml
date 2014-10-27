@@ -1,4 +1,5 @@
 <sitemesh>
   <mapping path="/user-homepage*" decorator="/WEB-INF/views/decorator.jsp"/>
   <mapping path="/user-homepage/depression-assessment" exclude="true"/>
+  <mapping path="/mood-tracking*" decorator="/WEB-INF/views/decorator.jsp"/>
 </sitemesh>

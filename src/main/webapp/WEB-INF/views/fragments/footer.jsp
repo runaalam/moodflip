@@ -14,6 +14,9 @@ $(document).ready(function() {
 	if (pathname.match("user-homepage")){
 		$("#collapseOne").addClass("in");
 	}
+	if (pathname.match("mood-tracking")){
+		$("#collapseThree").addClass("in");
+	}
 });
 </script>
 
