@@ -38,7 +38,7 @@
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="au.moodflip" />
+		<property name="packagesToScan" value="au.moodflip.*" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
@@ -57,7 +57,7 @@
 	
 	<tx:annotation-driven proxy-target-class="true"/>
 	
-	<context:component-scan base-package="au.moodflip" />
+	<context:component-scan base-package="au.moodflip.*" />
 
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
