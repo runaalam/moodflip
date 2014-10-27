@@ -9,6 +9,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Edit Comment</title>
 		<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
+		<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 	</head>
 	<body>
 		<%@ include file="/WEB-INF/views/navbar.jsp"%>
@@ -43,6 +44,8 @@
 			
 		</form:form>
 		</div>
+		
+		<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
+		
 	</body>
-	<%@ include file="/WEB-INF/views/angularjs/include-js.jsp"%>
 </html>

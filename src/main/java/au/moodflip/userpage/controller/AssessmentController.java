@@ -3,13 +3,11 @@ package au.moodflip.userpage.controller;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,8 +23,6 @@ import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.ChartData;
 import au.moodflip.userpage.model.Question;
-import au.moodflip.userpage.model.ResultDetails;
-import au.moodflip.userpage.model.Status;
 import au.moodflip.userpage.model.Activity;
 import au.moodflip.userpage.service.ActivityService;
 import au.moodflip.userpage.service.AssessmentService;
@@ -120,7 +116,7 @@ public class AssessmentController {
 	
 	@RequestMapping(value = "/drawLineChart", method = RequestMethod.GET )
 	@ResponseBody
-	public ChartData drawPieChart( ModelAndView model, Principal principal) {
+	public ChartData drawLineChart( ModelAndView model, Principal principal) {
 
 		User user = userManager.getUserByUsername(principal.getName());
 		List<Assessment> assList = assessmentService.listAssessmentByUserId(user.getId());
