@@ -61,7 +61,7 @@ public class UserController {
 			user.setBanned(false);
 			user.setUsername(httpServletRequest.getParameter("username"));
 			user.setPassword(httpServletRequest.getParameter("password"));
-			user.setPrivacySetting(Privacy.valueOf("Open"));
+			user.setPrivacy(Privacy.OPEN);
 			
 			Set<Role> roles = new HashSet<Role>();
 			roles.add(roleService.findByName("ROLE_USER"));
@@ -76,7 +76,7 @@ public class UserController {
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public ModelAndView profile(Principal principal) {
 		
-		ModelAndView mav = new ModelAndView("personalisation/editUser");
+		ModelAndView mav = new ModelAndView("personalisation/UserSetting");
 		User user = userManager.getUserByUsername(principal.getName());
 		
 		mav.addObject("privacy", User.Privacy.values());
@@ -109,8 +109,8 @@ public class UserController {
 
 		ModelAndView mav = new ModelAndView("personalisation/editUser");
 		User user = userManager.getUserById(id);
+		mav.addObject("privacy", User.Privacy.values());
 		mav.addObject("user", user);
-		
 		return mav;
 	}
 	
@@ -127,6 +127,6 @@ public class UserController {
 		
 		userManager.deleteUser(id);
 
-		return new ModelAndView("redirect:/personalisation.htm");
+		return new ModelAndView("redirect:/logout");
 	}
 }
