@@ -37,6 +37,7 @@ import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.PlaylistManager;
 import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.model.User.Privacy;
 import au.moodflip.personalisation.service.RoleManager;
 import au.moodflip.personalisation.service.UserManager;
 import au.moodflip.userpage.model.Answer;
@@ -97,7 +98,9 @@ public class InitDbService {
 					User userAdmin = new User();
 					userAdmin.setBanned(false);
 					userAdmin.setUsername("admin");
+					userAdmin.setName("Mike");
 					userAdmin.setPassword("admin");
+					userAdmin.setPrivacy(Privacy.OPEN);
 					Set<Role> roles = new HashSet<Role>();
 					roles.add(roleService.findByName("ROLE_ADMIN"));
 					roles.add(roleService.findByName("ROLE_USER"));
@@ -105,22 +108,17 @@ public class InitDbService {
 					userService.addUserWithRoles(userAdmin);
 				}
 
-				String iStr = "";
-				for (int i=0; i < 7; i++){
-					if (i==0) 
-						iStr = ""; 
-					else
-						iStr = String.valueOf(i);
-					if (userService.getUserByUsername("user" + iStr) == null) {
-						User userNormal = new User();
-						userNormal.setBanned(false);
-						userNormal.setUsername("user" + iStr);
-						userNormal.setPassword("user" + iStr);
-						Set<Role> roles = new HashSet<Role>();
-						roles.add(roleService.findByName("ROLE_USER"));
-						userNormal.setRoles(roles);
-						userService.addUserWithRoles(userNormal);
-					}
+				if (userService.getUserByUsername("user") == null) {
+					User userNormal = new User();
+					userNormal.setBanned(false);
+					userNormal.setUsername("user");
+					userNormal.setPassword("user");
+					userNormal.setName("Jack");
+					userNormal.setPrivacy(Privacy.OPEN);
+					Set<Role> roles = new HashSet<Role>();
+					roles.add(roleService.findByName("ROLE_USER"));
+					userNormal.setRoles(roles);
+					userService.addUserWithRoles(userNormal);
 				}
 			}
 		});

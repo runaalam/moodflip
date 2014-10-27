@@ -79,12 +79,12 @@ public class User implements Serializable {
 	@Column(name = "created_at")
 	private Date createdAt;
 	
-	@Column(name = "privacy_setting")
+	@Column(name = "privacy")
 	private Privacy privacy;
-	public void setPrivacySetting(Privacy privacy){
+	public void setPrivacy(Privacy privacy){
 		this.privacy = privacy;
 	}
-	public Privacy getPrivacySetting(){
+	public Privacy getPrivacy(){
 		return privacy;
 	}
 	
