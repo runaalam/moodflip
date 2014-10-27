@@ -299,6 +299,7 @@ public class InitDbService {
 			});
 		}
     }
+	
 
 
 		
@@ -316,11 +317,21 @@ public class InitDbService {
 	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999911,0,0,0,0,0,7,'2014-09-12',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
 	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999921,0,0,0,0,0,7,'2014-09-13',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
 	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999931,0,0,0,0,0,7,'2014-09-14',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
-	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999941,1,2,4,10,6,7,'2014-09-15',8,9,1,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
-	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999951,0,0,0,0,0,7,'2014-09-16',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
-	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999961,0,0,0,0,0,7,'2014-09-17',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
-	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999971,0,0,0,0,0,7,'2014-09-18',0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999941,1,2,4,10,6,7,'2014-09-15',8,9,1,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999951,0,0,0,0,0,7,'2014-09-16',0,0,0,0,0,0,0,0,0,0,0,2,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999961,0,0,0,0,0,7,'2014-09-17',0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999971,0,0,0,0,0,7,'2014-09-18',0,0,0,0,0,0,0,0,0,0,0,9,5,0,0,0,0,0,2)").executeUpdate();
 	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999981,1,0,6,2,0,7,'2014-09-19',1,8,9,1,2,4,5,6,7,8,1,8,5,1,2,3,5,9,2)").executeUpdate();
-
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999982,1,0,6,2,0,7,'2014-09-20',1,8,9,1,2,4,5,6,7,8,1,2,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999983,1,0,6,2,0,7,'2014-09-21',1,8,9,1,2,4,5,6,7,8,1,4,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999984,1,0,6,2,0,7,'2014-09-22',1,8,9,1,2,4,5,6,7,8,1,1,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999985,1,0,6,2,0,7,'2014-09-23',1,8,9,1,2,4,5,6,7,8,1,8,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999986,1,0,6,2,0,7,'2014-09-24',1,8,9,1,2,4,5,6,7,8,1,2,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999987,1,0,6,2,0,7,'2014-09-25',1,8,9,1,2,4,5,6,7,8,1,8,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999988,1,0,6,2,0,7,'2014-09-26',1,8,9,1,2,4,5,6,7,8,1,7,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999989,1,0,6,2,0,7,'2014-09-27',1,8,9,1,2,4,5,6,7,8,1,8,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999990,1,0,6,2,0,7,'2014-09-28',1,8,9,1,2,4,5,6,7,8,1,8,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999991,1,0,6,2,0,7,'2014-09-29',1,8,9,1,2,4,5,6,7,8,1,5,5,1,2,3,5,9,2)").executeUpdate();
+	        sessionFactory.getCurrentSession().createSQLQuery("INSERT INTO DATA VALUES(99999992,1,0,6,2,0,7,'2014-09-30',1,8,9,0,2,4,5,6,7,8,1,8,5,1,2,3,5,4,2)").executeUpdate();
 	}
 }
