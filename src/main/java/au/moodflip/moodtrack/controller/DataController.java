@@ -49,7 +49,7 @@ public class DataController {
     @Autowired
     private ActivityService activityService;
 
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    @RequestMapping(value = "/mood-tracking/data", method = RequestMethod.GET)
     public String data(Principal principal,
                        Model model) {
         User user = userManager.getUserByUsername(principal.getName());
@@ -59,7 +59,7 @@ public class DataController {
         return FOLDER + "/data";
     }
 
-    @RequestMapping(value = "/data", method = RequestMethod.POST)
+    @RequestMapping(value = "/mood-tracking/data", method = RequestMethod.POST)
     public ModelAndView saveData(@ModelAttribute("command") Data data,
                                  Principal principal,
                                  BindingResult result,
@@ -79,7 +79,7 @@ public class DataController {
         } else {
             if (data.getId() != oldData.getId()) {
                 model.addAttribute("command", oldData);
-                model.addAttribute("msg", "You have old data modify it");
+                model.addAttribute("msg", "You have already entered Data!!!");
                 return new ModelAndView(FOLDER + "/data");
             } else {
                 dataService.update(data);
@@ -95,7 +95,7 @@ public class DataController {
         activity.setActivityDate(data.getDate());
         activityService.addActivity(activity);
 
-        return new ModelAndView(new RedirectView("/mood-tracking", true));
+        return new ModelAndView(new RedirectView("/user-homepage", true));
     }
 
 }

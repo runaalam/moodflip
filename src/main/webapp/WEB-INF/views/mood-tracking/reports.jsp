@@ -10,8 +10,7 @@
 <head>
 
     <title>Reports</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    
+   
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
@@ -21,104 +20,111 @@
             $("#endDate").datepicker({ dateFormat: 'dd/mm/yy'});
         });
     </script>
+    
+    <script>
+    $(function () {
+        $('#large-columns-table').next().click(function () {
+            $(this).hide();
+            buildTable($('#table-large-columns'), 50, 50);
+        });
+    });
+</script>
 
 </head>
 <body>
 
-<nav class="navbar navbar-inverse" role="navigation">
-      <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">MoodFlip</a>
-          </div>
-
-          <p class="navbar-text navbar-right"><c:out value="${globalPoints}"/> pts Level 2</p>
-          <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">User123</a></p>
-      </div>
-  </nav>
+<div class="col-xs-12 col-sm-9">
   
-<h3><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></h3>
 
-<h1>Reports</h1>
 
- <s:hasBindErrors name="command">
-      <div id="div_global_error" align="center">
-          <div id="global_errors">
-              <s:bind path="command">
-                  <c:forEach items="${status.errorMessages}" var="err">
-                      <c:out value='${err}'/><br/>
-                  </c:forEach>
-              </s:bind>
-          </div>
-      </div>
-  </s:hasBindErrors>
+<!--  <h1>Reports</h1> -->
+
+ 
 
 
 <form:form action="" method="POST" name="command">
-    <div>
-        <table>
-            <tr>Start Date
-                <form:input path="startDate" type="text" id="startDate"/>
-                <form:errors path="startDate" cssClass="error"/>
-            </tr>
+	
+   		<div class="panel panel-default">
+    	<div class="panel-heading"><h3 class="panel-title">Reports</h3></div> <!-- panel-heading -->
+    	<div class="bs-example">
+    	
+	    <s:hasBindErrors name="command">
+	      <div id="div_global_error" align="center">
+	          <div id="global_errors">
+	              <s:bind path="command">
+	                  <c:forEach items="${status.errorMessages}" var="err">
+	                      <c:out value='${err}'/><br/>
+	                  </c:forEach>
+	              </s:bind>
+	          </div>
+	      </div>
+	  </s:hasBindErrors>
+        <table class="table">
+        
+            <tr><td>Start Date</td>
+            
+                <td><form:input path="startDate" type="text" id="startDate"/> </td>
+                
+                <td><form:errors path="startDate" cssClass="error"/>
+                
+            
 
-            <tr>End Date
-                <form:input path="endDate" type="text" id="endDate"/>
-                <form:errors path="endDate" cssClass="error"/>
+            <td>End Date</td>
+                <td><form:input path="endDate" type="text" id="endDate"/></td>
+                <td><form:errors path="endDate" cssClass="error"/></td>
             </tr>
         </table>
-
-        <div>
-            <input type="submit" id="save" name="save" value="Generate Report"/>
-        </div>
+        
+		
+        <p align="center">
+            <input class="btn btn-default" type="submit" id="save" name="save" value="Generate Report"/>
+        </p>
+    
+    </div>
     </div>
 </form:form>
 
 <div>
     <div>
 
-        <table border="1">
+        <table border="1" id="table-large-columns" data-height="400" data-show-columns="true">
+         <thead>
             <tr>
 
-                <th>Date</th>
-                <th>Rate Your Mood</th>
-                <th>How well you coped with your task today</th>
-                <th>How many hours did you sleep today (Hours)</th>
-                <th>How long did you exercise today (Hours)</th>
-
-
-                <th> Interested</th>
-                <th> Irritable</th>
-                <th> Distressed</th>
-                <th> Alert</th>
-                <th> Excited</th>
-                <th> Ashamed</th>
-                <th> Upset</th>
-                <th> Inpired</th>
-                <th> Strong</th>
-                <th> Nervous</th>
-                <th> Guilty</th>
-                <th> Determined</th>
-                <th> Scared</th>
-                <th> Attentive</th>
-                <th> Hostile</th>
-                <th> Jittery</th>
-                <th> Enthusiastic</th>
-                <th> Active</th>
-                <th> Proud</th>
-                <th> Afraid</th>
+                <th class="col-md-2">Date</th>
+                <th class="col-md-2">Rate Your Mood</th>
+               <th class="col-md-2">How well you coped with your task today</th>
+              <th class="col-md-2">How many hours did you sleep today (Hours)</th>
+                <th class="col-md-2">How long did you exercise today (Hours)</th>
+                <th class="col-md-2"> Interested</th>
+                <th class="col-md-2"> Irritable</th>
+                <th class="col-md-2"> Distressed</th>
+                <th class="col-md-2"> Alert</th>
+                <th class="col-md-2"> Excited</th>
+                <th class="col-md-2"> Ashamed</th>
+                <th class="col-md-2"> Upset</th>
+                <th class="col-md-2"> Inpired</th>
+                <th class="col-md-2"> Strong</th>
+                <th class="col-md-2"> Nervous</th>
+                <th class="col-md-2"> Guilty</th>
+                <th class="col-md-2"> Determined</th>
+                <th class="col-md-2"> Scared</th>
+                <th class="col-md-2"> Attentive</th>
+                <th class="col-md-2"> Hostile</th>
+                <th class="col-md-2"> Jittery</th>
+                <th class="col-md-2"> Enthusiastic</th>
+                <th class="col-md-2"> Active</th>
+                <th class="col-md-2"> Proud</th>
+                <th class="col-md-2"> Afraid</th>
 
             </tr>
-            <c:forEach var="_data" items="${dataItems}">
+            </thead>
+            <tbody>
+            
+              <c:forEach var="_data" items="${dataItems}">
                 <tr>
-                    <td>${_data.date}</td>
-                    <td>${_data.moodRating}</td>
+               		 <td class="col-md-6">${_data.date}</td>
+               		 <td>${_data.moodRating}</td>
                     <td>${_data.copedWithTask}</td>
                     <td>${_data.hoursOfSleeping}</td>
                     <td>${_data.exerciseHours}</td>
@@ -144,8 +150,10 @@
                     <td>${_data.afraid}</td>
                 </tr>
             </c:forEach>
+            </tbody>
         </table>
     </div>
+</div>
 </div>
 
 </body>

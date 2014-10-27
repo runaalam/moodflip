@@ -7,7 +7,9 @@
 <html>
 <head>
 <title><fmt:message key="title" /></title>
+<link rel="stylesheet" href="<c:url value="/resources/shared/css/sticky-footer.css" />">
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
+<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 </head>
 
 <body>
@@ -35,7 +37,7 @@
 							<div class="alert alert-danger" role="alert">${error}</div>
 						</c:if>
 						<c:if test="${not empty msg}">
-							<div class="msg">${msg}</div>
+							<div class="alert alert-success" role="alert">${msg}</div>
 						</c:if>
 					</div>
 
@@ -71,8 +73,8 @@
 
 	</div>
 
+	<div class="panel-footer">
+		<p>Copyright &copy; 2014 <fmt:message key="heading" /></p>
+	</div>
 </body>
-
-<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
-
 </html>

@@ -8,6 +8,7 @@
 <title><fmt:message key="title" /></title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 <link rel="stylesheet" href="<c:url value="/resources/comm/css/forums.css" />">
+<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 </head>
 <body>
 	
@@ -177,12 +178,7 @@
 	
 	</div>
 	</div>
+	<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
 </body>
-
-<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
-
-<%@ include file="/WEB-INF/views/angularjs/include-js.jsp"%>
-
 <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
-
 </html>
