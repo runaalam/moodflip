@@ -19,10 +19,17 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
-	 * Simply selects the home view to render by returning its name.
+	 * Redirect to user homepage.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
+		logger.info("Welcome home!, " + "Locale: " + locale);
+		ModelAndView mav = new ModelAndView("redirect:/user-homepage");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/dev", method = RequestMethod.GET)
+	public ModelAndView homeDev(Locale locale) {
 		logger.info("Welcome home!, " + "Locale: " + locale);
 		ModelAndView mav = new ModelAndView("home");
 		return mav;

@@ -6,7 +6,6 @@ moodFlip.controller('CardSuggestCtrl', ['$scope', '$http', function ($scope, $ht
 		$scope.topicId = topicId;
 		$scope.listCards();
 		$scope.listSymptoms();
-		console.log($scope.topicId);
 	};
 	
 	$scope.listCards = function () {

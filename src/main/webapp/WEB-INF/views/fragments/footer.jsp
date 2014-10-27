@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include.jsp"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+ <link rel="stylesheet" href="<c:url value="/resources/shared/css/sticky-footer.css" />">
+ 
 <div class="panel-footer">
-        <p>Copyright &copy; 2014 <fmt:message key="heading" /></p>
+	<p>Copyright &copy; 2014 <fmt:message key="heading" /></p>
 </div> 
 <script>
 $(document).ready(function() {
@@ -13,6 +13,9 @@ $(document).ready(function() {
 	}
 	if (pathname.match("user-homepage")){
 		$("#collapseOne").addClass("in");
+	}
+	if (pathname.match("mood-tracking")){
+		$("#collapseThree").addClass("in");
 	}
 });
 </script>

@@ -1,9 +1,7 @@
 package au.moodflip.userpage.utils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import au.moodflip.userpage.model.Assessment;

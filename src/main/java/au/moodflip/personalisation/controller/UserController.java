@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.cardgame.model.Card;
@@ -53,26 +54,40 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String register(HttpServletRequest httpServletRequest) {
+	public ModelAndView register(HttpServletRequest httpServletRequest) {
 		
-		if (userManager.getUserByUsername(httpServletRequest.getParameter("username")) == null) {
-			User user = new User();
-			user.setName(httpServletRequest.getParameter("name"));
-			user.setBanned(false);
-			user.setUsername(httpServletRequest.getParameter("username"));
-			user.setPassword(httpServletRequest.getParameter("password"));
-			user.setPrivacy(Privacy.OPEN);
-			
-			Set<Role> roles = new HashSet<Role>();
-			roles.add(roleService.findByName("ROLE_USER"));
-			user.setRoles(roles);
-			userManager.addUserWithRoles(user);
+		ModelAndView mav = new ModelAndView();
+		
+		if (userManager.getUserByUsername(httpServletRequest.getParameter("username")) != null) {
+			String error = "Username '" + httpServletRequest.getParameter("username") + "' has already been taken.";
+			mav.addObject("error", error);
+			mav.setViewName("personalisation/register");
+			return mav;
 		}
 		
-	
+		if(!httpServletRequest.getParameter("password").equals(httpServletRequest.getParameter("password2"))) {
+			String error = "Password confirmation does not match Password.";
+			mav.addObject("error", error);
+			mav.setViewName("personalisation/register");
+			return mav;
+		}
+
+		User user = new User();
+		user.setName(httpServletRequest.getParameter("name"));
+		user.setBanned(false);
+		user.setUsername(httpServletRequest.getParameter("username"));
+		user.setPassword(httpServletRequest.getParameter("password"));
+		user.setPrivacy(Privacy.OPEN);
+
+//		Set<Role> roles = new HashSet<Role>();
+//		roles.add(roleService.findByName("ROLE_USER"));
+//		user.setRoles(roles);
+		userManager.addUser(user);
 		
-		return "redirect:/personalisation.htm";
+		mav.setViewName("redirect:/login?registerSuccess");
+		return mav;
 	}
+	
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public ModelAndView profile(Principal principal) {
 		
