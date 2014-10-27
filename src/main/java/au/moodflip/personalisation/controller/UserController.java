@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import java.security.Principal;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.cardgame.model.Card;
 import au.moodflip.comm.model.Forum;
+import au.moodflip.comm.model.TopicComment;
 import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.model.User.Privacy;
@@ -70,6 +73,18 @@ public class UserController {
 		
 		return "redirect:/personalisation.htm";
 	}
+	@RequestMapping(value="/profile", method=RequestMethod.GET)
+	public ModelAndView profile(Principal principal) {
+		
+		ModelAndView mav = new ModelAndView("personalisation/editUser");
+		User user = userManager.getUserByUsername(principal.getName());
+		
+		mav.addObject("privacy", User.Privacy.values());
+		mav.addObject("user", user);
+	    return mav;
+	}
+	
+	
 	
 	// customize the error message
 	private String getErrorMessage(HttpServletRequest request, String key) {

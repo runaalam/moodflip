@@ -38,9 +38,9 @@ public class User implements Serializable {
 	
 	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	public enum Privacy{
-		OPEN("Available to all"), 
-		FRIEND("Friends can see"),
-		SELF("Available to self");
+		OPEN("Open"), 
+		FRIEND("Friends"),
+		SELF("Self");
 		
 		private final String text;
 
@@ -87,6 +87,8 @@ public class User implements Serializable {
 	public Privacy getPrivacySetting(){
 		return privacy;
 	}
+	
+	@Column(name = "friends")
 
 	
 	@ManyToMany

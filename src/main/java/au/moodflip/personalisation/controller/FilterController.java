@@ -1,3 +1,4 @@
+/*
 package au.moodflip.personalisation.controller;
 
 import java.security.Principal;
@@ -49,6 +50,7 @@ public class FilterController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
+		
 		logger.info("Welcome to the personalisation system!");
 		ModelAndView mav = new ModelAndView(FOLDER + "/contentfilter");
 		
@@ -63,8 +65,6 @@ public class FilterController {
 		
 		return mav;
 	}
-	
-	
-
-
 }
+
+*/
