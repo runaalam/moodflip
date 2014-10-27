@@ -37,7 +37,7 @@ public class ReportController {
     @Autowired
     private DataService dataService;
 
-    @RequestMapping(value = "/reports", method = RequestMethod.GET)
+    @RequestMapping(value = "/mood-tracking/reports", method = RequestMethod.GET)
     public String getReport(Principal principal,
                             ModelMap model) {
         User user = userManager.getUserByUsername(principal.getName());
@@ -47,7 +47,7 @@ public class ReportController {
         return FOLDER + "/reports";
     }
 
-    @RequestMapping(value = "/reports", method = RequestMethod.POST)
+    @RequestMapping(value = "/mood-tracking/reports", method = RequestMethod.POST)
     public ModelAndView getReportData(@ModelAttribute("command") ReportCmd reportCmd,
                                       BindingResult result,
                                       ModelMap modelMap) {

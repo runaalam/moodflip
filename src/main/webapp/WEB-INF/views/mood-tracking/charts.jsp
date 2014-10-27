@@ -10,8 +10,6 @@
 <head>
     <title>Charts</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
    
@@ -85,9 +83,13 @@
     	var array;
 
     	var data = $.ajax({
-            url: "drawLineChart",
+            url: "charts/drawLineChart",
     	          dataType:"json",
-    	          async: false
+    	          async: false,
+    	          error: function( jqXHR, textStatus,errorThrown ){
+    	        	  alert('req failed ' + errorThrown);
+    	        	
+    	          }
     	          }).responseText;
 
     	//alert(data);
@@ -144,7 +146,7 @@
     	var array;
     	   
     	var data = $.ajax({
-            url: "drawColumnChart",
+            url: "charts/drawColumnChart",
     	          dataType:"json",
     	          async: false
     	          }).responseText;
@@ -169,30 +171,13 @@
     </script>
 </head>
   <body>
-	
-  <nav class="navbar navbar-inverse" role="navigation">
-      <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">MoodFlip</a>
-          </div>
+	<div class="col-xs-12 col-sm-9">
+  	<div class="panel panel-default">
+    	<div class="panel-heading"><h3 class="panel-title">Charts</h3></div> <!-- panel-heading -->
+    	<div class="bs-example">
 
-          <p class="navbar-text navbar-right"><c:out value="${globalPoints}"/> pts Level 2</p>
-          <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">User123</a></p>
-      </div>
-  </nav>
-  
-  <h3><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></h3>
-  <h1>Charts</h1>
-
-
-  <s:hasBindErrors name="command">
+  <form:form action="" method="POST" name="command">
+  		<s:hasBindErrors name="command">
       <div id="div_global_error" align="center">
           <div id="global_errors">
               <s:bind path="command">
@@ -203,45 +188,52 @@
           </div>
       </div>
   </s:hasBindErrors>
-
-  <form:form action="" method="POST" name="command">
+  
     <div>
-        <table>
-            <tr>Start Date
-                <form:input path="startDate" type="text" id="startDate" />
-                <form:errors path="startDate" cssClass="error"/>
-            </tr>
+         <table class="table">
+        
+            <tr><td>Start Date</td>
+            
+                <td><form:input path="startDate" type="text" id="startDate"/> </td>
+                
+                <td><form:errors path="startDate" cssClass="error"/>
+                
+            
 
-            <tr>End Date
-                <form:input path="endDate" type="text" id="endDate"/>
-                <form:errors path="endDate" cssClass="error"/>
+            <td>End Date</td>
+                <td><form:input path="endDate" type="text" id="endDate"/></td>
+                <td><form:errors path="endDate" cssClass="error"/></td>
             </tr>
         </table>
 
-        <div>
-            <input type="submit" id="save" name="save" value="Generate Chart"/>
-        </div>
-       
+       <p align="center">
+            <input class="btn btn-default" type="submit" id="save" name="save" value="Generate Chart"/>
+      </p>
+        
+        
     </div>
 </form:form>
 
 <!--Div that will hold the line chart-->
   <c:if test="${drawGraph == true}">
-  <table>
-      <tr>
-          <td><div id="line_chart_div" style="float: left"></div></td>
-          <td><div id="bar_chart_div" style="float: right"></div></td>
-      </tr>
-  </table>
-</c:if>
+  
+	   
+	          <div id="line_chart_div" ></div>
+         		<div id="bar_chart_div" ></div>
+     	
+   
+	</c:if> 
    <%--<div id="line_chart_div" style="float: left"></div>--%>
   <%--<div id="bar_chart_div" style="float: right"></div>--%>
   <%--<div id="chart_div"></div>--%>
   <!--Div that will hold the column chart-->
-   <!-- <div id="chart_div1" style="width:600; height:500"></div>-->
+   <!-- <div id="chart_div1" style="width:600; height:500"
+    style="float: left"
+    style="float: right"></div>-->
     
     
-    
- 
+    </div>
+ </div>
+ </div>
   </body>
 </html>
