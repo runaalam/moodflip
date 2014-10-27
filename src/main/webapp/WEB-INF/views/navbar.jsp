@@ -32,7 +32,7 @@
 						<li><a href="<c:url value="/notification"/>" class="text-center">All Notifications</a></li>
 					</ul>
 				</li>
-				<li><a href=""><sec:authentication property="principal.username" /></a></li>
+				<li><a href="<c:url value="/user/profile"/>"><sec:authentication property="principal.username" /></a></li>
 				<li><a href="<c:url value="/logout"/>">Logout</a></li>
 				</sec:authorize>
 			</ul>
