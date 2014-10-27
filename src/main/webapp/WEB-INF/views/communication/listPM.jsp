@@ -66,7 +66,7 @@
 				<div class="col-md-offset-2 col-md-8">
 					<form ng-submit="send()">
 					<div class="input-group">
-						<input type="text" class="form-control" ng-model="message">
+						<input type="text" class="form-control" ng-model="message" autofocus>
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="submit">Send</button>
 						</span>
