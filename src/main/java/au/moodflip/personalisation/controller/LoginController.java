@@ -1,5 +1,7 @@
 package au.moodflip.personalisation.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,8 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView login(@RequestParam(value = "error", required = false) String error, HttpServletRequest request) {
+	public ModelAndView login(@RequestParam(value = "error", required = false) String error, HttpServletRequest request, Principal principal) {
 		ModelAndView model = new ModelAndView();
+		
+		if(principal != null) {
+			model.setViewName("redirect:/");
+			return model;
+		}
+		
 		if (error != null) {
 			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
