@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -27,6 +28,7 @@ import java.util.List;
 
 @Controller
 @SessionAttributes("command")
+@RequestMapping(value="/mood-tracking")
 public class ChartsController {
 
     private static final Logger logger = LoggerFactory.getLogger(ChartsController.class);
@@ -59,21 +61,20 @@ public class ChartsController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/drawLineChart", method = RequestMethod.GET)
+    @RequestMapping(value = "/charts/drawLineChart", method = RequestMethod.GET)
     public Charts drawLineChart(@ModelAttribute("command") Charts charts) {
-
+    	logger.info("Enter drawLineChart()");
         List<Data> list = dataService.listData(charts);
 
         Charts prepareChartData = ChartsUtils.prepareChartData(list);
-
         return prepareChartData;
 
     }
     
     @ResponseBody
-    @RequestMapping(value = "/drawColumnChart", method = RequestMethod.GET)
+    @RequestMapping(value = "/charts/drawColumnChart", method = RequestMethod.GET)
     public Charts drawColumnChart(@ModelAttribute("command") Charts charts) {
-
+    	logger.info("Enter drawColumnChart()");
         List<Data> list = dataService.listData(charts);
 
         Charts prepareColumnChartData = ChartsUtils.prepareColumnChartData(list);
@@ -88,7 +89,7 @@ public class ChartsController {
     public ModelAndView getChartData(@ModelAttribute("command") Charts charts,
                                      BindingResult result,
                                      ModelMap modelMap) {
-
+    	logger.info("Enter getChartData()");
         new ChartsValidator().validate(charts, result);
 
         if (result.hasErrors()) {
@@ -100,9 +101,9 @@ public class ChartsController {
        // modelMap.put("moodRating" , data);
         
         modelMap.put("drawGraph", true);
+        logger.info("Exit getChartData()");
 
-
-        return new ModelAndView(new RedirectView("/charts", true));
+        return new ModelAndView(new RedirectView("/mood-tracking/charts", true));
     
     
     }  

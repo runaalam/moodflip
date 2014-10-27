@@ -90,7 +90,7 @@
                    
                         <tr>
                             <td>
-                                  <a href="<c:url value="/mood-tracking/data"/>">Data</a> 
+                                  <a href="<c:url value="/mood-tracking/data"/>">Core Data</a> 
                             </td>
                         </tr>
                         <tr>
