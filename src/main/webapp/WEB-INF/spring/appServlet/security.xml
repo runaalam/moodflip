@@ -11,6 +11,7 @@
 	<http use-expressions="true">
 		<intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/personalisation" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/pm" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/pm/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/notification" access="hasRole('ROLE_USER')" />

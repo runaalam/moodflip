@@ -20,5 +20,9 @@ public interface UserManager extends Serializable{
 	public User getUserByUsername(String username);
 
 	void addUserWithRoles(User user);
+	
+    public boolean canViewUserHomepage(long ownerID, long viewerID);
+    
+    public au.moodflip.personalisation.model.User.Privacy getUserPrivacy(long id);
     
 }

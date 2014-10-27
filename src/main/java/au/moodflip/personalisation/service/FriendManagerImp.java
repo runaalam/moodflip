@@ -28,16 +28,30 @@ public class FriendManagerImp implements FriendManager{
 	@Autowired
 	private SessionFactory sessionFactory;
 	@Override
-	public void deleteFriend(long id) {
+	public void deleteFriend(User user1, User user2) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
-		Friend request = (Friend) currentSession.get(Friend.class, id);
+		Query query = currentSession.createQuery(
+				"from FriendRequest where sender = :user1 AND recevier = :user2 AND friends = true OR sender = :user2 AND recevier = :user1 AND friends = true");
+		query.setParameter("user1", user1);
+		query.setParameter("user2", user2);
+		
+		List<Friend> requests = new ArrayList<Friend>();
+		requests = query.list();
+		Friend request = (Friend) currentSession.get(Friend.class, requests.get(1).getID());
 		currentSession.delete(request);
+		
+		if(query.list().size()>1){
+			Friend request2 = (Friend) currentSession.get(Friend.class, requests.get(2).getID());
+			currentSession.delete(request2);
+		}
+		
+		
 	}
 	@Override
-    public boolean isFriends(String user1, String user2){
+    public boolean isFriends(User user1, User user2){
     	
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from FriendRequest where sender = :user1 AND recevier = :user2 OR sender = :user2 AND recevier = :user1");
+				"from FriendRequest where sender = :user1 AND recevier = :user2 AND friends = true OR sender = :user2 AND recevier = :user1 AND friends = true");
 		query.setParameter("user1", user1);
 		query.setParameter("user2", user2);
 		
@@ -59,9 +73,9 @@ public class FriendManagerImp implements FriendManager{
     
 
 	@Override
-	public List<Friend> getReceiverFriendRequest(String username) {
+	public List<Friend> getReceiverFriendRequest(User username) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from FriendRequest where recevier = :username");
+				"from FriendRequest where recevier = :username AND friends = false");
 		query.setParameter("receiver", username);
 		
 		List<Friend> requests = new ArrayList<Friend>();
@@ -71,9 +85,9 @@ public class FriendManagerImp implements FriendManager{
 	}
 
 	@Override
-	public List<Friend> getSenderFriendRequest(String username) {
+	public List<Friend> getSenderFriendRequest(User username) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from FriendRequest where sender = :username");
+				"from FriendRequest where sender = :username AND friends = false");
 		query.setParameter("sender", username);
 		
 		List<Friend> requests = new ArrayList<Friend>();
@@ -82,15 +96,31 @@ public class FriendManagerImp implements FriendManager{
 		return requests;
 	}
 	@Override
-	public List<Friend> getFriends(String username) {
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from FriendRequest where friends = true and sender = :username OR friends = true and receiver = :username ");
-		query.setParameter("username", username);
+	public List<User> getFriends(User username) {
 		
 		List<Friend> list = new ArrayList<Friend>();
+		List<User> userList = new ArrayList<User>();
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from FriendRequest where friends = true and sender = :username");
+		query.setParameter("username", username);
 		
 		 list = query.list();
-		return list;
+		 
+		 if(list.size()>0)
+			for(int x = 0; x<list.size();x++){
+				userList.add(list.get(x).getReceiver());
+			}
+		 
+		 query = sessionFactory.getCurrentSession().createQuery(
+					"from FriendRequest where friends = true and receiver = :username ");
+		 
+		 list = query.list();
+		 if(list.size()>0)
+				for(int x = 0; x<list.size();x++){
+					userList.add(list.get(x).getSender());
+				}
+		
+		return userList;
 	}
     
 }

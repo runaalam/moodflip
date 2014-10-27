@@ -8,14 +8,15 @@ import au.moodflip.personalisation.model.User;
 
 public interface FriendManager extends Serializable{
     
-    public boolean isFriends(String user1, String user2);
+    public boolean isFriends(User user1, User user2);
     
     public void addFriendRequest(Friend request);
     
-    public List<Friend> getReceiverFriendRequest(String username);
+    public List<Friend> getReceiverFriendRequest(User username);
    
-    public List<Friend> getSenderFriendRequest(String username);
-    public void deleteFriend(long id);
-    public List<Friend> getFriends(String username);
+    public List<Friend> getSenderFriendRequest(User username);
+    public List<User> getFriends(User username);
+
+	public void deleteFriend(User user1, User user);
     
 }

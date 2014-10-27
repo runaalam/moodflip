@@ -13,8 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import au.moodflip.personalisation.model.Role;
+import au.moodflip.personalisation.model.User.Privacy;
 import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.model.Role;
 
 @Service("userManager")
 @Transactional
@@ -24,6 +25,8 @@ public class UserManagerImpl implements UserManager {
 	
 	@Autowired
 	private RoleManager roleService;
+	@Autowired
+	private FriendManager  friendManager;
 	
 	@Autowired
 	public void setSessionFactory(SessionFactory sf) {
@@ -112,6 +115,38 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public List<User> getUsers() {
 		return this.sessionFactory.getCurrentSession().createQuery("FROM User").list();
+	}
+
+	@Override
+	public boolean canViewUserHomepage(long ownerID, long viewerID) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		User owner = (User) currentSession.get(User.class, ownerID);
+		User viewer = (User) currentSession.get(User.class, viewerID);
+		String privacy = owner.getPrivacy().getText();
+		if(privacy.equals("Open") )
+			return true;
+		else{
+			if(privacy.equals("Friends")){
+				if(friendManager.isFriends(owner, viewer))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+				return true;
+				else 
+				return false;
+			}
+			else{
+				if(ownerID==viewerID)
+					return true;
+				else
+				return false;
+			}
+		}
+		
+	}
+
+	@Override
+	public Privacy getUserPrivacy(long id) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		User owner = (User) currentSession.get(User.class, id);
+		return owner.getPrivacy();
 	}
 	
 

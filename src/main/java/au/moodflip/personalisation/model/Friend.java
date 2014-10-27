@@ -40,23 +40,26 @@ public class Friend implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private long id;
+	public long getID(){
+		return id;
+	}
 
 	@Column(name = "sender")
-	private String sender;
-	public void setSender(String sender){
+	private User sender;
+	public void setSender(User sender){
 		this.sender = sender;
 	}
-	public String getSender(){
+	public User getSender(){
 		return this.sender;
 	}
 	
 	
 	@Column(name = "receiver")
-	private String receiver;
-	public void setReceiver(String receiver){
+	private User receiver;
+	public void setReceiver(User receiver){
 		this.receiver = receiver;
 	}
-	public String getReceiver(){
+	public User getReceiver(){
 		return this.receiver;
 	}
 	
