@@ -16,7 +16,7 @@
 	    <jsp:include page="../fragments/bodySideBar.jsp"/>
 	    <div class="col-xs-12 col-sm-9">
 			<h1>Create/Edit card</h1><br/>
-			<sf:form method="POST" modelAttribute="card" class="form-horizontal" role="form">
+			<sf:form method="POST" modelAttribute="card" class="form-horizontal editCardForm" role="form">
 				<div class="form-group">
 					<label for="cardTitle" class="col-sm-2 control-label">Title</label>
 					<div class="col-sm-5">
@@ -86,7 +86,7 @@
 				</div>	
 				
 				<sf:hidden path="cardId"/>
-				<input type="submit" value="Save card" class="btn btn-primary" />
+				<input type="submit" name="submitBtn" value="Save card" class="btn btn-primary" />
 			</sf:form>
 			<c:out value="${status}"/>
 		</div><!-- /.col-xs-12 main -->	
