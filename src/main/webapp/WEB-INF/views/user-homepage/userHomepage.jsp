@@ -62,6 +62,10 @@
   					</div>
 				</div><!-- panel-default -->
 			</form:form>
+			
+			<iframe width="420" height="345"
+src="http://youtu.be/QThB769iwxY">
+</iframe>
 		</div><!-- /.col-xs-12 main -->	
 	</body>
 </html>
