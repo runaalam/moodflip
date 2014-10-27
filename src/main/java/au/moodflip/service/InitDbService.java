@@ -105,15 +105,22 @@ public class InitDbService {
 					userService.addUserWithRoles(userAdmin);
 				}
 
-				if (userService.getUserByUsername("user") == null) {
-					User userNormal = new User();
-					userNormal.setBanned(true);
-					userNormal.setUsername("user");
-					userNormal.setPassword("user");
-					Set<Role> roles = new HashSet<Role>();
-					roles.add(roleService.findByName("ROLE_USER"));
-					userNormal.setRoles(roles);
-					userService.addUserWithRoles(userNormal);
+				String iStr = "";
+				for (int i=0; i < 7; i++){
+					if (i==0) 
+						iStr = ""; 
+					else
+						iStr = String.valueOf(i);
+					if (userService.getUserByUsername("user" + iStr) == null) {
+						User userNormal = new User();
+						userNormal.setBanned(false);
+						userNormal.setUsername("user" + iStr);
+						userNormal.setPassword("user" + iStr);
+						Set<Role> roles = new HashSet<Role>();
+						roles.add(roleService.findByName("ROLE_USER"));
+						userNormal.setRoles(roles);
+						userService.addUserWithRoles(userNormal);
+					}
 				}
 			}
 		});
