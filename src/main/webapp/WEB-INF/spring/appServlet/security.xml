@@ -15,6 +15,9 @@
 		<intercept-url pattern="/pm/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/notification" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/notification/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/forums" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/forums/**" access="hasRole('ROLE_USER')" />
+		
 		<intercept-url pattern="/card-game*/**" access="hasRole('ROLE_USER')" />
 
 		<intercept-url pattern="/data" access="hasRole('ROLE_USER')" />

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -128,6 +129,7 @@ public class Card implements Serializable, Comparable<Card>{
 	@JsonIgnore
 	public List<Task> getTasks() { return tasks; }
 	public void setTasks(List<Task> tasks) { this.tasks = tasks; }
+	@Valid
 	private List<Task> tasks;
 	
 	@Column(name="outro", length=2000)

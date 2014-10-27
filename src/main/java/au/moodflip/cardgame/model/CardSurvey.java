@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 public class CardSurvey extends Task implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -29,6 +31,7 @@ public class CardSurvey extends Task implements Serializable{
 		setQuestion(q);
 	}
 	
+	@NotBlank
 	public String getQuestion() { return question; }
 	public void setQuestion(String question) { this.question = question; }
 	private String question;

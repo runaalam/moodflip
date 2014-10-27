@@ -3,3 +3,13 @@
 body {
   padding-top: 70px;
 }
+
+.dropdown-menu{
+	width: 350px;
+}
+
+.new-line-overflow-dropdown
+{
+    word-wrap: break-word;
+    white-space: normal !important;
+}
