@@ -106,6 +106,7 @@
                 </div>
             </div>
         </div>
+        <!-- 
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -125,5 +126,6 @@
                 </div>
             </div>
         </div>
+         -->
     </div>
 </div>

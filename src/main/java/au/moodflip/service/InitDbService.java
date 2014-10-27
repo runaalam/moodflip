@@ -98,7 +98,7 @@ public class InitDbService {
 					User userAdmin = new User();
 					userAdmin.setBanned(false);
 					userAdmin.setUsername("admin");
-					userAdmin.setName("Mike");
+					userAdmin.setName("Administrator");
 					userAdmin.setPassword("admin");
 					userAdmin.setPrivacy(Privacy.OPEN);
 					Set<Role> roles = new HashSet<Role>();
@@ -113,7 +113,7 @@ public class InitDbService {
 					userNormal.setBanned(false);
 					userNormal.setUsername("user");
 					userNormal.setPassword("user");
-					userNormal.setName("Jack");
+					userNormal.setName("Test User");
 					userNormal.setPrivacy(Privacy.OPEN);
 					Set<Role> roles = new HashSet<Role>();
 					roles.add(roleService.findByName("ROLE_USER"));
