@@ -14,16 +14,17 @@
 	<div class="panel panel-default">
 	<div class="panel-heading"><h3 class="panel-title">Features of Express Your Mood</h3></div> <!-- panel-heading -->
   	<div class="bs-example">
+  	
 	<tr>
-	<th>
-	Core Data - Update your mood when ever you want. It is easy, and can help make you happier.
-	</th>
+		<td><img src="<c:url value="/resources/images/featureupdate.jpg"/>"/></td>
+		<td><img src="<c:url value="/resources/images/featuregraph.jpg/"/>"></td>
 	</tr>
+	
 	<tr>
+		<td>Core Data - Update your mood when ever you want. It is easy, and can help make you happier.</td>
+		<td>Charts & Reports - View your mood history over weeks and months. Get the bigger picture on your happiness.</td>
 	<th>
-	Charts & Reports - View your mood history over weeks and months. Get the bigger picture on your happiness.
-	</th>
-	<tr>
+	
 	
 	<!--  <h3><a href="<c:url value="/data"/>">Data</a></h3>
 
