@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class PersonalisationController {
 	private UserManager userManager;
 	
 	private final String FOLDER = "personalisation";
-
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
 		logger.info("Welcome to the personalisation system!");
@@ -52,7 +53,7 @@ public class PersonalisationController {
 		
 		return mav;
 	}
-	
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping(value = "/ban/{id}",method = RequestMethod.GET)
 	public ModelAndView ban(@PathVariable("id") Long id) {
 		ModelAndView mav = new ModelAndView("redirect:/personalisation");
@@ -63,7 +64,7 @@ public class PersonalisationController {
 		return mav;
 	}
 
-
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping(value = "/unban/{id}",method = RequestMethod.GET)
 public ModelAndView unban(@PathVariable("id") Long id) {
 	ModelAndView mav = new ModelAndView("redirect:/personalisation");

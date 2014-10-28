@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ public class FriendController {
 	
 	private final String FOLDER = "personalisation";
 
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
 		logger.info("Welcome to the personalisation system!");
@@ -61,7 +63,8 @@ public class FriendController {
 		
 		return mav;
 	}
-	
+
+@PreAuthorize("hasRole('ROLE_USER')")	
 @RequestMapping(value = "/requestbyid/{id}",method = RequestMethod.POST)
 	public ModelAndView request(@PathVariable("id") Long id,Principal principal) {
 		ModelAndView mav = new ModelAndView("redirect:/user/profile");
