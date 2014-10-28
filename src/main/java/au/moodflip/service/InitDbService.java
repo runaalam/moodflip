@@ -35,11 +35,13 @@ import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.PlaylistManager;
+import au.moodflip.personalisation.model.Friend;
 import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.model.User.Privacy;
 import au.moodflip.personalisation.service.RoleManager;
 import au.moodflip.personalisation.service.UserManager;
+import au.moodflip.personalisation.service.FriendManager;
 import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
@@ -71,6 +73,8 @@ public class InitDbService {
 	
 	@Autowired
 	private PlaylistManager playlistManager;
+	@Autowired
+	private FriendManager friendManager;
 
 	@PostConstruct
 	private void init() {
@@ -93,9 +97,9 @@ public class InitDbService {
 					roleAdmin.setName("ROLE_ADMIN");
 					roleService.createRole(roleAdmin);
 				}
-
+				User userAdmin = new User();
 				if (userService.getUserByUsername("admin") == null) {
-					User userAdmin = new User();
+					
 					userAdmin.setBanned(false);
 					userAdmin.setUsername("admin");
 					userAdmin.setName("Administrator");
@@ -107,15 +111,16 @@ public class InitDbService {
 					userAdmin.setRoles(roles);
 					userService.addUserWithRoles(userAdmin);
 				}
-
+				
+				User userNormal = new User();
 				String iStr = "";
-				for (int i=0; i < 7; i++){
+				for (int i=0; i < 1; i++){
 					if (i==0) 
 						iStr = ""; 
 					else
 						iStr = String.valueOf(i);
 					if (userService.getUserByUsername("user" + iStr) == null) {
-						User userNormal = new User();
+			
 						userNormal.setBanned(false);
 						userNormal.setUsername("user" + iStr);
 						userNormal.setPassword("user" + iStr);
@@ -125,8 +130,20 @@ public class InitDbService {
 						roles.add(roleService.findByName("ROLE_USER"));
 						userNormal.setRoles(roles);
 						userService.addUserWithRoles(userNormal);
+						
+						if (userService.getUserByUsername("admin") == null) {
+							Friend friend = new Friend();
+							friend.setReceiver(userNormal);
+							friend.setSender(userAdmin);
+							friend.setFriends(true);
+							friendManager.addFriendRequest(friend);
+						}
+						
+						
 					}
 				}
+				
+				
 			}
 		});
 		if (card == true){

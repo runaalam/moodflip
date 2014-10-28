@@ -149,5 +149,12 @@ public class UserManagerImpl implements UserManager {
 		return owner.getPrivacy();
 	}
 	
+	@Override
+	public void setUserPrivacy(long id,Privacy privacy) {
+		Session currentSession = this.sessionFactory.getCurrentSession();
+		User owner = (User) currentSession.get(User.class, id);
+		owner.setPrivacy(privacy);
+		currentSession.merge(owner);
+	}
 
 }

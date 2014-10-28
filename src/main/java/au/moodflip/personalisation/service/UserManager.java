@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import au.moodflip.personalisation.model.User;
+import au.moodflip.personalisation.model.User.Privacy;
 
 public interface UserManager extends Serializable{
     
@@ -24,5 +25,7 @@ public interface UserManager extends Serializable{
     public boolean canViewUserHomepage(long ownerID, long viewerID);
     
     public au.moodflip.personalisation.model.User.Privacy getUserPrivacy(long id);
+
+	void setUserPrivacy(long id, Privacy privacy);
     
 }

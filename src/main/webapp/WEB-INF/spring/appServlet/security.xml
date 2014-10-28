@@ -25,6 +25,11 @@
 		<intercept-url pattern="/mood-tracking" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/reports" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/charts" access="hasRole('ROLE_USER')" />
+		
+		<intercept-url pattern="/data/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/mood-tracking/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/reports/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/charts/**" access="hasRole('ROLE_USER')" />
 
 		<!-- access denied page -->
 		<access-denied-handler error-page="/403" />

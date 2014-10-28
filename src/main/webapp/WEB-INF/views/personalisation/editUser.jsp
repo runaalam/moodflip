@@ -44,7 +44,7 @@
 							<sf:options items="${privacy}" itemLabel="text"/>
 						</sf:select>
 					</div>
-				</div>	
+				</div>
 				<td><input type="submit" value="Done"/></td>			
 			</fieldset>
 		</form:form>

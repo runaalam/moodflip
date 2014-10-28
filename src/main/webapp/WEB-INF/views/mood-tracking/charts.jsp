@@ -113,7 +113,7 @@
     	var data = new google.visualization.DataTable();
 
     	data.addColumn('string', 'Dates');
-    	data.addColumn('number', 'Sleep');
+    	data.addColumn('number', 'Sleep Hours');
     	
         var rows = dates.length;
         data.addRows(rows);
@@ -169,38 +169,73 @@
    
 </head>
   <body>
-	<div class="col-xs-12 col-sm-9">
+  
+  <div class="col-xs-12 col-sm-9">
+  
+  <form:form action="" method="POST" name="command">
+  
+  <s:hasBindErrors name="command">
+ 
+              <s:bind path="command">
+                  <c:forEach items="${status.errorMessages}" var="err">
+                  <div class="alert alert-danger text-center" role="alert">
+                      <c:out value='${err}'/><br/>
+                   </div>
+                  </c:forEach>
+              </s:bind>
+              </s:hasBindErrors>
+             
+              
+			<s:bind path="startDate">
+				<c:if test="${status.error}">
+					<div class="alert alert-danger text-center" role="alert">
+						<c:forEach items="${status.errorMessages}" var="err">
+							<c:out value='${err}' />
+						</c:forEach>
+					</div>
+				</c:if>
+			</s:bind>
+
+
+
+			<s:bind path="endDate">
+				<c:if test="${status.error}">
+					<div class="alert alert-danger text-center" role="alert">
+						<c:forEach items="${status.errorMessages}" var="err">
+							<c:out value='${err}' />
+						</c:forEach>
+					</div>
+				</c:if>
+			</s:bind>
+              
+  
+	
   	<div class="panel panel-default">
     	<div class="panel-heading"><h3 class="panel-title">Charts</h3></div> <!-- panel-heading -->
     	<div class="bs-example">
 
-  <form:form action="" method="POST" name="command">
-  		<s:hasBindErrors name="command">
-      <div id="div_global_error" align="center">
-          <div id="global_errors">
-              <s:bind path="command">
-                  <c:forEach items="${status.errorMessages}" var="err">
-                      <c:out value='${err}'/><br/>
-                  </c:forEach>
-              </s:bind>
-          </div>
-      </div>
-  </s:hasBindErrors>
   
-    <div>
+  
+  		
+              
+              
+              
+   
+  
+  
+    
          <table class="table">
         
-            <tr><td>Start Date</td>
+            <tr><td>Start Date *</td>
             
                 <td><form:input path="startDate" type="text" id="startDate"/> </td>
-                
-                <td><form:errors path="startDate" cssClass="error"/>
+ 
                 
             
 
-            <td>End Date</td>
+            <td>End Date *</td>
                 <td><form:input path="endDate" type="text" id="endDate"/></td>
-                <td><form:errors path="endDate" cssClass="error"/></td>
+
             </tr>
         </table>
 
@@ -208,7 +243,7 @@
             <input class="btn btn-default" type="submit" id="save" name="save" value="Generate Chart"/>
       </p>
         
-        
+        </div>
     </div>
 </form:form>
 

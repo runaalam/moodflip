@@ -18,5 +18,7 @@ public interface FriendManager extends Serializable{
     public List<User> getFriends(User username);
 
 	public void deleteFriend(User user1, User user);
+
+	public void acceptFriendRequest(User sender, User receiver);
     
 }
