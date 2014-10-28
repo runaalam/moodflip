@@ -54,5 +54,4 @@
 		<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
 		
 	</body>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 </html>

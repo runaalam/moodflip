@@ -44,9 +44,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-6">
-					<p class="text-muted">
-						Supports HTML tags and Markdown syntax.
-					</p>
+					<p class="text-muted">Supports HTML tags and Markdown syntax.</p>
 				</div>
 			</div>
 
@@ -65,5 +63,4 @@
 		</div>
 		<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
 	</body>
-<script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 </html>
