@@ -59,8 +59,13 @@ public class StatusController {
 		logger.info("Welcome to the user status system!");
 		ModelAndView mav = new ModelAndView(FOLDER + "/statusList");
 		User user = userManager.getUserByUsername(principal.getName());
-		List<Status> statusList = statusService.listStatusOfOtherUser(user.getId());
-		mav.addObject("statusList", statusList);
+		List<Status> otherStatusList = statusService.listStatusOfOtherUser(user.getId());
+		LinkedList<User> userList = new LinkedList<User>();
+		for(Status s : otherStatusList)
+			userList.add(s.getUser());
+		mav.addObject("userList", userList);
+		
+		mav.addObject("otherStatusList", otherStatusList);
 		
 		return mav;
 	}
@@ -73,9 +78,9 @@ public class StatusController {
 		mav.addObject("status", status);
 		
 		List<StatusComment> statusCommentList = statusCommentService.listStatusComment(statusId);
+		mav.addObject("statusCommentList", statusCommentList);
 		/*Set<StatusComment> set = status.getStatusComments();
 		LinkedList<StatusComment> statusCommentList = new LinkedList<StatusComment>(status.getStatusComments());*/
-		mav.addObject("statusCommentList", statusCommentList);
 		
 		LinkedList<User> commentUserList = new LinkedList<User>();
 		for(StatusComment sc : statusCommentList)
