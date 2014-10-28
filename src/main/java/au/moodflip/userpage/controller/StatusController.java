@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import au.moodflip.comm.service.NotificationService;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
 import au.moodflip.userpage.model.Activity;
@@ -49,6 +50,9 @@ public class StatusController {
 	
 	@Autowired
 	private ActivityService activityService;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@RequestMapping(value = "/other-post", method = RequestMethod.GET)
 	public ModelAndView otherPost(Principal principal) {
@@ -109,6 +113,8 @@ public class StatusController {
 		activity.setDescription(activityDesc);
 		activity.setActivityDate(new Date());
 		activityService.addActivity(activity);
+		String notifMsg = user.getName() + " Commentted on your status";
+		notificationService.createNotification(notifMsg ,"", status.getUser().getId());
 		sessionStatus.setComplete();
 		
 		String redirUrl = "redirect:/user-homepage/other-post/statusId/{statusId}";

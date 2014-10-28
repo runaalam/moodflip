@@ -37,7 +37,7 @@
 									</tr>
 								</c:forEach>
 							</table>
-						<hr><p align="center"><input class="btn btn-primary" value="submit"></p>
+						<hr><p align="center"><input class="btn btn-primary" type="submit" value="submit"></p>
 				</c:when>
 				<c:when test="${empty quesList}"><fmt:message key="userHomepage.assessment.questions.empty"/></c:when>
 			</c:choose>
