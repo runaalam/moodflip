@@ -32,6 +32,11 @@
 			<td><a class="btn btn-default" href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
 		</tr>
 		</table>
+		
+		<form action="/friend/request" method="post">
+			Username: <input type="text" name="username"/>
+			<input type="submit" value="Add"/>
+		</form>
 		<!-- 
 		<c:forEach items="${friends}" var="friends">
 			<tr>

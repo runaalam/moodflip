@@ -21,7 +21,7 @@ import au.moodflip.personalisation.model.User;
 
 
 
-@Service
+@Service("friendManager")
 @Transactional
 public class FriendManagerImp implements FriendManager{
 	

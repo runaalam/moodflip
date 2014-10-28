@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import au.moodflip.personalisation.model.User;
@@ -22,7 +25,8 @@ import au.moodflip.personalisation.service.FriendManager;
 import au.moodflip.personalisation.service.UserManager;
 
 @Controller
-@RequestMapping(value = "/friend")
+@SessionAttributes(value = {"user"})
+@RequestMapping(value = "/friend/**")
 public class FriendController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(PersonalisationController.class);
@@ -33,12 +37,12 @@ public class FriendController {
 	@Autowired
 	private FriendManager friendManager;
 	
-	private final String FOLDER = "friend";
+	private final String FOLDER = "personalisation";
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView home(Locale locale) {
 		logger.info("Welcome to the personalisation system!");
-		ModelAndView mav = new ModelAndView(FOLDER + "/personalisation");
+		ModelAndView mav = new ModelAndView(FOLDER + "/friend");
 		
 		
 		String now = (new java.util.Date()).toString();
@@ -58,8 +62,8 @@ public class FriendController {
 		return mav;
 	}
 	
-@RequestMapping(value = "/request/{id}",method = RequestMethod.GET)
-	public ModelAndView ban(@PathVariable("id") Long id,Principal principal) {
+@RequestMapping(value = "/requestbyid/{id}",method = RequestMethod.POST)
+	public ModelAndView request(@PathVariable("id") Long id,Principal principal) {
 		ModelAndView mav = new ModelAndView("redirect:/user/profile");
 		User receiver = userManager.getUserById(id);
 		User owner = userManager.getUserByUsername(principal.getName());
@@ -71,6 +75,18 @@ public class FriendController {
 		
 		return mav;
 	}
+@RequestMapping(value = "/request",method = RequestMethod.POST)
+public ModelAndView usernameRequest(Principal principal,HttpServletRequest request) {
+	ModelAndView mav = new ModelAndView("redirect:/user/profile");
+	User receiver = userManager.getUserByUsername("user");
+	User owner = userManager.getUserByUsername(principal.getName());
+	Friend friend = new Friend();
+	friend.setSender(owner);
+	friend.setReceiver(receiver);
+	friend.setFriends(false);
+	friendManager.addFriendRequest(friend);
+	return mav;
+}
 
 
 @RequestMapping(value = "/accept/{id}",method = RequestMethod.GET)
@@ -94,7 +110,7 @@ public ModelAndView delete(@PathVariable("id") Long id,Principal principal) {
 	logger.info("user"+id +sender.getUsername()+"and" +owner.getId()+owner.getUsername()+"delet friends");
 	return mav;
 }
-@RequestMapping(value = "/add/{id}",method = RequestMethod.POST)
+@RequestMapping(value = "/add/{id}",method = RequestMethod.GET)
 public ModelAndView add(@PathVariable("id") Long id,Principal principal) {
 	User sender = userManager.getUserById(id);
 	User owner = userManager.getUserByUsername(principal.getName());
