@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html ng-app="moodFlip">
 <head>
-<title><fmt:message key="title" /></title>
+<title>Private Message - <fmt:message key="title" /></title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 <link rel="stylesheet" href="<c:url value="/resources/comm/css/pm.css" />">
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="tg" tagdir="/WEB-INF/tags" %>
 <html ng-app="moodFlip">
 <head>
-<title><fmt:message key="title" /></title>
+<title>Forums - <fmt:message key="title" /></title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 <link rel="stylesheet" href="<c:url value="/resources/comm/css/forums.css" />">
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
@@ -58,18 +58,19 @@
 				<th>Created</th>
 				<th>Edited</th>
 				<th>Posted By</th>
-				<th>Last Post</th>
-				<th>Views</th>
-				<th>Replies</th>
 			</tr>
 			
 				<tr>
-					<td><c:out value="${topic.createdAt}" /></td>
-					<td><c:out value="${topic.editedAt}" /></td>
+					<td><fmt:formatDate type="both" value="${topic.createdAt}" /></td>
+					<td>
+						<c:if test="${not empty topic.editedAt}">
+							<fmt:formatDate type="both" value="${topic.editedAt}" />
+						</c:if>
+						<c:if test="${empty topic.editedAt}">
+							-
+						</c:if>
+					</td>
 					<td><c:out value="${topic.user.username}" /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="" /></td>
-					<td><c:out value="" /></td>
 				</tr>
 			
 		</table>

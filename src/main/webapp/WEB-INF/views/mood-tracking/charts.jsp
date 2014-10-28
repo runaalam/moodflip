@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -20,6 +19,7 @@
 
     <script type="text/javascript">
     
+    //Date picker
     $(function () {
         $("#startDate").datepicker({ dateFormat: 'dd/mm/yy'});
         $("#endDate").datepicker({ dateFormat: 'dd/mm/yy'});
@@ -28,20 +28,16 @@
     //alert("start");
     // LINE CHART
     google.load('visualization', '1', {'packages':['corechart']});
-   //google.load('visualization', '2', {'packages':['corechart']});
-   // google.load('visualization', '3', {'packages':['corechart']});
+
     
     //Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(prepareLineChart);
     google.setOnLoadCallback(prepareColumnChart);
-   // google.setOnLoadCallback(prepareChart1);
-    // Line Chart
 
+    
+    // Line Chart
    function drawLineChart(dates, moodRating, copedWithTask, div) {
 //		alert("in function draw");
-
-//    	alert(dates);
-//    	alert(moodRating);
     	var data = new google.visualization.DataTable();
 
     	data.addColumn('string', 'Dates');
@@ -108,8 +104,6 @@
        function drawColumnChart(dates, hoursOfSleeping, div) {
 //		alert("in function draw");
 
-//    	alert(dates);
-//    	alert(hoursOfSleeping);
     	var data = new google.visualization.DataTable();
 
     	data.addColumn('string', 'Dates');
@@ -160,70 +154,53 @@
 
     	drawColumnChart(array.dates, array.hoursOfSleeping,'column_chart_div');
     }
-
        
-   //end Column chart      
-       
+   //End Column chart      
 
-    </script>
-   
+    </script> 
 </head>
-  <body>
+<body>
   
-  <div class="col-xs-12 col-sm-9">
+ 			 <div class="col-xs-12 col-sm-9">
   
-  <form:form action="" method="POST" name="command">
+<form:form action="" method="POST" name="command">
   
-  <s:hasBindErrors name="command">
- 
-              <s:bind path="command">
-                  <c:forEach items="${status.errorMessages}" var="err">
-                  <div class="alert alert-danger text-center" role="alert">
-                      <c:out value='${err}'/><br/>
-                   </div>
-                  </c:forEach>
-              </s:bind>
-              </s:hasBindErrors>
+		  		<s:hasBindErrors name="command">
+		              <s:bind path="command">
+		                  <c:forEach items="${status.errorMessages}" var="err">
+		                  <div class="alert alert-danger text-center" role="alert">
+		                      <c:out value='${err}'/><br/>
+		                   </div>
+		                  </c:forEach>
+		              </s:bind>
+		        </s:hasBindErrors>
              
               
-			<s:bind path="startDate">
-				<c:if test="${status.error}">
-					<div class="alert alert-danger text-center" role="alert">
-						<c:forEach items="${status.errorMessages}" var="err">
-							<c:out value='${err}' />
-						</c:forEach>
-					</div>
-				</c:if>
-			</s:bind>
+				<s:bind path="startDate">
+						<c:if test="${status.error}">
+							<div class="alert alert-danger text-center" role="alert">
+								<c:forEach items="${status.errorMessages}" var="err">
+									<c:out value='${err}' />
+								</c:forEach>
+							</div>
+						</c:if>
+				</s:bind>
 
 
 
-			<s:bind path="endDate">
-				<c:if test="${status.error}">
-					<div class="alert alert-danger text-center" role="alert">
-						<c:forEach items="${status.errorMessages}" var="err">
-							<c:out value='${err}' />
-						</c:forEach>
-					</div>
-				</c:if>
-			</s:bind>
-              
-  
+				<s:bind path="endDate">
+					<c:if test="${status.error}">
+						<div class="alert alert-danger text-center" role="alert">
+							<c:forEach items="${status.errorMessages}" var="err">
+								<c:out value='${err}' />
+							</c:forEach>
+						</div>
+					</c:if>
+				</s:bind>
 	
   	<div class="panel panel-default">
     	<div class="panel-heading"><h3 class="panel-title">Charts</h3></div> <!-- panel-heading -->
     	<div class="bs-example">
-
-  
-  
-  		
-              
-              
-              
-   
-  
-  
-    
          <table class="table">
         
             <tr><td>Start Date *</td>
@@ -231,42 +208,35 @@
                 <td><form:input path="startDate" type="text" id="startDate"/> </td>
  
                 
-            
-
-            <td>End Date *</td>
-                <td><form:input path="endDate" type="text" id="endDate"/></td>
-
+           		 <td>End Date *</td>
+               	 <td><form:input path="endDate" type="text" id="endDate"/></td>
             </tr>
         </table>
-
-       <p align="center">
-            <input class="btn btn-default" type="submit" id="save" name="save" value="Generate Chart"/>
-      </p>
         
+       			<p align="center">
+          			  <input class="btn btn-default" type="submit" id="save" name="save" value="Generate Chart"/>
+     			 </p>
         </div>
     </div>
 </form:form>
 
-<!--Div that will hold the line chart-->
-  <c:if test="${drawGraph == true}">
-  
+<!--Div that will hold the line and column chart-->
+	 			 <c:if test="${drawGraph == true}">
+	  
+		   
+		          <div id="line_chart_div" ></div>
+	         		<div id="column_chart_div" ></div>
+	     	
 	   
-	          <div id="line_chart_div" ></div>
-         		<div id="column_chart_div" ></div>
-     	
-   
-	</c:if> 
+					</c:if> 
+					
    <%--<div id="line_chart_div" style="float: left"></div>--%>
   <%--<div id="bar_chart_div" style="float: right"></div>--%>
   <%--<div id="chart_div"></div>--%>
-  <!--Div that will hold the column chart-->
-   <!-- <div id="chart_div1" style="width:600; height:500"
-    style="float: left"
-    style="float: right"></div>-->
     
     
     </div>
- </div>
- </div>
-  </body>
+ 	</div>
+ 	</div>
+</body>
 </html>

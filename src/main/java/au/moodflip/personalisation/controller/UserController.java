@@ -1,17 +1,8 @@
 package au.moodflip.personalisation.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import java.security.Principal;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,13 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.moodflip.cardgame.model.Card;
-import au.moodflip.comm.model.Forum;
-import au.moodflip.comm.model.TopicComment;
-import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.model.User.Privacy;
 import au.moodflip.personalisation.service.FriendManager;
@@ -139,7 +125,7 @@ public class UserController {
 	public String editUser(@ModelAttribute("user") User user,BindingResult result) {
 		userManager.updateUser(user);
 		
-		return "redirect:/personalisation.htm";
+		return "redirect:/user/profile";
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)

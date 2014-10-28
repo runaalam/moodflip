@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.io.*,java.util.*" %>
 <%@ page import="javax.servlet.*,java.text.*" %>
@@ -17,6 +16,7 @@
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script>
+    
         $(function () {
             $("#startDate").datepicker({ dateFormat: 'dd/mm/yy'});
             $("#endDate").datepicker({ dateFormat: 'dd/mm/yy'});
@@ -26,10 +26,7 @@
 <body>
 
 <div class="col-xs-12 col-sm-9">
-  
 
-
-<!--  <h1>Reports</h1> -->
 
  
 
@@ -73,8 +70,8 @@
 			</s:bind>
 
 			<div class="panel panel-default">
-    	<div class="panel-heading"><h3 class="panel-title">Reports</h3></div> <!-- panel-heading -->
-    	<div class="bs-example">
+    		<div class="panel-heading"><h3 class="panel-title">Reports</h3></div> <!-- panel-heading -->
+    		<div class="bs-example">
 	  
         <table class="table">
         

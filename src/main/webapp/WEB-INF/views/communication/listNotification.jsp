@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <html ng-app="moodFlip">
 <head>
-<title><fmt:message key="title" /></title>
+<title>Notifications - <fmt:message key="title" /></title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 <link rel="stylesheet" href="<c:url value="/resources/comm/css/notification.css" />">
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>

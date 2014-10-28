@@ -76,13 +76,6 @@ public class Charts implements Serializable {
 		this.hoursOfSleeping = hoursOfSleeping;
 	}
 	
-	public List<Integer> getExerciseHours(){
-		return exerciseHours;
-	}
-	public void setExerciseHours(List<Integer> exerciseHours) {
-		this.exerciseHours = exerciseHours;
-	}
-	
 	public List<Integer> getCopedWithTask(){
 		return copedWithTask;
 	}

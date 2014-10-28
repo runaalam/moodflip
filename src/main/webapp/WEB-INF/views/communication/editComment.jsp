@@ -7,7 +7,7 @@
 <html ng-app="moodFlip">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Edit Comment</title>
+		<title>Edit Comment - Forums - <fmt:message key="title" /></title>
 		<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 		<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 	</head>
@@ -31,11 +31,17 @@
 					<form:errors path="content" class="col-sm-4 help-block" />
 				</div>
 			</s:bind>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<p class="text-muted">Supports HTML tags and Markdown syntax.</p>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<a href="<c:url value="/forums/topic/${topicId}" />"><input type="button" value="Cancel" class="btn btn-default" /></a>
-					<input type="submit" value="Done" class="btn btn-default" />
+					<input type="submit" value="Done" class="btn btn-primary" />
+					<a href="<c:url value="/forums/topic/${topicId}" />">Cancel</a>
 				</div>
 			</div>
 

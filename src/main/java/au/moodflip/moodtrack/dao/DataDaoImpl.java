@@ -61,8 +61,7 @@ public class DataDaoImpl implements DataDao {
                 .list();
 
         if (list != null && !list.isEmpty()) {
-            return
-                    list.get(0);
+            return list.get(0);
         }
 
         return null;

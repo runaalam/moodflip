@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import au.moodflip.personalisation.model.User;
 
 @Entity
@@ -33,7 +35,8 @@ public class Assessment{
 	private User user;
 	
 	@Column(name = "date")
-	//@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date date;
 	
 	@Column(name = "score")
