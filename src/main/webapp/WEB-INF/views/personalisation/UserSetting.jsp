@@ -33,7 +33,6 @@
 		</tr>
 		</table>
 		<!-- 
-				<c:if test="${friends != null}"> 
 		<c:forEach items="${friends}" var="friends">
 			<tr>
 			<c:out value="${friends.username}"/>

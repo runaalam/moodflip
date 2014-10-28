@@ -98,8 +98,8 @@ public class UserController {
 		
 		ModelAndView mav = new ModelAndView("personalisation/UserSetting");
 		User user = userManager.getUserByUsername(principal.getName());
-		List<User> friends = new ArrayList<User>();
-		friends = friendManager.getFriends(user);
+		//List<User> friends = new ArrayList<User>();
+		//friends = friendManager.getFriends(user);
 		//mav.addObject("friends",friends);
 		mav.addObject("privacy", User.Privacy.values());
 		mav.addObject("user", user);
