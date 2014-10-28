@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-			<title><fmt:message key="userHomepage.title"/></title>	    	
+			<title><fmt:message key="userHomepage.title"/></title>	
 	</head>
 	<body> 
 	    <div class="col-xs-12 col-sm-9">
@@ -15,51 +15,50 @@
 					<c:if test="${myStatusNew == false}">
 						<form:textarea class="form-control" path="content" id="statusInput" value="${status.content}" rows="4" cols="50"></form:textarea>
 					</c:if>
-					<input type="submit" value="Post"/>
-				</div></div>
+				</div>
+					<p align="right"><input class="btn btn-primary" type="submit" value="Post"/></p>
+				</div>
 				<br><br><br>
 				<div class="panel panel-default">
 					<div class="panel-heading"><h3 class="panel-title"><fmt:message key="userHomepage.status.my"/></h3></div>
-  					<div class="bs-example">
-						<table class="table">
+  					<div class="panel-body">
+					 <table class="table">  
 							<c:choose>
 								<c:when test="${!empty statusList}">
 									<form:form method="post" modelAttribute="statusList">
 										<c:forEach items="${statusList}" var="status">
-	                               			<tr><td><c:out value="${status.content}" /> ....
-	                                       			<a href="<c:url value="/user-homepage/my-status/statusId/${status.id}"/>">
-		                                       		Read more</a></td>
-		                                        <td><c:out value="${status.submitDate}" /></td>  
-		                                        <td><a href="<c:url value="/user-homepage/edit/${status.id}"/>"> Edit </a> | 
-               										<a href="<c:url value="/user-homepage?delete=${status.id}"/>"> Delete</a> 
-               									</td>    
-	                              			 </tr>
+	                               			<tr><td>
+                           						<h5><small><fmt:formatDate type="date" value="${status.submitDate}"/></small>
+             										&nbsp;&nbsp;
+	             									<a style="PADDING-RIGHT" href="<c:url value="/user-homepage/edit/${status.id}"/>"> Edit</a> | 
+		                               				<a href="<c:url value="/user-homepage?delete=${status.id}"/>"> Delete</a>
+		                               			</h5>
+                           						<p><c:out value="${fn:substring(status.content, 0, 190)}" /> ....
+                                   				<a href="<c:url value="/user-homepage/my-status/statusId/${status.id}"/>">See post</a></p>
+		                                    </td></tr>
 	                       				</c:forEach>
 									</form:form>
 								</c:when>
 								<c:when test="${empty statusList}"><fmt:message key="userHomepage.status.post.others.empty"/></c:when>
 							</c:choose>
-						</table>
+						</table>  
 					</div>
 				</div>
 				<div class="panel panel-default">
   					<div class="panel-heading"><h3 class="panel-title"><fmt:message key="userHomepage.activity.my"/></h3></div>
-  						<div class="bs-example">
 	                    <table class="table table-striped"><tbody>
 	      					<c:choose>
 	      						<c:when test="${!empty activityList}">
 			                       <c:forEach items="${activityList}" var="activity">
-			                       		<tr>
-	                                     <%--    <td><c:out value="${userActivity.userId}" /></td>   --%>
-	                                       <td><c:out value="${activity.description}" /> - </td>
-	                                       <td><c:out value="${activity.activityDate}" /></td>                                        
-			                             </tr>
+			                       		<tr><td><h5>
+                                       		<c:out value="${activity.description}"/> 
+                                       		<small>at <fmt:formatDate type="date" value="${activity.activityDate}" /></small>
+	                                    </h5></td></tr>
 			                       </c:forEach>
 	     				 		</c:when>
 	      							<c:when test="${empty activityList}"><fmt:message key="userHomepage.activity.empty"/></c:when>
 			   				</c:choose>
 			   			</table>
-  					</div>
 				</div><!-- panel-default -->
 			</form:form>
 		</div><!-- /.col-xs-12 main -->	

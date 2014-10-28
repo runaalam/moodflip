@@ -73,6 +73,7 @@ public class User implements Serializable {
 	@Size(min = 6, message = "Password must be at least 6 characters!")
 	@Column(name = "password")
 	@JsonIgnore
+	@NotNull
 	private String password;
 
 	@Column(name = "banned")
@@ -82,6 +83,7 @@ public class User implements Serializable {
 	private Date createdAt;
 	
 	@Column(name = "privacy")
+	@NotNull
 	private Privacy privacy;
 	public void setPrivacy(Privacy privacy){
 		this.privacy = privacy;

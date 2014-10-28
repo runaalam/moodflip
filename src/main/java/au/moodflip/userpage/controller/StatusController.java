@@ -1,8 +1,8 @@
 package au.moodflip.userpage.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -51,10 +51,11 @@ public class StatusController {
 	private ActivityService activityService;
 	
 	@RequestMapping(value = "/other-post", method = RequestMethod.GET)
-	public ModelAndView otherPost() {
+	public ModelAndView otherPost(Principal principal) {
 		logger.info("Welcome to the user status system!");
 		ModelAndView mav = new ModelAndView(FOLDER + "/statusList");
-		List<Status> statusList = statusService.listStatus();
+		User user = userManager.getUserByUsername(principal.getName());
+		List<Status> statusList = statusService.listStatusOfOtherUser(user.getId());
 		mav.addObject("statusList", statusList);
 		
 		return mav;
@@ -67,10 +68,15 @@ public class StatusController {
 		Status status = statusService.getStatusById(statusId);
 		mav.addObject("status", status);
 		
-//		List<StatusComment> statusCommentList = statusCommentService.listStatusComment(statusId);
-		List<StatusComment> statusCommentList = new ArrayList<StatusComment>(status.getStatusComments());
-
+		List<StatusComment> statusCommentList = statusCommentService.listStatusComment(statusId);
+		/*Set<StatusComment> set = status.getStatusComments();
+		LinkedList<StatusComment> statusCommentList = new LinkedList<StatusComment>(status.getStatusComments());*/
 		mav.addObject("statusCommentList", statusCommentList);
+		
+		LinkedList<User> commentUserList = new LinkedList<User>();
+		for(StatusComment sc : statusCommentList)
+			commentUserList.add(sc.getUser());
+		mav.addObject("commentUserList", commentUserList);
 		
 		StatusComment statusComment = new StatusComment();
 		mav.addObject("statusComment", statusComment);
@@ -87,15 +93,17 @@ public class StatusController {
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
 			return FOLDER + "/userHomepage";
 		}
+		User user = userManager.getUserByUsername(principal.getName());
 		model.addAttribute("statusId", statusId);
 		Status status = statusService.getStatusById(statusId);
 		statusComment.setStatus(status);
+		statusComment.setUser(user);
+		statusComment.setCommentDate(new Date());
 		status.getStatusComments().add(statusComment);
 //		statusCommentService.addComment(statusComment);
 		statusService.saveStatus(status);
 		sessionStatus.setComplete();
 		
-		User user = userManager.getUserByUsername(principal.getName());
 		String activityDesc = "Write comment on a status";
 		activity.setUser(user);
 		activity.setDescription(activityDesc);

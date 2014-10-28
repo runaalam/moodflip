@@ -75,10 +75,11 @@
 					<div class="panel-body">
 						<c:choose>
 							<c:when test="${not empty assessment}">
+							<div class="panel panel-default">
 								<table class="table">
 									<tr>
 										<td>Assessment date:</td>
-										<td><c:out value="${assessment.date}" /></td>
+										<td><fmt:formatDate type="date" value="${assessment.date}"/></td>
 									</tr>
 									<tr>
 										<td>Assessment score:</td>
@@ -127,10 +128,11 @@
 												value="${assessment.resultDetails.suicidalIdeation}" /></td>
 									</tr>
 								</table>
+								</div>
 								<br>
 								<br>
 								<br>
-								<div id="chart_div"></div>
+								<div class="panel panel-default" id="chart_div"></div>
 							</c:when>
 							<c:when test="${empty assessment}"><fmt:message key="userHomepage.assessment.empty"/></br>
 		             				<a

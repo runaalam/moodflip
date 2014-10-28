@@ -29,7 +29,7 @@ public class ActivityDaoImpl implements ActivityDao {
 	@Override
 	public List<Activity> getActivityListByUserId(Long userId) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Activity where user_id = :userId");
+				"from Activity where user_id = :userId order by id");
 		query.setParameter("userId", userId);
 		return query.list();
 	}
