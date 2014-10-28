@@ -29,7 +29,7 @@
 						<table class="table table-hover">
 							<tbody>
 								<tr ng-repeat="notification in notifications">
-									<td><a href="<c:url value="{{notification.url}}"/>"><strong>{{notification.message}}</strong></a></td>
+									<td><a href="<c:url value="/{{notification.url}}"/>"><strong>{{notification.message}}</strong></a></td>
 									<td class="text-right nowrap">
 										{{notification.createdAt}}
 										<button class="btn btn-sm btn-danger" ng-click="removeMessage(notification.id)">

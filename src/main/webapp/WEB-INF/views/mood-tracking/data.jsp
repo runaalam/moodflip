@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,6 +22,7 @@
             $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
         });
     </script>
+   
 
 </head>
 
@@ -35,6 +37,7 @@
 	      <div id="div_global_error" align="center">
 	          <div id="global_errors">
 	              <s:bind path="command">
+	              
 	                  <c:forEach items="${status.errorMessages}" var="err">
 	                      <c:out value='${err}'/><br/>
 	                  </c:forEach>
@@ -48,6 +51,7 @@
 			<div class="panel-heading"><h3 class="panel-title">Data</h3></div> <!-- panel-heading -->
   					<div class="bs-example">
 			            <table class="table table-condensed">
+			            
 			                <tr><td>Date</td>
 			                	<td><form:input path="date" type="text" id="date"/></td>
 			                    <td><form:errors path="date" cssClass="error"/></td>

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.io.*,java.util.*" %>
 <%@ page import="javax.servlet.*,java.text.*" %>
@@ -20,16 +21,6 @@
             $("#endDate").datepicker({ dateFormat: 'dd/mm/yy'});
         });
     </script>
-    
-    <script>
-    $(function () {
-        $('#large-columns-table').next().click(function () {
-            $(this).hide();
-            buildTable($('#table-large-columns'), 50, 50);
-        });
-    });
-</script>
-
 </head>
 <body>
 
@@ -87,35 +78,35 @@
 <div>
     <div>
 
-        <table border="1" id="table-large-columns" data-height="400" data-show-columns="true">
+        <table border="1" class="table table-striped" id="table-large-columns" data-height="400" data-show-columns="true">
          <thead>
             <tr>
 
-                <th class="col-md-2">Date</th>
-                <th class="col-md-2">Rate Your Mood</th>
-               <th class="col-md-2">How well you coped with your task today</th>
-              <th class="col-md-2">How many hours did you sleep today (Hours)</th>
-                <th class="col-md-2">How long did you exercise today (Hours)</th>
-                <th class="col-md-2"> Interested</th>
-                <th class="col-md-2"> Irritable</th>
-                <th class="col-md-2"> Distressed</th>
-                <th class="col-md-2"> Alert</th>
-                <th class="col-md-2"> Excited</th>
-                <th class="col-md-2"> Ashamed</th>
-                <th class="col-md-2"> Upset</th>
-                <th class="col-md-2"> Inpired</th>
-                <th class="col-md-2"> Strong</th>
-                <th class="col-md-2"> Nervous</th>
-                <th class="col-md-2"> Guilty</th>
-                <th class="col-md-2"> Determined</th>
-                <th class="col-md-2"> Scared</th>
-                <th class="col-md-2"> Attentive</th>
-                <th class="col-md-2"> Hostile</th>
-                <th class="col-md-2"> Jittery</th>
-                <th class="col-md-2"> Enthusiastic</th>
-                <th class="col-md-2"> Active</th>
-                <th class="col-md-2"> Proud</th>
-                <th class="col-md-2"> Afraid</th>
+	                <th class="col-md-2">Date</th>
+	                <th class="col-md-2">Rate Your Mood</th>
+	              	<th class="col-md-2">How well you coped with your task today</th>
+	              	<th class="col-md-2">How many hours did you sleep today (Hours)</th>
+	                <th class="col-md-2">How long did you exercise today (Hours)</th>
+	                <th class="col-md-2"> Interested</th>
+	                <th class="col-md-2"> Irritable</th>
+	                <th class="col-md-2"> Distressed</th>
+	                <th class="col-md-2"> Alert</th>
+	                <th class="col-md-2"> Excited</th>
+	                <th class="col-md-2"> Ashamed</th>
+	                <th class="col-md-2"> Upset</th>
+	                <th class="col-md-2"> Inpired</th>
+	                <th class="col-md-2"> Strong</th>
+	                <th class="col-md-2"> Nervous</th>
+	                <th class="col-md-2"> Guilty</th>
+	                <th class="col-md-2"> Determined</th>
+	                <th class="col-md-2"> Scared</th>
+	                <th class="col-md-2"> Attentive</th>
+	                <th class="col-md-2"> Hostile</th>
+	                <th class="col-md-2"> Jittery</th>
+	                <th class="col-md-2"> Enthusiastic</th>
+	                <th class="col-md-2"> Active</th>
+	                <th class="col-md-2"> Proud</th>
+	                <th class="col-md-2"> Afraid</th>
 
             </tr>
             </thead>
@@ -152,6 +143,14 @@
             </c:forEach>
             </tbody>
         </table>
+        <script>
+		   		 $(function () {
+		        $('#large-columns-table').next().click(function () {
+		            $(this).hide();
+		            buildTable($('#table-large-columns'), 30, 30);
+		        });
+		    });
+		</script>
     </div>
 </div>
 </div>

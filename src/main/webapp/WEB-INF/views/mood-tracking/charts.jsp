@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -32,7 +33,7 @@
     
     //Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(prepareLineChart);
-    google.setOnLoadCallback(prepareBarChart);
+    google.setOnLoadCallback(prepareColumnChart);
    // google.setOnLoadCallback(prepareChart1);
     // Line Chart
 
@@ -104,7 +105,7 @@
 
     //COLUMN CHART
   
-       function drawBarChart(dates, hoursOfSleeping, div) {
+       function drawColumnChart(dates, hoursOfSleeping, div) {
 //		alert("in function draw");
 
 //    	alert(dates);
@@ -135,13 +136,13 @@
     	
     	// Wait for the chart to finish drawing before calling the getImageURI() method.
         google.visualization.events.addListener(chart1, 'ready', function () {
-        	bar_chart_div.innerHTML = '<img src="' + chart1.getImageURI() + '">';
+        	column_chart_div.innerHTML = '<img src="' + chart1.getImageURI() + '">';
           console.log(div.innerHTML);
         });
-    	chart1.draw(data, {width: 500, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
+    	chart1.draw(data, {width: 800, height: 600, title: ' ',hAxis: {title: 'Dates', titleTextStyle: {color: 'red'}}});
     }
  
-    function prepareBarChart() {
+    function prepareColumnChart() {
 		//alert("button clicked");
     	var array;
     	   
@@ -157,18 +158,15 @@
     	//alert(array.hoursOfSleeping);
 
 
-    	drawBarChart(array.dates, array.hoursOfSleeping,'bar_chart_div');
+    	drawColumnChart(array.dates, array.hoursOfSleeping,'column_chart_div');
     }
 
        
    //end Column chart      
        
-  
-      
- 
-    
 
     </script>
+   
 </head>
   <body>
 	<div class="col-xs-12 col-sm-9">
@@ -219,7 +217,7 @@
   
 	   
 	          <div id="line_chart_div" ></div>
-         		<div id="bar_chart_div" ></div>
+         		<div id="column_chart_div" ></div>
      	
    
 	</c:if> 
