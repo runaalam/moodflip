@@ -39,22 +39,37 @@
 	              <s:bind path="command">
 	              
 	                  <c:forEach items="${status.errorMessages}" var="err">
+	                  	 <div class="alert alert-danger text-center" role="alert">
 	                      <c:out value='${err}'/><br/>
+	                 </div>
 	                  </c:forEach>
 	              </s:bind>
 	          </div>
 	      </div>
 	  </s:hasBindErrors>
+	  
+	  
 
 	<form:form action="" method="POST" name="command">
-   		<div class="panel panel-default">
+   		
+			            
+			                
+			<s:bind path="date">
+				<c:if test="${status.error}">
+					<div class="alert alert-danger text-center" role="alert">
+						<c:forEach items="${status.errorMessages}" var="err">
+							<c:out value='${err}' />
+						</c:forEach>
+					</div>
+				</c:if>
+			</s:bind>
+			            <div class="panel panel-default">
 			<div class="panel-heading"><h3 class="panel-title">Data</h3></div> <!-- panel-heading -->
   					<div class="bs-example">
 			            <table class="table table-condensed">
 			            
-			                <tr><td>Date</td>
+			                <tr><td>Date *</td>
 			                	<td><form:input path="date" type="text" id="date"/></td>
-			                    <td><form:errors path="date" cssClass="error"/></td>
 			                </tr>
 			           
 			            	<tr><td>Rate Your Mood</td>

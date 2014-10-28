@@ -78,11 +78,11 @@
 	  
         <table class="table">
         
-            <tr><td>Start Date</td>
+            <tr><td>Start Date *</td>
             
                 <td><form:input path="startDate" type="text" id="startDate"/> </td>
  
-            <td>End Date</td>
+            <td>End Date *</td>
                 <td><form:input path="endDate" type="text" id="endDate"/></td>
             </tr>
         </table>
