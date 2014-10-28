@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -147,6 +148,13 @@ public class CardGameController{
 		return new ModelAndView(FOLDER + "/cardGame", "model", model);
 	}
 	
+    @RequestMapping(method = RequestMethod.GET, params="userPoints")
+    @ResponseBody
+    public String getUserPoints(Principal principal){
+    	User user = userManager.getUserByUsername(principal.getName());
+    	return String.valueOf(user.getPoints());
+    }
+    
 	// based on exponential moving avg
 	// http://www.bennadel.com/blog/1627-create-a-running-average-without-storing-individual-values.htm
 	public void rateCard(Card card, Answer answer){

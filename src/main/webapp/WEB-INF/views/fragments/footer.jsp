@@ -7,6 +7,7 @@
 </div> 
 <script>
 $(document).ready(function() {
+	// keep side bar component open while user is browsing that component's pages
 	var pathname = window.location.pathname; 
 	if (pathname.match("card-game")){
 		$("#collapseTwo").addClass("in");
@@ -17,6 +18,21 @@ $(document).ready(function() {
 	if (pathname.match("mood-tracking")){
 		$("#collapseThree").addClass("in");
 	}
+	// show users points in navbar right
+	$.ajax({
+		  url: '/moodflip/card-game?userPoints',
+		  dataType: "text",
+		  timeout: 5000,
+		  // code to run regardless of success or failure
+		  complete: function( xhr, status ) {
+			  	if (status === "success"){
+				    $('#user_points').prepend(xhr.responseText + " ");
+			  	}else{
+			  		console.log("couldn't find points");
+			  	}
+		  }
+	  });
+	
 });
 </script>
 
