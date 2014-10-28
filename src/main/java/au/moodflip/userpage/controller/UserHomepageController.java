@@ -87,11 +87,14 @@ public class UserHomepageController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public String saveStatusPost(@ModelAttribute("status") Status status,@ModelAttribute("activity") Activity activity,
-			Principal principal, BindingResult bindingResult, SessionStatus sessionStatus, HttpSession session) {
+	public String saveStatusPost(@ModelAttribute("status") @Validated Status status, BindingResult bindingResult,@ModelAttribute("activity") Activity activity,
+			Model model, Principal principal,  SessionStatus sessionStatus, HttpSession session) {
 		logger.info("Save new status");
 		if (bindingResult.hasErrors()){
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
+			User user = userManager.getUserByUsername(principal.getName());
+			model.addAttribute("statusList", statusService.listStatusByUserId(user.getId()));
+			model.addAttribute("myStatusNew", true);
 			return FOLDER + "/userHomepage";
 		}
 		
@@ -100,7 +103,7 @@ public class UserHomepageController {
 		statusService.saveStatus(status);
 		sessionStatus.setComplete();
 		
-		String activityDesc = "Write Status";
+		String activityDesc = "Wrote a new Status";
 		activity.setUser(user);
 		activity.setDescription(activityDesc);
 		activity.setActivityDate(new Date());
@@ -136,8 +139,8 @@ public class UserHomepageController {
 	
 	@RequestMapping(value = "/my-status/statusId/{statusId}", method = RequestMethod.POST)
 	public String commentPost(@PathVariable("statusId") Long statusId, Model model, Principal principal,
-			@ModelAttribute("statusComment") StatusComment statusComment,Activity activity,
-			BindingResult bindingResult, SessionStatus sessionStatus) {
+			@ModelAttribute("statusComment") @Validated StatusComment statusComment, BindingResult bindingResult, Activity activity,
+			 SessionStatus sessionStatus) {
 		logger.info("Save new Comment");
 		if (bindingResult.hasErrors()){
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
@@ -155,7 +158,7 @@ public class UserHomepageController {
 		statusService.saveStatus(status);
 		sessionStatus.setComplete();
 		
-		String activityDesc = "Write comment on a status";
+		String activityDesc = "Commented on a status";
 		activity.setUser(user);
 		activity.setDescription(activityDesc);
 		activity.setActivityDate(new Date());
@@ -188,8 +191,8 @@ public class UserHomepageController {
 	}
 	
 	@RequestMapping(value = "/edit/{statusId}", method = RequestMethod.POST)
-	public String editMyStatus(@PathVariable("statusId") Long statusId, @ModelAttribute("status") Status status,
-			Principal principal, BindingResult bindingResult, SessionStatus sessionStatus){
+	public String editMyStatus(@PathVariable("statusId") Long statusId, @ModelAttribute("status") @Validated Status status, BindingResult bindingResult,
+			Principal principal, SessionStatus sessionStatus){
 		if (bindingResult.hasErrors()){
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
 			return FOLDER + "/userHomepage";
@@ -203,7 +206,7 @@ public class UserHomepageController {
 		logger.info("*****Edit status POST*******" + status.getId());
 		
 		Activity activity = new Activity();
-		String activityDesc = "Update Status";
+		String activityDesc = "Updated Status";
 		activity.setUser(status.getUser());
 		activity.setDescription(activityDesc);
 		activity.setActivityDate(new Date());
@@ -221,7 +224,7 @@ public class UserHomepageController {
 		sessionStatus.setComplete();
 		
 		User user = userManager.getUserByUsername(principal.getName());
-		String activityDesc = "Delete Status";
+		String activityDesc = "Deleted Status";
 		Activity activity = new Activity();
 		activity.setUser(user);
 		activity.setDescription(activityDesc);

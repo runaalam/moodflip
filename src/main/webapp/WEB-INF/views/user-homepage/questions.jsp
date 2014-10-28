@@ -3,7 +3,7 @@
 <html>
 <head>
 	<jsp:include page="../fragments/headTag.jsp" />
-	<title><fmt:message key="userHomepage.assessment.questions" /></title>
+	<title>Assessment Questions</title>
 </head>
 <body>
 <!-- include page header -->
@@ -39,7 +39,7 @@
 							</table>
 						<hr><p align="center"><input class="btn btn-primary" type="submit" value="submit"></p>
 				</c:when>
-				<c:when test="${empty quesList}"><fmt:message key="userHomepage.assessment.questions.empty"/></c:when>
+				<c:when test="${empty quesList}">There are no questions</c:when>
 			</c:choose>
 			</div> <!-- panel panel-default -->
 		</form:form>

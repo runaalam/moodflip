@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import au.moodflip.personalisation.model.User;
@@ -36,6 +37,7 @@ public class Status {
 	
 	@Column(name = "content")
 	@Type(type="text")
+	@NotBlank
 	private String content;
 	
 	@Column(name = "submit_date")

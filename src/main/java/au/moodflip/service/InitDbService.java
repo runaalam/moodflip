@@ -355,7 +355,7 @@ public class InitDbService {
 						e.printStackTrace();
 					}
 
-					status.setContent((i + 1) + ": I am " + user.getName()
+					status.setContent("I am " + user.getName()
 							+ " and this is my nice status #" + (i + 1));
 					status.setUser(user);
 					statusService.saveStatus(status);
@@ -367,7 +367,7 @@ public class InitDbService {
 						commentUser = userService.getUserByUsername("user" + j);
 						comment.setStatus(status);
 						comment.setUser(commentUser);
-						comment.setContent((j + 1) + ": I am " + user.getName()
+						comment.setContent("I am " + commentUser.getName()
 								+ " and this is my nice comment #" + (j + 1));
 
 						try {

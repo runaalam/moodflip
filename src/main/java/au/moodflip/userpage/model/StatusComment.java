@@ -34,7 +34,7 @@ public class StatusComment {
 	
 	@Column(name = "content")
 	@Type(type="text")
-	@NotBlank
+//	@NotBlank
 	private String content;
 
 	@Column(name = "comment_date")
