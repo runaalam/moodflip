@@ -79,7 +79,7 @@ public class FriendController {
 public ModelAndView usernameRequest(Principal principal,HttpServletRequest request) {
 	ModelAndView mav = new ModelAndView("redirect:/user/profile");
 	User receiver = userManager.getUserByUsername("user");
-	User owner = userManager.getUserByUsername(principal.getName());
+	User owner = userManager.getUserByUsername("admin");
 	Friend friend = new Friend();
 	friend.setSender(owner);
 	friend.setReceiver(receiver);

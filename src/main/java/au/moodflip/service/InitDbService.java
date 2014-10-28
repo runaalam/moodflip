@@ -105,6 +105,7 @@ public class InitDbService {
 					userAdmin.setName("Administrator");
 					userAdmin.setPassword("admin");
 					userAdmin.setPrivacy(Privacy.OPEN);
+					userAdmin.setBanned(false);
 					Set<Role> roles = new HashSet<Role>();
 					roles.add(roleService.findByName("ROLE_ADMIN"));
 					roles.add(roleService.findByName("ROLE_USER"));

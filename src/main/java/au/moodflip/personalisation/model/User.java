@@ -25,6 +25,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -129,8 +130,8 @@ public class User implements Serializable {
 		this.username = username;
 	}
 	
-	public void setPassword(String password){
-		this.password = password;
+	public void setPassword(String password){ 
+				this.password = password;
 	}
 	
 	public void setBanned(boolean banned){

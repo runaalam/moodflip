@@ -19,32 +19,40 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Account Details</title>
 	</head>
-		<h1><c:out value="${user.username}"/></h1>
-		<table border="1">
-		<tr>
-		<td><c:out value="${user.name}"/></td>
+		<div class="row">
+		<div class="col-md-8">
+			<div class="panel panel-default">
+			<div class="panel-heading"><h3 class="panel-title">UserName: <c:out value="${user.username}"/></h3></div>
+				
+		<div class="bs-example">
+		<table class="table table-condensed">
+		<td>Name:<c:out value="${user.name}"/></td>
 		</tr>
 		<tr>
-		<td><c:out value="${user.privacy.text}"/></td>
+		<td>Privacy Settings:<c:out value="${user.privacy.text}"/></td>
 		</tr>
 		<tr>
 			<td><a class="btn btn-default" href="<c:url value="/user/edit/${user.id}"/>">edit</a></td>
-			<td><a class="btn btn-default" href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
+			<td><a class="btn btn-danger" href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
 		</tr>
 		</table>
 		
+		
+		<!--
 		<form action="/friend/request" method="post">
 			Username: <input type="text" name="username"/>
 			<input type="submit" value="Add"/>
-		</form>
-		<!-- 
+		</form> 
 		<c:forEach items="${friends}" var="friends">
 			<tr>
 			<c:out value="${friends.username}"/>
 			</tr>
 		</c:forEach>
 		 -->
-		
+		 </div>
+		 </div>
+			</div>
+		</div>
 		
 		
 </div><!-- /.col-xs-12 main -->	
