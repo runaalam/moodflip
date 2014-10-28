@@ -79,7 +79,7 @@ public class DataController {
         } else {
             if (data.getId() != oldData.getId()) {
                 model.addAttribute("command", oldData);
-                model.addAttribute("msg", "You have already entered Data!!!");
+                model.addAttribute("msg", "**You have already entered Data. Please modify it!");
                 return new ModelAndView(FOLDER + "/data");
             } else {
                 dataService.update(data);
