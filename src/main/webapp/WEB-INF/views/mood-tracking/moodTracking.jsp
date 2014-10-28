@@ -21,6 +21,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="col-sm-4 col-md-4">
 			<div class="thumbnail">
 				<img src="<c:url value="/resources/images/featuregraph.jpg/"/>" />

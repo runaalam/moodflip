@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,8 +21,6 @@
             $("#date").datepicker({ dateFormat: 'dd/mm/yy'});
         });
     </script>
-   
-
 </head>
 
 <body>
@@ -48,11 +45,8 @@
 	      </div>
 	  </s:hasBindErrors>
 	  
-	  
-
-	<form:form action="" method="POST" name="command">
-   		
-			            
+<form:form action="" method="POST" name="command">
+   	            
 			                
 			<s:bind path="date">
 				<c:if test="${status.error}">
@@ -63,9 +57,10 @@
 					</div>
 				</c:if>
 			</s:bind>
-			            <div class="panel panel-default">
-			<div class="panel-heading"><h3 class="panel-title">Data</h3></div> <!-- panel-heading -->
-  					<div class="bs-example">
+			
+				<div class="panel panel-default">
+				<div class="panel-heading"><h3 class="panel-title">Data</h3></div> <!-- panel-heading -->
+	  			<div class="bs-example">
 			            <table class="table table-condensed">
 			            
 			                <tr><td>Date *</td>
@@ -266,7 +261,7 @@
 	    
 		
 		
-	</form:form>
+</form:form>
 </div> <!-- col-xs-12 col-sm-9 -->
 </body>
 </html>
