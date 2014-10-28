@@ -26,7 +26,7 @@
 			<div class="form-group ${status.error ? 'has-error has-feedback' : '' }">
 				<form:label path="content" class="col-sm-2 control-label">Content</form:label>
 					<div class="col-sm-6">
-						<form:textarea path="content" class="form-control" rows="10" placeholder="Content" />
+						<form:textarea path="content" class="form-control" rows="10" placeholder="Content" ng-model="content" />
 						<c:if test="${status.error}"><span class="glyphicon glyphicon-remove form-control-feedback"></span></c:if>
 					</div>
 				<form:errors path="content" class="col-sm-4 help-block" />
@@ -34,14 +34,44 @@
 		</s:bind>
 		
 		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-6">
+				<p class="text-muted">Supports HTML tags and Markdown syntax.
+				<input type="button" value="Preview" class="btn btn-default pull-right" data-toggle="modal" data-target="#preview" />
+				</p>
+			</div>
+		</div>
+		
+		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<input type="submit" value="Post Reply" class="btn btn-default" />
+				<input type="submit" value="Post Reply" class="btn btn-primary" />
 			</div>
 		</div>
 		
 	</form:form>
 	
+		<!-- Preview Modal -->
+		<div class="modal fade" id="preview" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabel">Content Preview</h4>
+					</div>
+					<div class="modal-body">
+						<p ng-bind-html="content | markdown"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	
 	</div>
 	<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
 </body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 </html>

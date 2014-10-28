@@ -31,11 +31,17 @@
 					<form:errors path="content" class="col-sm-4 help-block" />
 				</div>
 			</s:bind>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<p class="text-muted">Supports HTML tags and Markdown syntax.</p>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<a href="<c:url value="/forums/topic/${topicId}" />"><input type="button" value="Cancel" class="btn btn-default" /></a>
-					<input type="submit" value="Done" class="btn btn-default" />
+					<input type="submit" value="Done" class="btn btn-primary" />
+					<a href="<c:url value="/forums/topic/${topicId}" />">Cancel</a>
 				</div>
 			</div>
 
@@ -48,4 +54,5 @@
 		<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
 		
 	</body>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
 </html>
