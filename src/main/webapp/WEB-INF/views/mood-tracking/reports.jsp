@@ -13,6 +13,7 @@
     <title>Reports</title>
    
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="<c:url value="/resources/mood-tracking/bootstrap-table.css" />"/>
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script>
@@ -78,7 +79,7 @@
 <div>
     <div>
 
-        <table border="1" class="table table-striped" id="table-large-columns" data-height="400" data-show-columns="true">
+        <table border="1" class="table table-striped" id="table-large-columns" data-height="500" data-show-columns="true" data-toggle="table">
          <thead>
             <tr>
 
@@ -154,6 +155,6 @@
     </div>
 </div>
 </div>
-
+<script src="<c:url value="/resources/mood-tracking/bootstrap-table.js" />"></script>
 </body>
 </html>
