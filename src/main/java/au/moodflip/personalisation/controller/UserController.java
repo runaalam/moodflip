@@ -6,8 +6,10 @@ import javax.validation.Valid;
 
 import java.security.Principal;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -31,6 +33,7 @@ import au.moodflip.comm.model.TopicComment;
 import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.model.User.Privacy;
+import au.moodflip.personalisation.service.FriendManager;
 import au.moodflip.personalisation.service.RoleManager;
 import au.moodflip.personalisation.service.UserManager;
 
@@ -45,6 +48,8 @@ public class UserController {
 	
 	@Autowired
 	private RoleManager roleService;
+	@Autowired
+	private FriendManager friendManager;
 
 	
 	@RequestMapping(value="/register",method = RequestMethod.GET)
@@ -93,7 +98,9 @@ public class UserController {
 		
 		ModelAndView mav = new ModelAndView("personalisation/UserSetting");
 		User user = userManager.getUserByUsername(principal.getName());
-		
+		List<User> friends = new ArrayList<User>();
+		friends = friendManager.getFriends(user);
+		//mav.addObject("friends",friends);
 		mav.addObject("privacy", User.Privacy.values());
 		mav.addObject("user", user);
 	    return mav;
@@ -130,7 +137,6 @@ public class UserController {
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.POST)
 	public String editUser(@ModelAttribute("user") User user,BindingResult result) {
-		
 		userManager.updateUser(user);
 		
 		return "redirect:/personalisation.htm";

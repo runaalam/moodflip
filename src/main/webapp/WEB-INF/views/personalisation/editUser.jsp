@@ -36,7 +36,6 @@
 						<!-- <td><form:hidden path="id"/> -->
 					</tr>
 				</table>
-				<!-- 
 				<div class="form-group">	
 					<label for="userPrivacy" class="col-sm-2 control-label">Privacy Setting</label>
 					<div class="col-sm-5">
@@ -45,8 +44,7 @@
 							<sf:options items="${privacy}" itemLabel="text"/>
 						</sf:select>
 					</div>
-				</div>	
-				-->
+				</div>
 				<td><input type="submit" value="Done"/></td>			
 			</fieldset>
 		</form:form>

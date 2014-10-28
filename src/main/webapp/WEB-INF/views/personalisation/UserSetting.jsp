@@ -32,12 +32,14 @@
 			<td><a class="btn btn-default" href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
 		</tr>
 		</table>
-		<!--  
+		<!-- 
+				<c:if test="${friends != null}"> 
 		<c:forEach items="${friends}" var="friends">
 			<tr>
 			<c:out value="${friends.username}"/>
 			</tr>
-		</c:forEach>-->
+		</c:forEach>
+		 -->
 		
 		
 		
