@@ -76,10 +76,10 @@ public class InitDbService {
 	@Autowired
 	private FriendManager friendManager;
 
-	@PostConstruct
+	 @PostConstruct
 	private void init() {
 		// switches to toggle prepopulating data
-		boolean card = true;
+		boolean card = false;
 		boolean assessment = true;	
 		boolean playlist = false;
 		TransactionTemplate tmpl = new TransactionTemplate(txManager);
@@ -147,7 +147,7 @@ public class InitDbService {
 			}
 		});
 		if (card == true){
-			tmpl.execute(new TransactionCallbackWithoutResult() {
+		 tmpl.execute(new TransactionCallbackWithoutResult() {
 				@Override
 				protected void doInTransactionWithoutResult(TransactionStatus arg0) {
 					logger.info("BEGIN IMPORTING CARD DATA");
@@ -322,7 +322,7 @@ public class InitDbService {
 				}
 			});
 		}
-    }
+    } 
 	
 
 
