@@ -29,7 +29,7 @@
 				<li id="notifications" class="dropdown" ng-controller="NotificationCtrl" ng-init="listUnreadNotification()" ng-click="setMessagesRead()"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><span class="glyphicon glyphicon-globe"></span> <span class="badge alert-danger" ng-show="unreadNotifications.length > 0">{{unreadNotifications.length}}</span> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li ng-repeat="unread in showUnreadNotifications"><a href="<c:url value="{{unread.url}}"/>" class="new-line-overflow-dropdown">{{unread.message}}</a></li>
+						<li ng-repeat="unread in showUnreadNotifications"><a href="<c:url value="/{{unread.url}}"/>" class="new-line-overflow-dropdown">{{unread.message}}</a></li>
 						<li class="text-center" ng-show="showUnreadNotifications.length == 0"><i>No new notifications</i></li>
 						<li class="divider"></li>
 						<li><a href="<c:url value="/notification"/>" class="text-center">All Notifications</a></li>
