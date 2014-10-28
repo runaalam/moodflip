@@ -1,19 +1,11 @@
 package au.moodflip.personalisation.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import java.security.Principal;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Controller;
@@ -24,13 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import au.moodflip.cardgame.model.Card;
-import au.moodflip.comm.model.Forum;
-import au.moodflip.comm.model.TopicComment;
-import au.moodflip.personalisation.model.Role;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.model.User.Privacy;
 import au.moodflip.personalisation.service.FriendManager;
@@ -51,7 +38,6 @@ public class UserController {
 	@Autowired
 	private FriendManager friendManager;
 
-	
 	@RequestMapping(value="/register",method = RequestMethod.GET)
 	public ModelAndView register() {
 		User user = new User();
@@ -76,6 +62,12 @@ public class UserController {
 			mav.setViewName("personalisation/register");
 			return mav;
 		}
+		if(httpServletRequest.getParameter("password").isEmpty()) {
+			String error = "Password cannot be empty.";
+			mav.addObject("error", error);
+			mav.setViewName("personalisation/register");
+			return mav;
+		}
 
 		User user = new User();
 		user.setName(httpServletRequest.getParameter("name"));
@@ -92,7 +84,7 @@ public class UserController {
 		mav.setViewName("redirect:/login?registerSuccess");
 		return mav;
 	}
-	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public ModelAndView profile(Principal principal) {
 		
@@ -125,7 +117,7 @@ public class UserController {
 
 		return error;
 	}
-	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
 	public ModelAndView editUser(Model model,@PathVariable("id") Long id) {
 		User user = userManager.getUserById(id);
@@ -135,18 +127,27 @@ public class UserController {
 		return mav;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.POST)
 	public String editUser(@ModelAttribute("user") User user,BindingResult result) {
 		userManager.updateUser(user);
 		
-		return "redirect:/personalisation.htm";
+		return "redirect:/user/profile";
 	}
-	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
 	public ModelAndView deleteUser(@PathVariable("id") Long id) {
 		
 		userManager.deleteUser(id);
 
 		return new ModelAndView("redirect:/logout");
+	}
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/admin/delete/{id}", method=RequestMethod.GET)
+	public ModelAndView adminDeleteUser(@PathVariable("id") Long id) {
+		
+		userManager.deleteUser(id);
+
+		return new ModelAndView("redirect:/personalisation");
 	}
 }

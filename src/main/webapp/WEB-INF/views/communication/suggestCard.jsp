@@ -5,7 +5,7 @@
 <html ng-app="moodFlip">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><fmt:message key="title" /></title>
+<title>Suggest Card - Forums - <fmt:message key="title" /></title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 <link rel="stylesheet" href="<c:url value="/resources/comm/css/forums.css" />">
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
@@ -24,8 +24,7 @@
 
 <div class="row">
 <div class="col-md-4">
-Filter
-<div class="dropdown">
+<div class="dropdown dropdown-symptoms">
   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
     {{selectedSymptom}}
     <span class="caret"></span>
@@ -43,14 +42,15 @@ Filter
     <div class="thumbnail">
       <div class="caption">
       	<div class="text-right"><small>Card ID: {{card.cardId}}</small></div>
-        <h3>{{card.title}}</h3>
+        <h3 class="h-card">{{card.title}}</h3>
         <p>Level: {{card.level}}</p>
         <p>Symptom: {{card.symptom.text}}</p>
         <p>Average Rating: {{card.avgRating}}</p>
         <p><small>Completions: {{card.completions}}</small>
         <br>
         <small>Attempts: {{card.attempts}}</small></p>
-        <p><label class="btn btn-default" data-toggle="button" ng-click="setSelected(card.cardId)">Select</label></p>
+        <p><a target="_blank" href="<c:url value="/card-game/cardBrowser?view={{card.cardId}}" />">More Details</a></p>
+        <label class="btn btn-default btn-block" data-toggle="button" ng-click="setSelected(card.cardId)">Select</label>
       </div>
     </div>
   </div>

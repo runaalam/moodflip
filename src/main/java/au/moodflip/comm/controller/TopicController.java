@@ -31,6 +31,8 @@ import au.moodflip.comm.service.ForumService;
 import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
 import au.moodflip.personalisation.service.UserManager;
+import au.moodflip.userpage.model.Activity;
+import au.moodflip.userpage.service.ActivityService;
 
 @Controller
 @SessionAttributes(value = {"forum", "topic"})
@@ -56,6 +58,9 @@ public class TopicController {
 	
 	@Autowired
 	private UserManager userService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 //	@ModelAttribute("forum")
 //	public Forum getForum(@PathVariable("forumId") Long forumId) {
@@ -95,10 +100,11 @@ public class TopicController {
 
 	@RequestMapping(value = "/{forumId}/newTopic", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public ModelAndView newForumForm() {
+	public ModelAndView newForumForm(@PathVariable("forumId") Long forumId) {
 		ModelAndView mav = new ModelAndView(FOLDER + "/newTopic");
 		Topic topic = new Topic();
 		mav.getModelMap().put("topic", topic);
+		mav.addObject("forumId", forumId);
 		return mav;
 	}
 
@@ -117,6 +123,12 @@ public class TopicController {
 		topic.setCreatedAt(new Date());
 
 		topicService.createTopic(topic);
+		
+		Activity activity = new Activity();
+		activity.setDescription("Posted topic \"" + topic.getName() + "\"");
+		activity.setUser(userService.getUserByUsername(principal.getName()));
+		activity.setActivityDate(new Date());
+		activityService.addActivity(activity);
 		
 		status.setComplete();
 		return "redirect:/forums/{forumId}";

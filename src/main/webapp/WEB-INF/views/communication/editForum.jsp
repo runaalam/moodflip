@@ -7,7 +7,7 @@
 <html ng-app="moodFlip">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Edit Forum</title>
+		<title>Edit Forum  - Forums - <fmt:message key="title" /></title>
 		<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 		<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 	</head>
@@ -34,8 +34,8 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<a href="<c:url value="/forums" />"><input type="button" value="Cancel" class="btn btn-default" /></a>
-					<input type="submit" value="Done" class="btn btn-default" />
+					<input type="submit" value="Done" class="btn btn-primary" />
+					<a href="<c:url value="/forums" />">Cancel</a>
 				</div>
 			</div>
 			

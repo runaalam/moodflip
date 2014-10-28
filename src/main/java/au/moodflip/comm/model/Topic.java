@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -36,7 +38,7 @@ public class Topic implements Serializable {
 	private String name;
 
 	@Column(name = "content")
-	@Type(type="text")
+	@Type(type = "text")
 	@NotBlank
 	private String content;
 
@@ -56,11 +58,17 @@ public class Topic implements Serializable {
 	private Date editedAt;
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Forum forum;
-	
+
 	@ManyToOne
 	private User user;
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "card_suggest_id")
+	@JsonIgnore
+	private Set<CardSuggest> cardSuggests;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "comment_id")
 	@JsonIgnore
@@ -136,6 +144,14 @@ public class Topic implements Serializable {
 
 	public void setForum(Forum forum) {
 		this.forum = forum;
+	}
+
+	public Set<CardSuggest> getCardSuggests() {
+		return cardSuggests;
+	}
+
+	public void setCardSuggests(Set<CardSuggest> cardSuggests) {
+		this.cardSuggests = cardSuggests;
 	}
 
 	public Set<TopicComment> getTopicComments() {

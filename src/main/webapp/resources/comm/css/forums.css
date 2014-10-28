@@ -60,3 +60,11 @@
     word-wrap:break-word;
     white-space: normal;
 }
+
+.dropdown-symptoms {
+	margin: 10px 0;
+}
+
+.h-card {
+	margin-top: 10px;
+}

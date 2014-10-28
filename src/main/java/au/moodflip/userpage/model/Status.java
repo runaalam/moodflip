@@ -13,8 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import au.moodflip.personalisation.model.User;
 
@@ -36,6 +39,8 @@ public class Status {
 	private String content;
 	
 	@Column(name = "submit_date")
+	@Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date submitDate;
 	
 	@Column(name = "pending")

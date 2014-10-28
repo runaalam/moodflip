@@ -15,21 +15,16 @@
                 	<div class="panel-body">
                    		<table class="table">
 							<c:choose>
-								<c:when test="${!empty statusList}">
-									<form:form method="post" modelAttribute="statusList">
-										<c:forEach items="${statusList}" var="status">
-	                               			<tr><td>
+								<c:when test="${!empty otherStatusList}">
+									<form:form method="get" modelAttribute="otherStatusList">
+										<c:forEach items="${otherStatusList}" var="status"  varStatus="s">
+	                               			<tr><td><c:set var="i" value="${s.index}"/>
+					                       		<strong><c:out value="${userList[i].name}"/></strong>
                            						<h5><small><fmt:formatDate type="date" value="${status.submitDate}" /></small></h5>
 	                               				<p><c:out value="${fn:substring(status.content, 0, 190)}" /> ....
 	                                       		<a href="<c:url value="/user-homepage/other-post/statusId/${status.id}"/>">
 		                                       		See more</a></p>
 		                                     </td></tr>
-	                               		<!--  <tr><td><c:out value="${status.content}" /> ....
-	                                       		<a href="<c:url value="/user-homepage/other-post/statusId/${status.id}"/>">
-		                                       		See more</a>
-		                                       </td>
-		                                       <td><c:out value="${status.submitDate}" /></td>                                        
-	                              			 </tr> -->	
 	                       				</c:forEach>
 									</form:form>
 								</c:when>

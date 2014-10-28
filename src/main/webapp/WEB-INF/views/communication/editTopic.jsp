@@ -7,7 +7,7 @@
 <html ng-app="moodFlip">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Edit Topic</title>
+		<title>Edit Topic - Forums - <fmt:message key="title" /></title>
 		<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 		<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 	</head>
@@ -16,6 +16,8 @@
 	
 		<div class="container">
 		
+		<a href="<c:url value="/forums/topic/${topic.id}" />">&laquo; Back to Topic</a>
+
 		<h1>Edit Topic</h1>
 		<form:form method="post" modelAttribute="topic" class="form-horizontal" role="form">
 
@@ -35,7 +37,7 @@
 					<form:label path="content" class="col-sm-2 control-label">Content</form:label>
 					<div class="col-sm-6">
 						<form:textarea path="content" class="form-control" rows="10"
-							placeholder="Content" />
+							placeholder="Content"/>
 						<c:if test="${status.error}"><span class="glyphicon glyphicon-remove form-control-feedback"></span></c:if>
 					</div>
 					<form:errors path="content" class="col-sm-4 help-block" />
@@ -43,9 +45,15 @@
 			</s:bind>
 
 			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-6">
+					<p class="text-muted">Supports HTML tags and Markdown syntax.</p>
+				</div>
+			</div>
+
+			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<a href="<c:url value="/forums/topic/${topic.id}"/>"><input type="button" value="Cancel" class="btn btn-default" /></a>
-					<input type="submit" value="Done" class="btn btn-default" />
+					<input type="submit" value="Done" class="btn btn-primary" />
+					<a href="<c:url value="/forums/topic/${topic.id}"/>">Cancel</a>
 				</div>
 			</div>
 			
@@ -53,9 +61,8 @@
 			<!-- <form:hidden path="id" /> -->
 
 		</form:form>
-		
+
 		</div>
 		<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
 	</body>
-	
 </html>
