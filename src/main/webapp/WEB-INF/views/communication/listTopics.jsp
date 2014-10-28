@@ -2,7 +2,7 @@
 <%@ taglib prefix="tg" tagdir="/WEB-INF/tags" %>
 <html ng-app="moodFlip">
 <head>
-<title><fmt:message key="title" /></title>
+<title>Forums - <fmt:message key="title" /></title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 <link rel="stylesheet" href="<c:url value="/resources/comm/css/forums.css" />">
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>

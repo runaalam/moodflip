@@ -7,7 +7,7 @@
 <html ng-app="moodFlip">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Edit Topic</title>
+		<title>Edit Topic - Forums - <fmt:message key="title" /></title>
 		<%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 		<%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
 	</head>
