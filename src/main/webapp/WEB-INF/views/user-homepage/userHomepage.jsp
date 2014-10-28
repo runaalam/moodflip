@@ -51,16 +51,16 @@
 	      						<c:when test="${!empty activityList}">
 			                       <c:forEach items="${activityList}" var="activity">
 			                       		<tr><td><h5>
-                                       		<c:out value="${activity.description}"/> 
-                                       		<small>at <fmt:formatDate type="date" value="${activity.activityDate}" /></small>
+                                       		<c:out value="${activity.description}"/>&nbsp;&nbsp; 
+                                       		<small><fmt:formatDate type="date" value="${activity.activityDate}" /></small>
 	                                    </h5></td></tr>
 			                       </c:forEach>
 	     				 		</c:when>
-	      							<c:when test="${empty activityList}"><fmt:message key="userHomepage.activity.empty"/></c:when>
+	      						<c:when test="${empty activityList}"><fmt:message key="userHomepage.activity.empty"/></c:when>
 			   				</c:choose>
 			   			</table>
-				</div><!-- panel-default -->
-			</form:form>
-		</div><!-- /.col-xs-12 main -->	
-	</body>
+					</div><!-- panel-default -->
+				</form:form>
+			</div><!-- /.col-xs-12 main -->	
+</body>
 </html>

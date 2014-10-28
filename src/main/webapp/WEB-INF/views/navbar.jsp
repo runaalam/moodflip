@@ -1,6 +1,8 @@
+<link rel="stylesheet" href="<c:url value="/resources/shared/css/custom-navbar.css" />">
+
 <% String url = request.getAttribute("javax.servlet.forward.servlet_path").toString(); %>
 
-<div class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -32,7 +34,8 @@
 				<li id="notifications" class="dropdown" ng-controller="NotificationCtrl" ng-init="listUnreadNotification()" ng-click="setMessagesRead()"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><span class="glyphicon glyphicon-globe"></span> <span class="badge alert-danger" ng-show="unreadNotifications.length > 0">{{unreadNotifications.length}}</span> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li ng-repeat="unread in showUnreadNotifications"><a href="<c:url value="/{{unread.url}}"/>" class="new-line-overflow-dropdown">{{unread.message}}</a></li>
+						<li ng-repeat="unread in showUnreadNotifications"><a href="<c:url value="/{{unread.url}}"/>" class="new-line-overflow-dropdown" ng-show="unread.url != ''">{{unread.message}}</a>
+						<a href="<c:url value=""/>" class="new-line-overflow-dropdown" ng-show="unread.url == ''">{{unread.message}}</a></li>
 						<li class="text-center" ng-show="showUnreadNotifications.length == 0"><i>No new notifications</i></li>
 						<li class="divider"></li>
 						<li><a href="<c:url value="/notification"/>" class="text-center">All Notifications</a></li>
