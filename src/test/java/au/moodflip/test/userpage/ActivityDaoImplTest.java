@@ -1,8 +1,13 @@
 package au.moodflip.test.userpage;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
+import au.moodflip.userpage.dao.ActivityDao;
 import au.moodflip.userpage.model.Activity;
-import au.moodflip.userpage.service.ActivityService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:test-persistence-context.xml" })
-@TransactionConfiguration(defaultRollback = false)
+@TransactionConfiguration
 @Transactional
 public class ActivityDaoImplTest {
 	
@@ -26,20 +31,19 @@ public class ActivityDaoImplTest {
 	private UserManager userManager;
 	
 	@Autowired
-	private ActivityService activityService;
+	private ActivityDao activityDao;
 	
-	public void testGetActivityByUser(){
-		long userId = 0;
-		User user = userManager.getUserById(userId);
-		Activity activity = new Activity(user,"Write a status", new Date());
-		activityService.addActivity(activity);
-		activity = new Activity(user,"Write a comment on a status", new Date());
+	@Test
+	public void testUserActivity(){
 		
-		List<Activity> userActivityList = activityService.getActivityListByUserId(userId);
-		
-		for(Activity a : userActivityList){
-			
-		}
-		
+		User user = userManager.getUserByUsername("user");
+		Activity activity = new Activity(user,"Updated status", new Date());
+		activityDao.addActivity(activity);
+		activity = new Activity(user,"commented on a status", new Date());
+		activityDao.addActivity(activity);
+
+		List<Activity> userActivityList = activityDao.getActivityListByUserId(user.getId());
+		assertNotNull(userActivityList);
+		assertEquals(userActivityList.size(), 2);
 	}
 }

@@ -34,8 +34,8 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<a href="<c:url value="/forums" />"><input type="button" value="Cancel" class="btn btn-default" /></a>
-					<input type="submit" value="Done" class="btn btn-default" />
+					<input type="submit" value="Done" class="btn btn-primary" />
+					<a href="<c:url value="/forums" />">Cancel</a>
 				</div>
 			</div>
 			

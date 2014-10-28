@@ -62,7 +62,7 @@
 			<div class="col-md-12">
 				<span ng-show="topic.user.username == '<sec:authentication property="principal.username" />'">
 				<a href="<c:url value="/forums/topic/edit/{{topic.id}}"/>"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</button></a>
-				<a href="<c:url value="/forums/topic/delete/{{topic.id}}"/>"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button></a>
+				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 				</span>
 				
 				<div class="pull-right">
@@ -89,13 +89,14 @@
 				<div class="thumbnail">
 			      <div class="caption">
 			      	<div class="text-right"><small>Card ID: {{card.card.cardId}}</small></div>
-			        <h3>{{card.card.title}}</h3>
+			        <h3 class="h-card">{{card.card.title}}</h3>
 			        <p>Level: {{card.card.level}}</p>
 			        <p>Symptom: {{card.card.symptom.text}}</p>
 			        <p>Average Rating: {{card.card.avgRating}}</p>
 			        <p><small>Completions: {{card.card.completions}}</small>
 			        <br>
 			        <small>Attempts: {{card.card.attempts}}</small></p>
+			        <p><a target="_blank" href="<c:url value="/card-game/cardBrowser?view={{card.card.cardId}}" />">More Details</a></p>
 			      </div>
 			    </div>
 				</div>
@@ -158,16 +159,6 @@
 	</div>
 	</div>
 		
-	<!-- 
-		<div ng-hide="comments.length">
-		<div class="row topic">
-		<div class="col-md-12">
-			<p>No comment</p>
-		</div>
-		</div>
-		</div>
-	 -->
-		
 	<div class="row">
 	<div class="col-md-12">
 	<div class="pull-right forum-btn">
@@ -175,6 +166,25 @@
 	</div>
 	</div>
 	</div>
+	
+		<!-- Confirm Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete topic "{{topic.name}}"?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <a href="<c:url value="/forums/topic/delete/{{topic.id}}"/>"><button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button></a>
+      </div>
+    </div>
+  </div>
+</div>
 	
 	</div>
 	</div>

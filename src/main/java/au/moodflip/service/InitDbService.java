@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -46,7 +48,10 @@ import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.Question;
 import au.moodflip.userpage.model.Response;
+import au.moodflip.userpage.model.Status;
+import au.moodflip.userpage.model.StatusComment;
 import au.moodflip.userpage.service.AssessmentService;
+import au.moodflip.userpage.service.StatusService;
 
 @Service
 @Transactional
@@ -71,6 +76,9 @@ public class InitDbService {
 	@Autowired
 	private AssessmentService assessmentService;
 	
+	@Autowired
+	private StatusService statusService;
+		
 	@Autowired
 	private PlaylistManager playlistManager;
 	@Autowired
@@ -105,7 +113,6 @@ public class InitDbService {
 					userAdmin.setName("Administrator");
 					userAdmin.setPassword("admin");
 					userAdmin.setPrivacy(Privacy.OPEN);
-					userAdmin.setBanned(false);
 					Set<Role> roles = new HashSet<Role>();
 					roles.add(roleService.findByName("ROLE_ADMIN"));
 					roles.add(roleService.findByName("ROLE_USER"));
@@ -113,25 +120,32 @@ public class InitDbService {
 					userService.addUserWithRoles(userAdmin);
 				}
 				
-				
 				String iStr = "";
-				for (int i=0; i < 6; i++){
+				for (int i=0; i < 7; i++){
 					if (i==0) 
 						iStr = ""; 
 					else
 						iStr = String.valueOf(i);
 					if (userService.getUserByUsername("user" + iStr) == null) {
 						User userNormal = new User();
+
 						userNormal.setBanned(false);
 						userNormal.setUsername("user" + iStr);
 						userNormal.setPassword("user" + iStr);
 						userNormal.setName("Test User" + iStr);
 						userNormal.setPrivacy(Privacy.OPEN);
-					
 						Set<Role> roles = new HashSet<Role>();
 						roles.add(roleService.findByName("ROLE_USER"));
 						userNormal.setRoles(roles);
 						userService.addUserWithRoles(userNormal);
+						
+						if (userService.getUserByUsername("admin") == null) {
+							Friend friend = new Friend();
+							friend.setReceiver(userNormal);
+							friend.setSender(userAdmin);
+							friend.setFriends(true);
+							friendManager.addFriendRequest(friend);
+						}
 						
 						
 					}
@@ -316,6 +330,58 @@ public class InitDbService {
 				}
 			});
 		}
+		
+		tmpl.execute(new TransactionCallbackWithoutResult() {
+
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus arg0) {
+				User user = userService.getUserByUsername("user");
+				User commentUser;
+				Status status;
+				StatusComment comment;
+				int i, j;
+				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+				for (i = 0; i < 5; i++) {
+
+					status = new Status();
+					try {
+						Date date = ft.parse("2014-08-"
+								+ String.format("%02d", i + 1)); // start at day
+																	// 1
+						status.setSubmitDate(date);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+
+					status.setContent((i + 1) + ": I am " + user.getName()
+							+ " and this is my nice status #" + (i + 1));
+					status.setUser(user);
+					statusService.saveStatus(status);
+					Set<StatusComment> comments = new LinkedHashSet<StatusComment>();
+					status.setStatusComments(comments);
+					
+					for (j = 1; j < 5; j++) {
+						comment = new StatusComment();
+						commentUser = userService.getUserByUsername("user" + j);
+						comment.setStatus(status);
+						comment.setUser(commentUser);
+						comment.setContent((j + 1) + ": I am " + user.getName()
+								+ " and this is my nice comment #" + (j + 1));
+
+						try {
+							Date date = ft.parse("2014-09-"
+									+ String.format("%02d", j + 1)); // start at
+																		// day 1
+							comment.setCommentDate(date);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+						status.getStatusComments().add(comment);
+					}
+					statusService.saveStatus(status);
+				}
+			}
+		});		
     }
 	
 
