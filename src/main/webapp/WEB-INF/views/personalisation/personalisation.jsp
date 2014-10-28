@@ -29,22 +29,16 @@ DashBoard page
 				<td><c:out value="${user.username}"/></td>
 				
 				<td><c:out value="${user.banned}"/>
-				<c:if test="${user.banned}">button on</c:if>
     <c:choose>
    <c:when test="${user.banned}">
-        <button type="button" class="btn btn-default" ng-click="ban(<c:out value="${user.id}"/>)">
-				</button>
-				<a href="<c:url value="/personalisation/unban/${user.id}"/>" role="button">unban</a>
+				<a class="btn btn-default" href="<c:url value="/personalisation/unban/${user.id}"/>" role="button">unban</a>
     </c:when>
     <c:otherwise>
-       <button type="button" class="btn btn-default" ng-click="upban(<c:out value="${user.id}"/>)">
- 				
-				</button>
 				<a class="btn btn-default" href="<c:url value="/personalisation/ban/${user.id}"/>" class=brole="button">ban</a>
     </c:otherwise>
 </c:choose></td>
-				<td><a href="<c:url value="/user/edit/${user.id}"/>">edit</a></td>
-				<td><a href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
+				<td><a class="btn btn-default" href="<c:url value="/user/edit/${user.id}"/>">edit</a></td>
+				<td><a class="btn btn-default" href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
 			</tr>
 		</c:forEach>
 		</table>

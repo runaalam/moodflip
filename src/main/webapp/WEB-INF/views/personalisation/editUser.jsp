@@ -1,14 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    pageEncoding="ISO-8859-1"%>
+<%@ include file="/WEB-INF/views/include.jsp"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Edit Forum</title>
-	</head>
-	<body>
-		<h1>Edit Forum</h1>
+	<jsp:include page="../fragments/headTag.jsp"/>
+<body> 
+<!-- include page header -->
+<jsp:include page="../fragments/bodyHeader.jsp"/>
+
+    	<!-- include Sidebar --> 	
+	    <jsp:include page="../fragments/bodySideBar.jsp"/>
+	    <div class="col-xs-12 col-sm-9">
+			<h1>Account Settings</h1><br/>
 		<form:form method="post" modelAttribute="user">
 			<fieldset>
 				<table>
@@ -28,10 +34,22 @@
 						<td><a href="/personalisation.htm"><button>Cancel</button></a></a></td>
 						<!-- This hidden field is required for Hibernate to recognize this Product -->
 						<!-- <td><form:hidden path="id"/> -->
-						<td><input type="submit" value="Done"/></td>
 					</tr>
-				</table>			
+				</table>
+				<div class="form-group">	
+					<label for="userPrivacy" class="col-sm-2 control-label">Privacy Setting</label>
+					<div class="col-sm-5">
+						<sf:select path="privacy" class="form-control">
+							<sf:option value="" label="--Please Select"/>
+							<sf:options items="${privacy}" itemLabel="text"/>
+						</sf:select>
+					</div>
+				</div>	
+				<td><input type="submit" value="Done"/></td>			
 			</fieldset>
 		</form:form>
-	</body>
+		</div>
+	<jsp:include page="../fragments/footer.jsp"/>
+</body>
+	<script src="<c:url value="/resources/card-game/js/edit.js" />" type="text/javascript"></script>
 </html>

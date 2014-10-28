@@ -54,14 +54,6 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-offset-1 col-sm-2 control-label">Privacy
-					Setting</label>
-				<div class="col-sm-6">
-					<input type="text" class="form-control"
-						placeholder="Privacy Setting" name="privacySetting" />
-				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-sm-offset-1 col-sm-2 control-label">Name</label>
 				<div class="col-sm-6">
 					<input type="text" class="form-control" placeholder="Name"

@@ -31,7 +31,7 @@ public class FriendManagerImp implements FriendManager{
 	public void deleteFriend(User user1, User user2) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
 		Query query = currentSession.createQuery(
-				"from FriendRequest where sender = :user1 AND recevier = :user2 AND friends = true OR sender = :user2 AND recevier = :user1 AND friends = true");
+				"from FriendRequest where sender = :user1 AND recevier = :user2 OR sender = :user2 AND recevier = :user1");
 		query.setParameter("user1", user1);
 		query.setParameter("user2", user2);
 		

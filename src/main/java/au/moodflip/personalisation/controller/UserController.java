@@ -120,12 +120,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/edit/{id}", method=RequestMethod.GET)
-	public ModelAndView editUser(@PathVariable("id") Long id) {
-
-		ModelAndView mav = new ModelAndView("personalisation/editUser");
+	public ModelAndView editUser(Model model,@PathVariable("id") Long id) {
 		User user = userManager.getUserById(id);
-		mav.addObject("privacy", User.Privacy.values());
-		mav.addObject("user", user);
+		model.addAttribute(user);
+
+		ModelAndView mav = new ModelAndView("personalisation/editUser","model",model);
 		return mav;
 	}
 	
