@@ -23,14 +23,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.model.CardEvent;
-import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.MissionEvent;
 import au.moodflip.cardgame.model.PlaylistItem;
 import au.moodflip.cardgame.model.TaskEvent;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CardEventManager;
-import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.PlaylistManager;
 import au.moodflip.cardgame.service.UsersCardManager;
 import au.moodflip.moodtrack.model.Data;
@@ -57,8 +55,6 @@ public class MyCardsController {
     @Autowired
     private UserManager userManager;
 	@Autowired
-	private CgUserManager cgUserManager;
-	@Autowired
 	private CardEventManager cardPlayedManager;
 	@Autowired
 	private ActivityService activityService;
@@ -72,14 +68,8 @@ public class MyCardsController {
 	@RequestMapping
 	public String myCards(Model model, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		List<Card> cards = cardManager.getCards(playlistManager.get(cgUser.getCgUserId()));
-//		Set<Card> cards = new TreeSet<Card>(cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId()))); // get users cards
-//		Set<Card> cards = new TreeSet<Card>(cardManager.getCards()); // get all cards
+		List<Card> cards = cardManager.getCards(playlistManager.get(user.getId()));
 		model.addAttribute("cards", cards);
-		
-		
-		
 		return FOLDER + "/myCards";
 	}
 	
@@ -87,9 +77,8 @@ public class MyCardsController {
 	public String recommendCards(Principal principal){
 		logger.info("Enter recommendCards()");
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
 		//get latest assessment
-		List<Assessment> assessments = assessmentService.listAssessmentByUserId(cgUser.getCgUserId());
+		List<Assessment> assessments = assessmentService.listAssessmentByUserId(user.getId());
 		Map<Symptom, Double> symptomRes = new TreeMap<Symptom, Double>();
 		Assessment lastAssessment;
 		List<Card> recCards = null;
@@ -110,11 +99,11 @@ public class MyCardsController {
 			symptomRes.put(Symptom.THINKING, res.getConcentration());
 			symptomRes.put(Symptom.TIRED, res.getFatigue());
 		
-			recCards = cardManager.recommendCards(symptomRes, cgUser.getCgUserId());
+			recCards = cardManager.recommendCards(symptomRes, user.getId());
 			System.out.printf("recommending cards based on assessment... recCardSize:%d", recCards.size());
 			for (Card c : recCards){
 				System.out.printf("%s %s %d\n", c.getTitle(), c.getSymptom().getText(), c.getCardId());
-				playlistManager.appendItem(new PlaylistItem(c.getCardId()), cgUser.getCgUserId());
+				playlistManager.appendItem(new PlaylistItem(c.getCardId()), user.getId());
 			}
 		}
 		if (recCards == null){ // didn't get any recommendation from assessment 
@@ -170,11 +159,11 @@ public class MyCardsController {
 						moodRes.put(Symptom.MOVEMENT, (double)(lastData.getIrritable()));  
 					}
 					
-					recCards = cardManager.recommendCards(moodRes, cgUser.getCgUserId());
+					recCards = cardManager.recommendCards(moodRes, user.getId());
 					System.out.printf("recommending cards based on moodtracking... recCardSize:%d", recCards.size());
 					for (Card c : recCards){
 						System.out.printf("%s %s %d\n", c.getTitle(), c.getSymptom().getText(), c.getCardId());
-						playlistManager.appendItem(new PlaylistItem(c.getCardId()), cgUser.getCgUserId());
+						playlistManager.appendItem(new PlaylistItem(c.getCardId()), user.getId());
 					}
 				}else{
 					System.out.println("No mood data");
@@ -193,11 +182,10 @@ public class MyCardsController {
 	@RequestMapping(method = RequestMethod.GET, params="random")
 	public String randomCards(Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		List<Card> randomCards = cardManager.randomCards(cgUser.getCgUserId());
+		List<Card> randomCards = cardManager.randomCards(user.getId());
 		if (randomCards.size() > 0){
 			for (Card c : randomCards){
-				playlistManager.appendItem(new PlaylistItem(c.getCardId()), cgUser.getCgUserId());
+				playlistManager.appendItem(new PlaylistItem(c.getCardId()), user.getId());
 			}
 		}
 		return "redirect:/" + FOLDER + "/myCards";
@@ -206,23 +194,22 @@ public class MyCardsController {
 	@RequestMapping(method = RequestMethod.GET, params="play")
 	public String playCard(Model model, @RequestParam(value="play", required=false) long cardId, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
 		Card card = cardManager.getById(cardId);
 		Mission m = null;
-		if (cgUser.getCurrentTaskEvent() == null){ // user not doing task
+		if (user.getCurrentTaskEvent() == null){ // user not doing task
 			if (card.getTasks().get(0) instanceof Mission){
 				m = (Mission)card.getTasks().get(0);
 				// add new cardPlayed
 				List<TaskEvent> teList = new ArrayList<TaskEvent>();
 				MissionEvent me = new MissionEvent(m, 0, new Date());
-				CardEvent ce = new CardEvent(cgUser, card, new Date(), 0, false);
+				CardEvent ce = new CardEvent(user, card, new Date(), 0, false);
 				me.setCardEvent(ce);
 				teList.add(me);
 				ce.setTaskEvents(teList);
 				cardPlayedManager.add(ce);
 				// add current mission to user
-				cgUser.setCurrentTaskEvent(me);
-				cgUserManager.update(cgUser);
+				user.setCurrentTaskEvent(me);
+				userManager.updateUser(user);
 				model.addAttribute(m);
 				// add playing card activity to user homepage
 				activityService.addActivity(new Activity(user, "started playing card " + card.getTitle(), new Date())) ;

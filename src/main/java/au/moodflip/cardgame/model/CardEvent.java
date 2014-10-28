@@ -15,11 +15,13 @@ import javax.persistence.CascadeType;
 
 import org.hibernate.annotations.IndexColumn;
 
+import au.moodflip.personalisation.model.User;
+
 @Entity
 @Table(name="Card_events")
 public class CardEvent {
 	public CardEvent(){ }
-	public CardEvent(CgUser user, 
+	public CardEvent(User user, 
 					Card card, 
 					Date date, 
 					int points, 
@@ -39,9 +41,9 @@ public class CardEvent {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="user_id")
-	public CgUser getUser() { return user; }
-	public void setUser(CgUser user) { this.user = user; }
-	private CgUser user;
+	public User getUser() { return user; }
+	public void setUser(User user) { this.user = user; }
+	private User user;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="card_id")

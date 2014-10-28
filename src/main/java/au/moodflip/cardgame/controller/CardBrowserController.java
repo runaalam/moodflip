@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import au.moodflip.cardgame.model.PlaylistItem;
 import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.service.CardManager;
-import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.PlaylistManager;
 import au.moodflip.cardgame.service.UsersCardManager;
 import au.moodflip.personalisation.model.User;
@@ -27,8 +26,6 @@ public class CardBrowserController {
 	private CardManager cardManager;
 	@Autowired
 	private UserManager userManager;
-	@Autowired
-	private CgUserManager cgUserManager;
 	@Autowired
 	private UsersCardManager usersCardManager; 
 	@Autowired

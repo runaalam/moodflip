@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.moodflip.cardgame.model.CardEvent;
-import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.MainPlayHistoryItem;
 import au.moodflip.cardgame.model.CardPlayHistoryItem;
+import au.moodflip.personalisation.model.User;
 
 @Service(value="cardEventManager")
 @Transactional
@@ -39,7 +39,7 @@ public class CardEventManagerDbImpl implements CardEventManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CardEvent> getAll(CgUser user) {
+	public List<CardEvent> getAll(User user) {
 		String hql = "FROM CardEvent AS c WHERE c.user = :user";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("user", user);
@@ -53,7 +53,7 @@ public class CardEventManagerDbImpl implements CardEventManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MainPlayHistoryItem> getMainPlayHistory(CgUser user) {
+	public List<MainPlayHistoryItem> getMainPlayHistory(User user) {
 		String hql = "SELECT a.card.cardId, (select title from Card where cardId = a.card.cardId), sum(a.points), "
 			+ "(SELECT count(*) FROM CardEvent AS b WHERE user = :user AND b.complete = false AND b.card.cardId = a.card.cardId "
 			+ "GROUP BY b.card.cardId) AS attempts, (SELECT count(*) FROM CardEvent AS c WHERE user = :user AND c.complete = true "
@@ -74,7 +74,7 @@ public class CardEventManagerDbImpl implements CardEventManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public CardPlayHistoryItem getCardPlayHistory(CgUser user, long cardId) {
+	public CardPlayHistoryItem getCardPlayHistory(User user, long cardId) {
 		String hql = "SELECT date, points, complete FROM CardEvent WHERE user = :user AND card.cardId = :card ORDER BY date DESC";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter("user", user);
@@ -90,7 +90,7 @@ public class CardEventManagerDbImpl implements CardEventManager {
 	}
 
 	@Override
-	public List<CardPlayHistoryItem> getCardPlayHistory(CgUser user) {
+	public List<CardPlayHistoryItem> getCardPlayHistory(User user) {
 		List<CardPlayHistoryItem> res = new ArrayList<CardPlayHistoryItem>();
 		String hql = "SELECT card.cardId FROM CardEvent WHERE user = :user ORDER BY card.cardId ASC";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
