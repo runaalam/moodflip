@@ -28,6 +28,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -74,7 +75,7 @@ public class User implements Serializable {
 	@Size(min = 6, message = "Password must be at least 6 characters!")
 	@Column(name = "password")
 	@JsonIgnore
-	@NotNull
+	@NotBlank
 	private String password;
 
 	@Column(name = "banned")

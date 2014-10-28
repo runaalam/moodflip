@@ -42,13 +42,15 @@
 						<td><c:out value="${user.username}" /></td>
 						<td><c:out value="${user.name}" /></td>
 
-						<td><c:out value="${user.banned}" /> <c:choose>
+						<td> <c:choose>
 								<c:when test="${user.banned}">
+								Banned
 									<a class="btn btn-sm btn-default"
 										href="<c:url value="/personalisation/unban/${user.id}"/>"
 										role="button">Unban</a>
 								</c:when>
 								<c:otherwise>
+								Active
 									<a class="btn btn-sm btn-default"
 										href="<c:url value="/personalisation/ban/${user.id}"/>"
 										class=brole="button">Ban</a>
@@ -57,7 +59,7 @@
 						<td><a class="btn btn-sm btn-default"
 							href="<c:url value="/user/edit/${user.id}"/>">Edit</a> <a
 							class="btn btn-sm btn-danger"
-							href="<c:url value="/user/delete/${user.id}"/>">Delete</a></td>
+							href="<c:url value="/user/admin/delete/${user.id}"/>">Delete</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
