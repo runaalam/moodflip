@@ -15,6 +15,8 @@
 		<%@ include file="/WEB-INF/views/navbar.jsp"%>
 	
 		<div class="container">
+		
+		<a href="<c:url value="/forums/topic/${topic.id}" />">&laquo; Back to Topic</a>
 
 		<h1>Edit Topic</h1>
 		<form:form method="post" modelAttribute="topic" class="form-horizontal" role="form">
