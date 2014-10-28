@@ -25,8 +25,14 @@ import au.moodflip.personalisation.model.User;
 @Transactional
 public class FriendManagerImp implements FriendManager{
 	
-	@Autowired
+
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	public void setSessionFactory(SessionFactory sf) {
+		this.sessionFactory = sf;
+	}
+	
 	@Override
 	public void deleteFriend(User user1, User user2) {
 		Session currentSession = this.sessionFactory.getCurrentSession();
@@ -94,6 +100,19 @@ public class FriendManagerImp implements FriendManager{
 		
 		 requests = query.list();
 		return requests;
+	}
+	
+	@Override
+	public void acceptFriendRequest(User sender,User receiver) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from FriendRequest where sender = :sender AND receiver =:receiver AND friends = false");
+		query.setParameter("sender", sender);
+		query.setParameter("receiver", receiver);
+		
+		List<Friend> requests = new ArrayList<Friend>();
+		
+		 requests = query.list();
+		 requests.get(0).setFriends(true);
 	}
 	@Override
 	public List<User> getFriends(User username) {
