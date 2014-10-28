@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import au.moodflip.personalisation.model.User;
 
 @Entity
@@ -30,6 +32,7 @@ public class Status {
 	private User user;
 	
 	@Column(name = "content")
+	@Type(type="text")
 	private String content;
 	
 	@Column(name = "submit_date")
