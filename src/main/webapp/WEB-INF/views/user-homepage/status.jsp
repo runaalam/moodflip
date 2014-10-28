@@ -2,7 +2,7 @@
 
 <html>
 	<head>	
-		<title><fmt:message key="userHomepage.status.details"/></title>
+		<title>Status Details</title>
 	</head>
 	
 	<body>
@@ -18,11 +18,12 @@
 				
 				<div class="panel panel-default">
 					<form:form method="post" modelAttribute="statusComment">
-	   					<div class="panel-heading"><label for="commentContent"><fmt:message key="userHomepage.status.comment"/></label>
+	   					<div class="panel-heading"><label for="commentContent">Comment</label>
 							<form:textarea class="form-control" path="content" id="commentContent" rows="4" cols="50"></form:textarea>
 							<br><p align="right"><input class="btn btn-primary" type="submit"  value="Send"/></p>
 							<hr>
 	   					</div>
+<%-- 	   					<form:errors path="content" cssStyle="color: red;"/>					--%>
 	   					<div class="panel-body">
 		      					<c:choose>
 		      						<c:when test="${!empty statusCommentList}">
@@ -34,7 +35,7 @@
 				                       		<hr>
 				                       </c:forEach>
 		     				 		</c:when>
-	       							<c:when test="${empty statusCommentList}"><fmt:message key="userHomepage.status.comment.empty"/></c:when>
+	       							<c:when test="${empty statusCommentList}">There are no comments for this post</c:when>
 				   				</c:choose>
 	   					</div>
 	   					</form:form>

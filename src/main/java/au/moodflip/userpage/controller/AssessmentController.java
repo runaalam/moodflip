@@ -22,6 +22,7 @@ import au.moodflip.personalisation.service.UserManager;
 import au.moodflip.userpage.model.Answer;
 import au.moodflip.userpage.model.Assessment;
 import au.moodflip.userpage.model.ChartData;
+import au.moodflip.userpage.model.LevelDetails;
 import au.moodflip.userpage.model.Question;
 import au.moodflip.userpage.model.Activity;
 import au.moodflip.userpage.service.ActivityService;
@@ -109,6 +110,9 @@ public class AssessmentController {
 		if(assList.size() > 0){
 			Assessment assessment = assList.get(assList.size() - 1);
 			mav.addObject("assessment", assessment);
+			
+			LevelDetails levelDetails = new LevelDetails(assessment.getDepressionScale());
+			mav.addObject("levelDetails", levelDetails);
 		}
 //		logger.info("\n ***** Assessment result page ****" + assList.size()); 
 		return mav;

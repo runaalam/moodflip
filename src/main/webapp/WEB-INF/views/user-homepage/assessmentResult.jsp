@@ -62,7 +62,7 @@
 	    }
 	    
 	    </script>
-		<title><fmt:message key="userHomepage.assessment.results"/></title>	    
+		<title>Assessment Results</title>	    
 	</head>
 	<body>
 		<!-- include page header -->
@@ -70,7 +70,7 @@
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title"><fmt:message key="userHomepage.assessment.results"/></h3>
+						<h3 class="panel-title">Assessment Results</h3>
 					</div>
 					<div class="panel-body">
 						<c:choose>
@@ -127,17 +127,23 @@
 										<td><c:out
 												value="${assessment.resultDetails.suicidalIdeation}" /></td>
 									</tr>
-								</table>
+								</table>								
 								</div>
 								<br>
+								<div class="panel panel-default">
+									<h4><strong>
+										<c:out value="${levelDetails.diagnosis}:"></c:out>
+									</strong></h4>
+										<c:out value="${levelDetails.assessmentFeedback}"></c:out>
+								</div>
 								<br>
 								<br>
 								<div class="panel panel-default" id="chart_div"></div>
 							</c:when>
-							<c:when test="${empty assessment}"><fmt:message key="userHomepage.assessment.empty"/></br>
+							<c:when test="${empty assessment}">You have not completed any assessment</br>
 		             				<a
 									href="<c:url value="/user-homepage/depression-assessment"/>">
-									<fmt:message key="userHomepage.assessment.start"/></a> 
+									Click here to start assessment</a> 
 		             			</c:when>
 						</c:choose>
 					</div>

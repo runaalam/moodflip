@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,8 +96,8 @@ public class StatusController {
 	
 	@RequestMapping(value = "/other-post/statusId/{statusId}", method = RequestMethod.POST)
 	public String commentPost(@PathVariable("statusId") Long statusId, Model model, Principal principal,
-			@ModelAttribute("statusComment") StatusComment statusComment,Activity activity,
-			BindingResult bindingResult, SessionStatus sessionStatus) {
+			@ModelAttribute("statusComment") @Validated StatusComment statusComment, BindingResult bindingResult, Activity activity,
+			 SessionStatus sessionStatus) {
 		logger.info("Save new Comment");
 		if (bindingResult.hasErrors()){
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
