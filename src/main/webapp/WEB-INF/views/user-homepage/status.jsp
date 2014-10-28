@@ -9,8 +9,9 @@
  		<div class="col-xs-12 col-sm-9">
         		<div class="panel panel-default">
                 	<div class="panel-body">
-               			<p>By <c:out value="${status.user.name}" />
-               			<br><br><br>
+               			<strong><c:out value="${status.user.name}"/></strong>
+               			<h5><small><fmt:formatDate type="date" value="${status.submitDate}" /></small></h5>
+               			<hr>
                        	<c:out value="${status.content}" />
 					</div>
 				</div><!-- panel-default -->	
@@ -19,19 +20,22 @@
 					<form:form method="post" modelAttribute="statusComment">
 	   					<div class="panel-heading"><label for="commentContent"><fmt:message key="userHomepage.status.comment"/></label>
 							<form:textarea class="form-control" path="content" id="commentContent" rows="4" cols="50"></form:textarea>
-							<input type="submit" value="Send"/>
+							<br><p align="right"><input class="btn btn-primary" type="submit"  value="Send"/></p>
+							<hr>
 	   					</div>
-	   					<div class="bs-example">
-	                    	<table class="table table-striped"><tbody>
+	   					<div class="panel-body">
 		      					<c:choose>
 		      						<c:when test="${!empty statusCommentList}">
-				                       <c:forEach items="${statusCommentList}" var="statusComment">
-				                       		<tr><td><c:out value="${statusComment.content}"/></td></tr>
+				                       <c:forEach items="${statusCommentList}" var="comment" varStatus="sc">
+				                       		<c:set var="i" value="${sc.index}"/>
+					                       <strong><c:out value="${commentUserList[i].name}"/></strong>
+ 					                       <h5><small><fmt:formatDate type="date" value="${comment.commentDate}" /></small></h5>
+ 				                       			<c:out value="${comment.content}"/>
+				                       		<hr>
 				                       </c:forEach>
 		     				 		</c:when>
 	       							<c:when test="${empty statusCommentList}"><fmt:message key="userHomepage.status.comment.empty"/></c:when>
 				   				</c:choose>
-				   			</tbody></table>
 	   					</div>
 	   					</form:form>
 				</div><!-- panel-default -->					

@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.service.CardEventManager;
-import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
 
@@ -23,30 +21,23 @@ public class PlayHistoryController {
 	@Autowired
 	private CardEventManager cardEventManager;
 	@Autowired
-	private CgUserManager cgUserManager;
-	@Autowired
 	private UserManager userManager;
 	
 	@RequestMapping
 	public String playHistory(Model model, Principal principal){
 		// get user
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		if (cgUser == null){ // store user in cgUser so we don't have to alter user code 
-			cgUser = cgUserManager.add(new CgUser(user.getId()));
-			System.out.println("created new cguser");
-		}
-		model.addAttribute(cgUser);
-		model.addAttribute("mainPlayHistoryItems", cardEventManager.getMainPlayHistory(cgUser));
-		model.addAttribute("details", cardEventManager.getCardPlayHistory(cgUser));
+		model.addAttribute(user);
+		model.addAttribute("mainPlayHistoryItems", cardEventManager.getMainPlayHistory(user));
+		model.addAttribute("details", cardEventManager.getCardPlayHistory(user));
 		return FOLDER + "/playHistory"; 
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, params="cardId")
-	public String getCardHistory(Model model, @RequestParam(value="cardId", required=false) long cardId){
-		CgUser cgUser = (CgUser)model.asMap().get("cgUser");
-		model.addAttribute("mainPlayHistoryItems", cardEventManager.getMainPlayHistory(cgUser));
-		model.addAttribute("cardPlayHistoryItems", cardEventManager.getCardPlayHistory(cgUser, cardId));
+	public String getCardHistory(Model model, @RequestParam(value="cardId", required=false) long cardId, Principal principal){
+		User user = userManager.getUserByUsername(principal.getName());
+		model.addAttribute("mainPlayHistoryItems", cardEventManager.getMainPlayHistory(user));
+		model.addAttribute("cardPlayHistoryItems", cardEventManager.getCardPlayHistory(user, cardId));
 		return FOLDER + "/playHistory";
 	}
 }

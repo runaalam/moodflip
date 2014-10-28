@@ -3,6 +3,7 @@ package au.moodflip.userpage.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -31,6 +32,7 @@ import au.moodflip.userpage.model.Activity;
 import au.moodflip.userpage.model.StatusComment;
 import au.moodflip.userpage.service.ActivityService;
 import au.moodflip.userpage.service.AssessmentService;
+import au.moodflip.userpage.service.StatusCommentService;
 import au.moodflip.userpage.service.StatusService;
 
 
@@ -54,6 +56,9 @@ public class UserHomepageController {
 	private StatusService statusService;
 	
 	@Autowired
+	private StatusCommentService statusCommentService;
+	
+	@Autowired
 	private ActivityService activityService;
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -72,6 +77,9 @@ public class UserHomepageController {
 		
 		Status status = new Status();
 		mav.addObject("status", status);
+		
+		StatusComment statusComment = new StatusComment();
+		mav.addObject("statusComment", statusComment);
 		
 		Activity activity = new Activity();
 		mav.addObject("userActivitynew",activity);
@@ -109,8 +117,15 @@ public class UserHomepageController {
 		Status status = statusService.getStatusById(statusId);
 		mav.addObject("status", status);
 		
-		List<StatusComment> statusCommentList = new ArrayList<StatusComment>(status.getStatusComments());
+		List<StatusComment> statusCommentList = statusCommentService.listStatusComment(statusId);
+		/*Set<StatusComment> set = status.getStatusComments();
+		LinkedList<StatusComment> statusCommentList = new LinkedList<StatusComment>(status.getStatusComments());*/
 		mav.addObject("statusCommentList", statusCommentList);
+		
+		LinkedList<User> commentUserList = new LinkedList<User>();
+		for(StatusComment sc : statusCommentList)
+			commentUserList.add(sc.getUser());
+		mav.addObject("commentUserList", commentUserList);
 		
 		StatusComment statusComment = new StatusComment();
 		mav.addObject("statusComment", statusComment);
@@ -128,15 +143,18 @@ public class UserHomepageController {
 			logger.info("errors {}: {}", bindingResult.getFieldErrorCount(), bindingResult.getFieldErrors());
 			return FOLDER + "/userHomepage";
 		}
+		
+		User user = userManager.getUserByUsername(principal.getName());
 		model.addAttribute("statusId", statusId);
 		Status status = statusService.getStatusById(statusId);
 		statusComment.setStatus(status);
+		statusComment.setUser(user);
+		statusComment.setCommentDate(new Date());
 		status.getStatusComments().add(statusComment);
 //		statusCommentService.addComment(statusComment);
 		statusService.saveStatus(status);
 		sessionStatus.setComplete();
 		
-		User user = userManager.getUserByUsername(principal.getName());
 		String activityDesc = "Write comment on a status";
 		activity.setUser(user);
 		activity.setDescription(activityDesc);

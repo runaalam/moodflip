@@ -6,16 +6,18 @@ import java.util.Set;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,13 +25,13 @@ import javax.validation.constraints.Size;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
-
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import au.moodflip.cardgame.model.TaskEvent;
 import au.moodflip.personalisation.annotation.UniqueUsername;
 
 @Entity
@@ -163,5 +165,27 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 	
+	/* card game properties */
+	
+	@OneToOne
+	@JoinColumn(name="task_event_id")
+	private TaskEvent currentTaskEvent;
+	public TaskEvent getCurrentTaskEvent() { return currentTaskEvent; }
+	public void setCurrentTaskEvent(TaskEvent currentTaskEvent) { this.currentTaskEvent = currentTaskEvent; }
+	
+	@Column(name="points")
+	public int getPoints() { return points; }
+	public void setPoints(int points) { this.points = points; }
+	private int points;
+
+	@Column(name="completions")
+	public int getCompletions() { return completions; }
+	public void setCompletions(int completions) { this.completions = completions; }
+	private int completions;
+	
+	@Column(name="attempts")
+	public int getAttempts() { return attempts; }
+	public void setAttempts(int attempts) { this.attempts = attempts; }
+	private int attempts;
 	
 }

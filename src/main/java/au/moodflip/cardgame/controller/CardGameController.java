@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,14 +22,12 @@ import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CardEvent;
 import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.CardSurvey.Answer;
-import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.MissionEvent;
 import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.model.TaskEvent;
 import au.moodflip.cardgame.service.CardManager;
 import au.moodflip.cardgame.service.CardEventManager;
-import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.PlaylistManager;
 import au.moodflip.personalisation.model.User;
 import au.moodflip.personalisation.service.UserManager;
@@ -39,8 +38,6 @@ import au.moodflip.personalisation.service.UserManager;
 public class CardGameController{
 	private static final Logger logger = LoggerFactory.getLogger(CardGameController.class);
 	private final String FOLDER = "card-game";
-	@Autowired
-	private CgUserManager cgUserManager;
     @Autowired
     private UserManager userManager;
     @Autowired
@@ -54,15 +51,9 @@ public class CardGameController{
 	public String home(Locale locale, Principal principal, Model model, HttpSession session) {
 		logger.info("Get card game home page - home() ");
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		if (cgUser == null){ // store user in cgUser so we don't have to alter user code 
-			cgUser = cgUserManager.add(new CgUser(user.getId()));
-			System.out.println("created new cguser");
-		}
-		model.addAttribute("globalPoints", cgUser.getPoints()); // get global points 
-		System.out.println("cgUser is: " + cgUser);
+		model.addAttribute("globalPoints", user.getPoints()); // get global points 
 		
-		TaskEvent curTaskEvent = cgUser.getCurrentTaskEvent();
+		TaskEvent curTaskEvent = user.getCurrentTaskEvent();
 		if (curTaskEvent != null){
 			Task curTask = curTaskEvent.getTask();
 			if (curTask != null){
@@ -83,11 +74,10 @@ public class CardGameController{
 	public String getNextTask(Principal principal, Model model){
 		logger.info("Get next task - getNextTask()");
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
 		
-		cgUser.setAttempts(cgUser.getAttempts() + 1); // set global attempts
+		user.setAttempts(user.getAttempts() + 1); // set global attempts
 		
-		TaskEvent curTaskEvent = cgUser.getCurrentTaskEvent();
+		TaskEvent curTaskEvent = user.getCurrentTaskEvent();
 		CardEvent curCardEvent = curTaskEvent.getCardEvent();
 		List<TaskEvent> teList = curCardEvent.getTaskEvents();
 		Task nextTask = curTaskEvent.getTask().getNext();
@@ -98,9 +88,9 @@ public class CardGameController{
 			MissionEvent curMissionEvent = (MissionEvent)curTaskEvent;
 			curMissionEvent.setDate(new Date());
 			curMissionEvent.setPoints(1);				// update points for mission event
-			cgUser.setPoints(cgUser.getPoints() + 1);	// update global points
+			user.setPoints(user.getPoints() + 1);	// update global points
 			curCardEvent.setPoints(curCardEvent.getPoints() + 1);	// update points for card event
-			model.addAttribute("globalPoints", cgUser.getPoints());
+			model.addAttribute("globalPoints", user.getPoints());
 			logger.info("current mission event after update: " + curMissionEvent);
 		}
 		if (nextTask != null){
@@ -126,21 +116,10 @@ public class CardGameController{
 			 *  CardEvent.  This changes the instance, so we need to make sure to add this particular instance 
 			 *  to cgUser. If newMissionPlayed is added, it inserts a new row because it doesn't have the extra index info. 
 			 */
-			cgUser.setCurrentTaskEvent(list.get(list.size()-1)); 
+			user.setCurrentTaskEvent(list.get(list.size()-1)); 
 		}
-		// debug
-		System.out.printf("card:%d title:%s user:%d pts:%d complete:%s tasksPlayed:%d\n", curCardEvent.getCard().getCardId(), curCardEvent.getCard().getTitle(), curCardEvent.getUser().getCgUserId(), curCardEvent.getPoints(), curCardEvent.isComplete(), curCardEvent.getTaskEvents().size());
-		for (TaskEvent t : curCardEvent.getTaskEvents()){
-			if (t instanceof MissionEvent){
-				MissionEvent m = (MissionEvent)t;
-				System.out.printf("\tmission:%d pts:%d date:%s\n", m.getTask().getTaskId(), m.getPoints(), m.getDate());
-			}else{
-				System.out.printf("\ttask:%d date:%s\n", t.getTask().getTaskId(), t.getDate());
-			}
-		}
-		
 		logger.info("Updating cgUser: ");
-		cgUserManager.update(cgUser);
+		userManager.updateUser(user);
 		return FOLDER + "/cardGame";
 	}
 	
@@ -148,16 +127,15 @@ public class CardGameController{
 	public String getCardSurvey(CardSurvey cardSurvey, Principal principal, Model model){
     	logger.info("Enter getCardSurvey()");
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
 		logger.info("answered: " + cardSurvey.getAnswer());
-		rateCard(cgUser.getCurrentTaskEvent().getCardEvent().getCard(), cardSurvey.getAnswer());
-		CardEvent curCardEvent = cgUser.getCurrentTaskEvent().getCardEvent();
+		rateCard(user.getCurrentTaskEvent().getCardEvent().getCard(), cardSurvey.getAnswer());
+		CardEvent curCardEvent = user.getCurrentTaskEvent().getCardEvent();
 		curCardEvent.setComplete(true); 
-		cgUser.setCompletions(cgUser.getCompletions() + 1); // set global completions
-		cgUser.setCurrentTaskEvent(null); // set to no mission for user
-		boolean res = playlistManager.deleteItem(curCardEvent.getCard().getCardId(), cgUser.getCgUserId());// remove from playlist
+		user.setCompletions(user.getCompletions() + 1); // set global completions
+		user.setCurrentTaskEvent(null); // set to no mission for user
+		boolean res = playlistManager.deleteItem(curCardEvent.getCard().getCardId(), user.getId());// remove from playlist
 		logger.info("removed card from playlist: " + res);
-		cgUserManager.update(cgUser);
+		userManager.updateUser(user);
 		logger.info("Exit getCardSurvey()");
 		return "redirect:/" + FOLDER;
 	}
@@ -165,12 +143,18 @@ public class CardGameController{
     @RequestMapping(method = RequestMethod.GET, params="newCard")
 	public ModelAndView getNewCard(Principal principal, Model model){
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		cgUser.setCurrentTaskEvent(null); // set to no mission for user
-		cgUserManager.update(cgUser);
+		user.setCurrentTaskEvent(null); // set to no mission for user
+		userManager.updateUser(user);
 		return new ModelAndView(FOLDER + "/cardGame", "model", model);
 	}
 	
+    @RequestMapping(method = RequestMethod.GET, params="userPoints")
+    @ResponseBody
+    public String getUserPoints(Principal principal){
+    	User user = userManager.getUserByUsername(principal.getName());
+    	return String.valueOf(user.getPoints());
+    }
+    
 	// based on exponential moving avg
 	// http://www.bennadel.com/blog/1627-create-a-running-average-without-storing-individual-values.htm
 	public void rateCard(Card card, Answer answer){

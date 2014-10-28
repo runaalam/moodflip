@@ -1,5 +1,7 @@
 package au.moodflip.userpage.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,9 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public List<Activity> getActivityListByUserId(Long userId) {
-		return activityDao.getActivityListByUserId(userId);
+		ArrayList<Activity> list = (ArrayList<Activity>) activityDao.getActivityListByUserId(userId);
+		Collections.reverse((List<?>) list);
+		return list;
 	}
 
 }

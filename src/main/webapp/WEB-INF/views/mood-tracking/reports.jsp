@@ -13,6 +13,7 @@
     <title>Reports</title>
    
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="<c:url value="/resources/mood-tracking/bootstrap-table.css" />"/>
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script>
@@ -34,35 +35,55 @@
 
 
 <form:form action="" method="POST" name="command">
-	
-   		<div class="panel panel-default">
+
+			<s:hasBindErrors name="command">
+				<s:bind path="command">
+					<c:if test="${status.error}">
+						<c:forEach items="${status.errorMessages}" var="err">
+							<div class="alert alert-danger text-center" role="alert">
+								<c:out value='${err}' />
+							</div>
+						</c:forEach>
+					</c:if>
+				</s:bind>
+			</s:hasBindErrors>
+
+
+
+			<s:bind path="startDate">
+				<c:if test="${status.error}">
+					<div class="alert alert-danger text-center" role="alert">
+						<c:forEach items="${status.errorMessages}" var="err">
+							<c:out value='${err}' />
+						</c:forEach>
+					</div>
+				</c:if>
+			</s:bind>
+
+
+
+			<s:bind path="endDate">
+				<c:if test="${status.error}">
+					<div class="alert alert-danger text-center" role="alert">
+						<c:forEach items="${status.errorMessages}" var="err">
+							<c:out value='${err}' />
+						</c:forEach>
+					</div>
+				</c:if>
+			</s:bind>
+
+			<div class="panel panel-default">
     	<div class="panel-heading"><h3 class="panel-title">Reports</h3></div> <!-- panel-heading -->
     	<div class="bs-example">
-    	
-	    <s:hasBindErrors name="command">
-	      <div id="div_global_error" align="center">
-	          <div id="global_errors">
-	              <s:bind path="command">
-	                  <c:forEach items="${status.errorMessages}" var="err">
-	                      <c:out value='${err}'/><br/>
-	                  </c:forEach>
-	              </s:bind>
-	          </div>
-	      </div>
-	  </s:hasBindErrors>
+	  
         <table class="table">
         
             <tr><td>Start Date</td>
             
                 <td><form:input path="startDate" type="text" id="startDate"/> </td>
-                
-                <td><form:errors path="startDate" cssClass="error"/>
-                
-            
-
+ 
             <td>End Date</td>
                 <td><form:input path="endDate" type="text" id="endDate"/></td>
-                <td><form:errors path="endDate" cssClass="error"/></td>
             </tr>
         </table>
         
@@ -78,7 +99,7 @@
 <div>
     <div>
 
-        <table border="1" class="table table-striped" id="table-large-columns" data-height="400" data-show-columns="true">
+        <table border="1" class="table table-striped" id="table-large-columns" data-height="500" data-show-columns="true" data-toggle="table">
          <thead>
             <tr>
 
@@ -154,6 +175,6 @@
     </div>
 </div>
 </div>
-
+<script src="<c:url value="/resources/mood-tracking/bootstrap-table.js" />"></script>
 </body>
 </html>

@@ -25,13 +25,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import au.moodflip.cardgame.model.Card;
 import au.moodflip.cardgame.model.CardSurvey;
-import au.moodflip.cardgame.model.CgUser;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.Task;
 import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.model.UsersCard.UsersCardPK;
 import au.moodflip.cardgame.service.CardManager;
-import au.moodflip.cardgame.service.CgUserManager;
 import au.moodflip.cardgame.service.UsersCardManager;
 import au.moodflip.comm.service.NotificationService;
 import au.moodflip.personalisation.model.User;
@@ -45,8 +43,6 @@ public class CustomCardController {
 	private final String FOLDER = "card-game";
 	@Autowired
 	private CardManager cardManager;
-	@Autowired
-	private CgUserManager cgUserManager;
     @Autowired
     private UserManager userManager;
     @Autowired
@@ -58,9 +54,7 @@ public class CustomCardController {
 	public ModelAndView customCards(Model model, Principal principal){
 		logger.info("Enter customCards()");
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		Set<Card> cards = cardManager.getCards(usersCardManager.getAll(cgUser.getCgUserId()));
-//		Set<Card> cards = cardManager.getCards(); // get all cards 
+		Set<Card> cards = cardManager.getCards(usersCardManager.getAll(user.getId()));
 		model.addAttribute("customCards", cards);
 		logger.info("Exit customCards()");
 		return new ModelAndView(FOLDER + "/customCards", "model", model);
@@ -99,8 +93,7 @@ public class CustomCardController {
 		card.getTasks().add(cardSurvey);
 		cardManager.add(card);
 		logger.info("added card " + card);
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		usersCardManager.add(new UsersCard(cgUser.getCgUserId(), card.getCardId()));
+		usersCardManager.add(new UsersCard(user.getId(), card.getCardId()));
 		logger.info("Exit saveNewCard()");
 		return "redirect:/" + FOLDER + "/customCards";
 	}
@@ -136,9 +129,8 @@ public class CustomCardController {
 	@RequestMapping(method = RequestMethod.GET, params="delete")
 	public String deleteCard(@RequestParam(value="delete", required=false) long cardId, RedirectAttributes ra, Principal principal){
 		User user = userManager.getUserByUsername(principal.getName());
-		CgUser cgUser = cgUserManager.getById(user.getId());
-		logger.info("deleting userid {} cardid {}", cgUser.getCgUserId(), cardId);
-		usersCardManager.delete(new UsersCardPK(cgUser.getCgUserId(), cardId));
+		logger.info("deleting userid {} cardid {}", user.getId(), cardId);
+		usersCardManager.delete(new UsersCardPK(user.getId(), cardId));
 		return "redirect:/" + FOLDER + "/customCards";
 	}
 	
