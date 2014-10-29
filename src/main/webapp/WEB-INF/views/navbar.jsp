@@ -42,7 +42,7 @@
 					</ul>
 				</li>
 				<li><a href="<c:url value="/user/profile"/>"><sec:authentication property="principal.username" /></a></li>
-				<li><p class="navbar-text" id="user_points"><span class="text-warning glyphicon glyphicon-star"/></p></li>
+				<li><a href="<c:url value="/card-game/playHistory"/>" id="user_points"><span class="glyphicon glyphicon-star" style="color: gold"/></a></li>
 				<li><a href="<c:url value="/logout"/>">Logout</a></li>
 				</sec:authorize>
 			</ul>

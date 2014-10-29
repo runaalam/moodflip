@@ -19,25 +19,27 @@
 					<div class="panel panel-default text-center">
 						<div class="panel-heading">
 							<div class="row">
-							<c:if test="${!empty mission}">
-							<div class="col-xs-2">
-								<a class="btn btn-default pull-left" href="<c:url value="/card-game?newCard"/>">New Card</a>
-							
-							</div>
-							<div class="col-xs-8">
-								<h3 class="panel-title"><c:out value="${mission.card.title}"/></h3>
-								<small>Level: <c:out value="${mission.card.level}"/>
-								Symptom: <c:out value="${mission.card.symptom.text}"/> </small>
-							</div>
-							<div class="col-xs-2">
-								<a class="btn btn-default" href="<c:url value="/card-game?nextMission"/>">Next Mission</a>
-							</div>
-							</c:if>
-							<c:if test="${!empty cardSurvey}">
-								<h3 class="panel-title"><c:out value="${cardSurvey.card.title}"/></h3>
-								<small>Level: <c:out value="${cardSurvey.card.level}"/>
-								Symptom: <c:out value="${cardSurvey.card.symptom.text}"/> </small>
-							</c:if>
+								<c:if test="${!empty mission}">
+									<div class="hidden-xs col-sm-3">
+										<a class="btn btn-default pull-left" href="<c:url value="/card-game?newCard"/>">New Card</a>
+									</div>
+									<div class="col-xs-12 col-sm-6">
+										<h3 class="panel-title"><c:out value="${mission.card.title}"/></h3>
+										<small>Level: <c:out value="${mission.card.level}"/> |
+										Symptom: <c:out value="${mission.card.symptom.text}"/> | Mission: ${taskIndex } / ${taskCount }</small>
+									</div>
+									<div class="hidden-sm hidden-md hidden-lg col-xs-6">
+										<a class="btn btn-default pull-left" href="<c:url value="/card-game?newCard"/>">New Card</a>
+									</div>
+									<div class="col-xs-6 col-sm-3">
+										<a class="btn btn-default pull-right" href="<c:url value="/card-game?nextMission"/>">Next Mission</a>
+									</div>
+								</c:if>
+								<c:if test="${!empty cardSurvey}">
+									<h3 class="panel-title"><c:out value="${cardSurvey.card.title}"/></h3>
+									<small>Level: <c:out value="${cardSurvey.card.level}"/>
+									Symptom: <c:out value="${cardSurvey.card.symptom.text}"/> </small>
+								</c:if>
 							</div>
 						</div>
 						<div class="panel-body">

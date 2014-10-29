@@ -87,9 +87,9 @@ public class InitDbService {
 	 @PostConstruct
 	private void init() {
 		// switches to toggle prepopulating data
-		boolean card = false;
+		boolean card = true;
 		boolean assessment = true;	
-		boolean playlist = true;
+		boolean playlist = true;	// if true, card must be true
 		TransactionTemplate tmpl = new TransactionTemplate(txManager);
 		tmpl.execute(new TransactionCallbackWithoutResult() {
 			@Override

@@ -16,82 +16,82 @@
 	    <jsp:include page="../fragments/bodySideBar.jsp"/>
 	    <div class="col-xs-12 col-sm-9">
 			<h1>Create/Edit card</h1><br/>
-			<div class="alert alert-warning alert-dismissible hide" role="alert">
-  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-</div>
-			<sf:form method="POST" modelAttribute="card" class="form-horizontal editCardForm" role="form">
-				<div class="form-group">
-					<label for="cardTitle" class="col-sm-2 control-label">Title</label>
-					<div class="col-sm-5">
-						<sf:input path="title" id="cardTitle" class="form-control" placeholder="Title"/>
-						<sf:errors path="title" cssClass="error"/>
-					</div>	
-				</div>				
-				<div class="form-group">	
-					<label for="cardLevel" class="col-sm-2 control-label">Difficulty Level</label>
-					<div class="col-sm-5">
-						<sf:input path="level" id="cardLevel" class="form-control" placeholder="Level"/>
-						<sf:errors path="level" cssClass="error"/>
-					</div>
-				</div>
-				<div class="form-group">	
-					<label for="cardSymptom" class="col-sm-2 control-label">Symptom group</label>
-					<div class="col-sm-5">
-						<sf:select path="symptom" class="form-control">
-							<sf:option value="" label="--Please Select"/>
-							<sf:options items="${symptoms}" itemLabel="text"/>
-						</sf:select>
-						<sf:errors path="symptom" cssClass="error"/>
-					</div>
-				</div>	
-				<div class="form-group">	
-					<label for="cardIntro" class="col-sm-2 control-label">Introduction</label>
-					<div class="col-sm-5">
-						<sf:textarea path="intro" id="cardIntro" class="form-control" rows="3"/>
-						<sf:errors path="intro" cssClass="error"/>
-					</div>
-				</div>	
-				<div id="missionsDiv">
-					<c:choose>
-						<c:when test="${fn:length(card.tasks) > 1}">  <!-- old card -->
-							<c:set var="end" scope="request" value="${fn:length(card.tasks) - 1}"/>
-						</c:when>
-						<c:otherwise> <!--  new card -->
-							<c:set var="end" scope="request" value="${1}"/>
-						</c:otherwise>
-					</c:choose>
-					<c:forEach begin="0" end="${lastMissionIndex}" varStatus="status"> 
-						
-						 	<div class="form-group aMissionDiv">			
-						 		<sf:hidden path="tasks[${status.index}]"/>
-								<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
-								<div class="col-sm-5">
-									<sf:textarea path="tasks[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
-									<sf:errors path="tasks[${status.index}].text" cssClass="error"/>
-								</div>
-							<c:if test="${ status.last }">
-								<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">
-									<button type="button" id="delMissionBtn" class="btn btn-default btn-sm" <c:if test="${lastMissionIndex eq 0}">disabled="disabled"</c:if>>Delete</button>
-									<button type="button" id="addMissionBtn" class="btn btn-default btn-sm">Add</button>
-								</div>
-							</c:if>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<sf:form method="POST" modelAttribute="card" class="form-horizontal editCardForm" role="form">
+						<div class="form-group">
+							<label for="cardTitle" class="col-sm-2 control-label">Title</label>
+							<div class="col-sm-8">
+								<sf:input path="title" id="cardTitle" class="form-control" placeholder="Title"/>
+								<sf:errors path="title" cssClass="error"/>
+							</div>	
+						</div>				
+						<div class="form-group">	
+							<label for="cardLevel" class="col-sm-2 control-label">Difficulty Level</label>
+							<div class="col-sm-8">
+								<sf:input path="level" id="cardLevel" class="form-control" placeholder="Level"/>
+								<sf:errors path="level" cssClass="error"/>
 							</div>
-					</c:forEach>
+						</div>
+						<div class="form-group">	
+							<label for="cardSymptom" class="col-sm-2 control-label">Symptom group</label>
+							<div class="col-sm-8">
+								<sf:select path="symptom" class="form-control">
+									<sf:option value="" label="--Please Select"/>
+									<sf:options items="${symptoms}" itemLabel="text"/>
+								</sf:select>
+								<sf:errors path="symptom" cssClass="error"/>
+							</div>
+						</div>	
+						<div class="form-group">	
+							<label for="cardIntro" class="col-sm-2 control-label">Introduction</label>
+							<div class="col-sm-8">
+								<sf:textarea path="intro" id="cardIntro" class="form-control" rows="3"/>
+								<sf:errors path="intro" cssClass="error"/>
+							</div>
+						</div>	
+						<div id="missionsDiv">
+							<c:choose>
+								<c:when test="${fn:length(card.tasks) > 1}">  <!-- old card -->
+									<c:set var="end" scope="request" value="${fn:length(card.tasks) - 1}"/>
+								</c:when>
+								<c:otherwise> <!--  new card -->
+									<c:set var="end" scope="request" value="${1}"/>
+								</c:otherwise>
+							</c:choose>
+							<c:forEach begin="0" end="${lastMissionIndex}" varStatus="status"> 
+								
+								 	<div class="form-group aMissionDiv">			
+								 		<sf:hidden path="tasks[${status.index}]"/>
+										<label for="cardMission${status.index+1}" class="col-sm-2 control-label">Mission ${status.index+1}</label>
+										<div class="col-sm-8">
+											<sf:textarea path="tasks[${status.index}].text" id="cardMission${status.index+1}" class="form-control" rows="3"/>
+											<sf:errors path="tasks[${status.index}].text" cssClass="error"/>
+										</div>
+									<c:if test="${ status.last }">
+										<div id="missionBtnDiv" class="col-sm-2 btn-group-vertical">
+											<button type="button" id="delMissionBtn" class="btn btn-default btn-sm" <c:if test="${lastMissionIndex eq 0}">disabled="disabled"</c:if>>Delete</button>
+											<button type="button" id="addMissionBtn" class="btn btn-default btn-sm">Add</button>
+										</div>
+									</c:if>
+									</div>
+							</c:forEach>
+						</div>
+						<div id="testDiv">
+						</div>
+						<div class="form-group">
+							<label for="cardOutro" class="col-sm-2 control-label">Completion message</label>
+							<div class="col-sm-8">
+								<sf:textarea path="outro" id="cardOutro" class="form-control" rows="3"/>
+								<sf:errors path="outro" cssClass="error"/>
+							</div>
+						</div>	
+						
+						<sf:hidden path="cardId"/>
+						<input type="submit" name="submitBtn" value="Save card" class="btn btn-primary center-block" />
+					</sf:form>
 				</div>
-				<div id="testDiv">
-				</div>
-				<div class="form-group">
-					<label for="cardOutro" class="col-sm-2 control-label">Completion message</label>
-					<div class="col-sm-5">
-						<sf:textarea path="outro" id="cardOutro" class="form-control" rows="3"/>
-						<sf:errors path="outro" cssClass="error"/>
-					</div>
-				</div>	
-				
-				<sf:hidden path="cardId"/>
-				<input type="submit" name="submitBtn" value="Save card" class="btn btn-primary" />
-			</sf:form>
+			</div>
 			<c:out value="${status}"/>
 		</div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->

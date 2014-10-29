@@ -4,7 +4,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<html>
+<!DOCTYPE html>
 	<jsp:include page="../fragments/headTag.jsp"/>
 <body> 
 <!-- include page header -->

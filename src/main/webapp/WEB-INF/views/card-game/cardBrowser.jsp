@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
-<html>
+<!DOCTYPE html>
 	<jsp:include page="../fragments/headTag.jsp"/>
 <body> 
 <!-- include page header -->
