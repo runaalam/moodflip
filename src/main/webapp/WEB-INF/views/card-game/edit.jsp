@@ -16,6 +16,10 @@
 	    <jsp:include page="../fragments/bodySideBar.jsp"/>
 	    <div class="col-xs-12 col-sm-9">
 			<h1>Create/Edit card</h1><br/>
+			<div class="alert alert-warning alert-dismissible hide" role="alert">
+  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+</div>
 			<sf:form method="POST" modelAttribute="card" class="form-horizontal editCardForm" role="form">
 				<div class="form-group">
 					<label for="cardTitle" class="col-sm-2 control-label">Title</label>

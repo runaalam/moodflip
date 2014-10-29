@@ -13,7 +13,7 @@
     	<!-- include Sidebar --> 	
 	    <jsp:include page="../fragments/bodySideBar.jsp"/>
 	    <div class="col-xs-12 col-sm-9">
-			<h1>Card game main page</h1>
+			<h1>Play game</h1>
 			<c:choose>
 				<c:when test="${(!empty mission) or (!empty cardSurvey)}">
 					<div class="panel panel-default text-center">

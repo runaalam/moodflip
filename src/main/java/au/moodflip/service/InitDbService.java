@@ -89,7 +89,7 @@ public class InitDbService {
 		// switches to toggle prepopulating data
 		boolean card = false;
 		boolean assessment = true;	
-		boolean playlist = false;
+		boolean playlist = true;
 		TransactionTemplate tmpl = new TransactionTemplate(txManager);
 		tmpl.execute(new TransactionCallbackWithoutResult() {
 			@Override

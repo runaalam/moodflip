@@ -66,6 +66,9 @@
 					</div>
 				</div>
 	    	</c:if>
+	    	<c:if test="${empty cards}">
+	    		<p>There are no cards in the system yet.  Create new cards by going to <a href="<c:url value="customCards"/>">custom cards</a></p>
+	    	</c:if>
 	    </div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->
 </div><!-- container -->
