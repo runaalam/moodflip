@@ -19,6 +19,7 @@
 			<h1>Play History</h1>
 			<div class="panel panel-default">
 			 	<div class="panel-body">
+			 		<div class="table-responsive">
 			    	<table class="table table-condensed">
 						<thead>
 							<tr>
@@ -63,6 +64,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					</div>
 				</div>
 			</div>
 			

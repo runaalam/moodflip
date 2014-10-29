@@ -10,7 +10,7 @@
 		    background: #333;    
 		    text-align: center;
 		    height: 400px !important;
-		    padding: 30px 100px 30px 100px;
+		    padding: 30px 30px 30px 30px;
 		}
 		.carousel{
 		    margin-top: 20px;
@@ -29,10 +29,10 @@
     	<!-- include Sidebar --> 	
 	    <jsp:include page="../fragments/bodySideBar.jsp"/>
 	    <div class="col-xs-12 col-sm-9">
-			<h1>My Cards</h1>
+			<h1>Playlist</h1>
+			<div class="panel panel-default">
+				<div class="panel-body">
 			<c:if test="${!empty cards}">
-				<div class="panel panel-default">
-					<div class="panel-body">
 						<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 							<!-- Indicators -->
 							<ol class="carousel-indicators">
@@ -47,10 +47,30 @@
 									<div class="item <c:if test="${i.first}">active</c:if>">
 										<div class="panel panel-default">
 											<div class="panel-heading">
-												<h3 class="panel-title"><c:out value="${card.title}"/></h3>
-												Level: <c:out value="${card.level }"/>
-												Symptom: <c:out value="${card.symptom }"/><br/>
-												<a href="<c:url value="/card-game/myCards?play=${card.cardId}"/>">Play card</a><br/>
+												<div class="row">
+												<div class="hidden-xs col-sm-3">
+													<a class="btn btn-default pull-left" href="#carousel-example-generic" role="button" data-slide="prev">
+							    						<span class="glyphicon glyphicon-chevron-left"></span>
+							  						</a>
+												</div>
+												<div class="col-xs-12 col-sm-6">
+													<h3 class="panel-title"><c:out value="${card.title}"/></h3>
+													Level: <c:out value="${card.level }"/> | 
+													Symptom: <c:out value="${card.symptom.text }"/> | 
+													Missions: <c:out value="${card.tasks.size() - 1 }"/><br/> 
+													<a href="<c:url value="/card-game/myCards?play=${card.cardId}"/>">Play card</a><br/>
+												</div>
+												<div class="hidden-sm hidden-md hidden-lg col-xs-6">
+													<a class="btn btn-default pull-left" href="#carousel-example-generic" role="button" data-slide="prev">
+							    						<span class="glyphicon glyphicon-chevron-left"></span>
+							  						</a>
+												</div>
+												<div class="col-xs-6 col-sm-3">
+													<a class="btn btn-default pull-right" href="#carousel-example-generic" role="button" data-slide="next">
+													    <span class="glyphicon glyphicon-chevron-right"></span>
+													</a>
+												</div>
+												</div>
 											</div>
 											<div class="panel-body card-body">
 												<p><c:out value="${card.intro }"/></p>
@@ -60,13 +80,10 @@
 								</c:forEach>
 							</div>
 							<!-- Controls --> 
-							  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-							    <span class="glyphicon glyphicon-chevron-left"></span>
-							  </a>
-							  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-							    <span class="glyphicon glyphicon-chevron-right"></span>
-							  </a>
+							 
+							  
 						</div>
+						<div class="table-responsive">
 						<table class="table table-condensed table-hover">
 							<thead>
 								<tr>
@@ -87,8 +104,7 @@
 								</c:forEach>
 							</tbody>
 						</table>
-					</div>
-				</div>
+						</div>
 			</c:if>
 			<c:if test="${empty cards }">
 				<p>You don't have anything in your playlist yet.  Here are a few options: 
@@ -101,6 +117,8 @@
 			</c:if>
 			<a class="btn btn-default" href="<c:url value="/card-game/myCards?recommend"/>">Recommend cards</a>
 			<a class="btn btn-default" href="<c:url value="/card-game/myCards?random"/>">Lucky Trip</a>
+				</div>
+			</div>
 		</div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->
 </div><!-- container -->

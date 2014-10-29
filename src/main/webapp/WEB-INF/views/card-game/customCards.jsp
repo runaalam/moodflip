@@ -17,13 +17,14 @@
 	    <div class="alert alert-success hide">
 		    <a href="#" class="close" data-dismiss="alert">&times;</a>
 		</div>
-			<h1>Custom cards</h1><br/>
+			<h1>Customise cards</h1><br/>
 			<a href="<c:url value="/card-game/customCards?new"/>">Create new card</a>
 			
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">My Custom Cards</h3>
 				</div>
+				<div class="table-responsive">
 				<table class="table table-condensed">
 					<thead>
 						<tr>
@@ -63,7 +64,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				
+				</div>
 			</div> <!-- panel panel-default -->
 		</div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->

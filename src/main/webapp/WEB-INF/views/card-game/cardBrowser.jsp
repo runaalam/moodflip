@@ -18,12 +18,14 @@
 		    	<div id="cardView">
 			    	<div class="panel panel-default">
 						<div class="panel-body">
+							<div class="table-responsive">
 					    	<table class="table table-condensed">
 				    			<tr><td>${card.title}</td></tr>
 				    			<tr><td>Level: ${card.level}</td></tr>
 				    			<tr><td>Symptom: ${card.symptom.text}</td></tr>
 				    			<tr><td>${card.intro}</td></tr>
 				    		</table>
+				    		</div>
 						</div>
 					  	<div class="panel-footer">
 						  	<a class="btn btn-default" href="<c:url value="/card-game/cardBrowser?addToMyCards=${card.cardId}"/>">Add to Custom Cards</a>
@@ -36,6 +38,7 @@
 	    	<c:if test="${!empty cards}">
 	    		<div class="panel panel-default">
 					<div class="panel-body">
+						<div class="table-responsive">
 				    	<table class="table table-condensed">
 				    		<thead>
 								<tr>
@@ -63,6 +66,7 @@
 				    		</tr>
 				    	</c:forEach>
 				    	</table>
+				    	</div>
 					</div>
 				</div>
 	    	</c:if>
