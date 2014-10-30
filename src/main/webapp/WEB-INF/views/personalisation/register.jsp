@@ -10,6 +10,7 @@
 <title><fmt:message key="title" /> - Register</title>
 <%@ include file="/WEB-INF/views/bootstrap/include-css.jsp"%>
 <%@ include file="/WEB-INF/views/bootstrap/include-js.jsp"%>
+<link rel="stylesheet" href="<c:url value="/resources/shared/css/sticky-footer.css" />">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/navbar.jsp"%>
@@ -69,6 +70,10 @@
 		</form>
 
 	</div>
-	<%@ include file="/WEB-INF/views/fragments/footer.jsp"%>
+ 
+<div class="panel-footer">
+	<p>Copyright &copy; 2014 <fmt:message key="heading" /></p>
+</div>
+
 </body>
 </html>

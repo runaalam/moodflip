@@ -252,6 +252,12 @@ public class TopicController {
 					.getName()));
 			cardSuggestService.addCardSuggest(suggestedCard);
 		}
+		
+		if(suggestedCards.length > 1)
+			notificationService.createNotification(principal.getName() + " suggested you cards on your topic", "forums/topic/"+id, topicService.getTopicById(id).getUser().getId());
+		else
+			notificationService.createNotification(principal.getName() + " suggested you a card on your topic", "forums/topic/"+id, topicService.getTopicById(id).getUser().getId());
+		
 		return "/forums/topic/" + id;
 	}
 
