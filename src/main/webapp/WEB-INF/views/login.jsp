@@ -20,8 +20,8 @@
 	
 		<div class="row">
 			<div class="col-sm-offset-1 col-sm-10">
-				<div class="jumbotron">
-					<h1>Welcome to MoodFlip!</h1>
+				<div class="jumbotron" style="padding: 30px">
+					<h2>Welcome to MoodFlip!</h2>
 					<p class="lead">Please login to access the website.</p>
 				</div>
 			</div>
