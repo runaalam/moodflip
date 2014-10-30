@@ -32,10 +32,10 @@ MoodFlip is a self-help web site consisting of a card game coupled with a built-
 * Project uses HSQLDB.  For config settings see: 
     * /src/main/webapp/WEB-INF/spring/appServlet/persistence-context.xml 
     * /src/main/resources/database.properties
-* Sample data is preloaded from /src/main/resources/db.
-  * card_game_data.txt: sample cards for testing.  The data is parsed by custom tags like 123title123 that represent the card title.  
+* Sample data for depression assessment results, mood tracking log, card data, user, playlist is preloaded from /src/main/resources/db.
+  * card_game_data.txt: sample card data for testing.  The data is parsed by custom tags like 123title123 that represent the card title.  
   * populateDB.sql: depression assessment question data and forum categories
-  * parser for card game data and user creation is in /src/main/java/au/moodflip/service/InitDbService.java.  2 users created: user and admin.  
+  * parser for card game data, user creation, playlist, mood tracking data and depression assessment results is in /src/main/java/au/moodflip/service/InitDbService.java.  2 users created: user and admin.  
     * User has USER_ROLE and admin has USER_ROLE + ADMIN_ROLE for authorisation.  
     * login/password: user/user or admin/admin
 * Spring config is in /src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml
