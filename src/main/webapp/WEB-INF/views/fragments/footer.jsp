@@ -20,10 +20,7 @@ $(document).ready(function() {
 	}
 	// show users points in navbar right
 	$.ajax({
-		  url: '/moodflip/card-game',
-		  data: {
-			  userPoints: ""
-		  },
+		  url: '/moodflip/card-game/points',
 		  dataType: "text",
 		  timeout: 5000,
 		  // code to run regardless of success or failure

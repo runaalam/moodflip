@@ -153,7 +153,7 @@ public class CardGameController{
 		return new ModelAndView(FOLDER + "/cardGame", "model", model);
 	}
 	
-    @RequestMapping(method = RequestMethod.GET, params="userPoints")
+    @RequestMapping(value="/points", method = RequestMethod.GET)
     @ResponseBody
     public String getUserPoints(Principal principal){
     	User user = userManager.getUserByUsername(principal.getName());
