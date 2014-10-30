@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
+<HTML>
 	<jsp:include page="../fragments/headTag.jsp"/>
 <body> 
 <!-- include page header -->
@@ -44,6 +45,7 @@
 								<td>
 									<a href="<c:url value="/card-game/customCards?delete=${card.cardId}"/>">Delete</a>
 									<a href="#" class="share" data-toggle="popover" title="Share card with user">Share</a>
+									<a href="<c:url value="/card-game/cardBrowser?addToPlaylist=${card.cardId}"/>">Add to playlist</a>
 									<div id="popover-content" class="hide">
 										<form class="form-inline" role="form">
 									  		<input type="text" name="user" class="form-control" placeholder="Enter user"/>

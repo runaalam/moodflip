@@ -4,6 +4,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
+<HTML>
 	<jsp:include page="../fragments/headTag.jsp"/>
 	<style type="text/css">
 		.hiddenRow {padding: 0 !important;}

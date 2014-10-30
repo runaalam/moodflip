@@ -63,7 +63,7 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-					You do not have a mission yet. When you're ready, go to <a href="<c:url value="myCards"/>">My Cards</a> on the side bar
+					You do not have a mission yet. When you're ready, go to <a href="<c:url value="myCards"/>">Playlist</a> on the side bar
 				</c:otherwise>
 			</c:choose>
 		</div><!-- /.col-xs-12 main -->	
