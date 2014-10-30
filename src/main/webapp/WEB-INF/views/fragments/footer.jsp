@@ -8,7 +8,9 @@
 <script>
 $(document).ready(function() {
 	// keep side bar component open while user is browsing that component's pages
-	var pathname = window.location.pathname; 
+	var pathname = window.location.pathname;
+	var hostname = window.location.hostname;
+	console.log('hostname:' + hostname);
 	if (pathname.match("card-game")){
 		$("#collapseTwo").addClass("in");
 	}
@@ -20,7 +22,7 @@ $(document).ready(function() {
 	}
 	// show users points in navbar right
 	$.ajax({
-		  url: '/moodflip/card-game/points',
+		  url: hostname == 'localhost' ? '/moodflip/card-game/points' : '/card-game/points',  // cloud url doesn't have moodflip in root url
 		  dataType: "text",
 		  timeout: 5000,
 		  // code to run regardless of success or failure
