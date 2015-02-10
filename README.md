@@ -1,12 +1,8 @@
-**Contents**
-
-[TOC]
-
-# MoodFlip #
+# MoodFlip
 
 MoodFlip is a self-help web site consisting of a card game coupled with a built-in social media website with the goal of treating mild-moderate forms of depression.  
 
-**Components:**
+## Components
 
 1. Card game: users are assigned cards containing daily missions which they complete for points
 
@@ -18,12 +14,12 @@ MoodFlip is a self-help web site consisting of a card game coupled with a built-
 
 5. Personalisation: user account policy, customisation, privacy and moderation
 
-# What is this repository for? #
+## What is this repository for?
 
 * Spring/Hibernate source code 
 * 1.0
 
-# How do I get set up? #
+## How do I get set up?
 
 * Install Spring Tool Suite
 * Clone this repo into a dir
@@ -41,17 +37,3 @@ MoodFlip is a self-help web site consisting of a card game coupled with a built-
 * Spring config is in /src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml
 * Tests are in src/test/java.  DB config is separate from main project and is stored in src/test/resources.  Read wiki for more info.  
 * Deployment instructions: start server in STS and launch localhost:8080/moodflip/
-
-# Who do I talk to? #
-
-The team:
-
-* Farhana - rafsin09
-
-* Raphassit - raphassitlee
-
-* Runa - runa_alam
-
-* Mark - exevangel
-
-* Tim - tht123
