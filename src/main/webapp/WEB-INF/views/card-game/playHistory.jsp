@@ -3,7 +3,8 @@
 <%@ include file="/WEB-INF/views/include.jsp"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
-<html>
+<!DOCTYPE html>
+<HTML>
 	<jsp:include page="../fragments/headTag.jsp"/>
 	<style type="text/css">
 		.hiddenRow {padding: 0 !important;}
@@ -19,6 +20,7 @@
 			<h1>Play History</h1>
 			<div class="panel panel-default">
 			 	<div class="panel-body">
+			 		<div class="table-responsive">
 			    	<table class="table table-condensed">
 						<thead>
 							<tr>
@@ -63,6 +65,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					</div>
 				</div>
 			</div>
 			

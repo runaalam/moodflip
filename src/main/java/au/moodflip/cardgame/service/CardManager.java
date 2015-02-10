@@ -20,7 +20,4 @@ public interface CardManager{
 	public List<Card> getCards(Playlist playlist);
 	public List<Card> recommendCards(Map<Symptom, Double> symptoms, long userId);
 	public List<Card> randomCards(long userId);
-//	public Card getCardById(long id);
-//	public void update(T card);
-//	public void deleteCard(long id);
 }

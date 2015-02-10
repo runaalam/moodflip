@@ -4,7 +4,8 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<html>
+<!DOCTYPE html>
+<HTML>
 	<jsp:include page="../fragments/headTag.jsp"/>
 <body> 
 <!-- include page header -->
@@ -17,13 +18,14 @@
 	    <div class="alert alert-success hide">
 		    <a href="#" class="close" data-dismiss="alert">&times;</a>
 		</div>
-			<h1>Custom cards</h1><br/>
+			<h1>Customise cards</h1><br/>
 			<a href="<c:url value="/card-game/customCards?new"/>">Create new card</a>
 			
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">My Custom Cards</h3>
 				</div>
+				<div class="table-responsive">
 				<table class="table table-condensed">
 					<thead>
 						<tr>
@@ -43,6 +45,7 @@
 								<td>
 									<a href="<c:url value="/card-game/customCards?delete=${card.cardId}"/>">Delete</a>
 									<a href="#" class="share" data-toggle="popover" title="Share card with user">Share</a>
+									<a href="<c:url value="/card-game/cardBrowser?addToPlaylist=${card.cardId}"/>">Add to playlist</a>
 									<div id="popover-content" class="hide">
 										<form class="form-inline" role="form">
 									  		<input type="text" name="user" class="form-control" placeholder="Enter user"/>
@@ -63,7 +66,7 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				
+				</div>
 			</div> <!-- panel panel-default -->
 		</div><!-- /.col-xs-12 main -->	
 	</div><!--/.row-->

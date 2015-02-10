@@ -59,6 +59,6 @@ public class CardBrowserController {
 		logger.info("Enter addToPlaylist()");
 		User user = userManager.getUserByUsername(principal.getName());
 		playlistManager.appendItem(new PlaylistItem(cardId), user.getId());
-		return "redirect:/" + FOLDER + "/cardBrowser";
+		return "redirect:/" + FOLDER + "/myCards";
 	}
 }

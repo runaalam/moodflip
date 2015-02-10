@@ -4,7 +4,7 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 52px;
+  margin-bottom: 52px !important;
 }
 .panel-footer {
   position: absolute;

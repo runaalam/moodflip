@@ -28,6 +28,7 @@ import au.moodflip.comm.model.Topic;
 import au.moodflip.comm.model.TopicComment;
 import au.moodflip.comm.service.CardSuggestService;
 import au.moodflip.comm.service.ForumService;
+import au.moodflip.comm.service.NotificationService;
 import au.moodflip.comm.service.TopicCommentService;
 import au.moodflip.comm.service.TopicService;
 import au.moodflip.personalisation.service.UserManager;
@@ -58,6 +59,9 @@ public class TopicController {
 	
 	@Autowired
 	private UserManager userService;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Autowired
 	private ActivityService activityService;
@@ -209,11 +213,16 @@ public class TopicController {
 
             return FOLDER + "/newComment";
         }
+		Topic topic = topicService.getTopicById(id);
+		
 		comment.setUser(userService.getUserByUsername(principal.getName()));
 		comment.setTopic(topicService.getTopicById(id));
 		comment.setCreatedAt(new Date());
 
 		topicCommentService.createComment(comment);
+		
+		notificationService.createNotification(principal.getName() + " commented on your topic", "forums/topic/"+topic.getId(), topic.getUser().getId());
+		
 		status.setComplete();
 		return "redirect:/forums/topic/{id}";
 	}
@@ -243,6 +252,12 @@ public class TopicController {
 					.getName()));
 			cardSuggestService.addCardSuggest(suggestedCard);
 		}
+		
+		if(suggestedCards.length > 1)
+			notificationService.createNotification(principal.getName() + " suggested you cards on your topic", "forums/topic/"+id, topicService.getTopicById(id).getUser().getId());
+		else
+			notificationService.createNotification(principal.getName() + " suggested you a card on your topic", "forums/topic/"+id, topicService.getTopicById(id).getUser().getId());
+		
 		return "/forums/topic/" + id;
 	}
 

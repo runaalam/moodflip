@@ -51,17 +51,17 @@
                   <table class="table">
                   	  <tr>
                           <td>
-                              <a href="<c:url value="/card-game/"/>">Card Game</a> 
+                              <a href="<c:url value="/card-game/"/>">Play Game</a> 
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <a href="<c:url value="/card-game/myCards"/>">My Cards</a> 
+                              <a href="<c:url value="/card-game/myCards"/>">Playlist</a> 
                           </td>
                       </tr>
                       <tr>
                           <td>
-                              <a href="<c:url value="/card-game/customCards"/>">Custom Cards</a>
+                              <a href="<c:url value="/card-game/customCards"/>">Customise Cards</a>
                             </td>
                         </tr>
                         <tr>

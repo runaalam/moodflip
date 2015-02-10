@@ -34,7 +34,6 @@ import au.moodflip.personalisation.service.UserManager;
 
 @Controller
 @RequestMapping(value = "/card-game")
-@SessionAttributes({"globalPoints"}) // need to fix.  doesn't stay when going to diff controller
 public class CardGameController{
 	private static final Logger logger = LoggerFactory.getLogger(CardGameController.class);
 	private final String FOLDER = "card-game";
@@ -51,7 +50,6 @@ public class CardGameController{
 	public String home(Locale locale, Principal principal, Model model, HttpSession session) {
 		logger.info("Get card game home page - home() ");
 		User user = userManager.getUserByUsername(principal.getName());
-		model.addAttribute("globalPoints", user.getPoints()); // get global points 
 		
 		TaskEvent curTaskEvent = user.getCurrentTaskEvent();
 		if (curTaskEvent != null){
@@ -59,6 +57,10 @@ public class CardGameController{
 			if (curTask != null){
 				if (curTask instanceof Mission){
 					model.addAttribute(((Mission)curTask));
+					int taskIndex = curTask.getCard().getTasks().indexOf(curTask) + 1; 
+					int taskCount = curTask.getCard().getTasks().size() - 1; // ignore CardSurvey
+					model.addAttribute("taskIndex", String.valueOf(taskIndex));
+					model.addAttribute("taskCount", String.valueOf(taskCount));
 					logger.info("Getting mission " + (Mission)curTask);
 				}else if (curTask instanceof CardSurvey){
 					model.addAttribute(((CardSurvey)curTask));
@@ -96,7 +98,10 @@ public class CardGameController{
 		if (nextTask != null){
 			if (nextTask instanceof Mission){
 				model.addAttribute(((Mission)nextTask));
-
+				int taskIndex = nextTask.getCard().getTasks().indexOf(nextTask) + 1; 
+				int taskCount = nextTask.getCard().getTasks().size() - 1; // ignore CardSurvey
+				model.addAttribute("taskIndex", String.valueOf(taskIndex));
+				model.addAttribute("taskCount", String.valueOf(taskCount));
 				//create new mission played to act as marker for which mission user is currently playing
 				newTaskEvent = new MissionEvent(nextTask, 0, new Date());
 			}else if (nextTask instanceof CardSurvey){
@@ -148,7 +153,7 @@ public class CardGameController{
 		return new ModelAndView(FOLDER + "/cardGame", "model", model);
 	}
 	
-    @RequestMapping(method = RequestMethod.GET, params="userPoints")
+    @RequestMapping(value="/points", method = RequestMethod.GET)
     @ResponseBody
     public String getUserPoints(Principal principal){
     	User user = userManager.getUserByUsername(principal.getName());

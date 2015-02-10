@@ -116,12 +116,7 @@ $(document).ready(function() {
 			$(this).attr("name", "tasks[" + index + "].text"); // repopulate array with index before sending request
 		});
 		
+		// override submit here to make ajax call instead
 		$form.submit();
-// override submit here to make ajax call instead
-//				function(e){
-//			
-//			e.preventDefault();
-//		});
-		
 	});
 });

@@ -1,8 +1,15 @@
 package au.moodflip.test.cardgame;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+
+import java.util.TreeSet;
+
+import org.junit.Before;
 //
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +24,7 @@ import au.moodflip.cardgame.model.CardSurvey;
 import au.moodflip.cardgame.model.Mission;
 import au.moodflip.cardgame.model.Card.Symptom;
 import au.moodflip.cardgame.model.Task;
+import au.moodflip.cardgame.model.UsersCard;
 import au.moodflip.cardgame.service.CardManager;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +35,63 @@ import au.moodflip.cardgame.service.CardManager;
 public class CardManagerDbImplTest {
 	@Autowired
 	private CardManager cardManager;
+	private Card card;
+	private Set<Card> cardSet;
+	
+	@Before
+	public void setUp(){
+		List<Task> tasks = new ArrayList<Task>();
+		card = new Card("card title", 1, Symptom.SADNESS, "intro", tasks, "outro", 1, 2, 3.0);
+		Mission m = new Mission("mission");
+		m.setCard(card);
+		tasks.add(m);
+		
+		tasks.clear();
+		cardSet = new TreeSet<Card>();
+		for (int i=0; i < 3; i++){
+			card = new Card("card title" + i, 1, Symptom.SADNESS, "intro", tasks, "outro", 1, 2, 3.0);
+			m = new Mission("mission" + i);
+			m.setCard(card);
+			tasks.add(m);
+			cardSet.add(card);
+		}
+	}
+	
+	@Test
+	public void testAddAndGetCard(){
+		
+		long cardId = cardManager.add(card);
+		Card card2 = cardManager.getById(cardId);
+		assertEquals(card, card2);
+	}
+	
+	@Test
+	public void testCardUpdate(){
+		card.setTitle("New card title");
+		Card cardUpdated = cardManager.update(card);
+		assertEquals("New card title", cardUpdated.getTitle());		
+	}
+	
+	@Test
+	public void testDelete(){
+		List<Task> tasks = new ArrayList<Task>();
+		Card card = new Card("card title", 1, Symptom.SADNESS, "intro", tasks, "outro", 1, 2, 3.0);
+		Mission m = new Mission("mission");
+		m.setCard(card);
+		tasks.add(m);
+		long cardAdded = cardManager.add(card);
+		cardManager.delete(cardAdded);
+		Card cardDeleted = cardManager.getById(cardAdded);
+		assertNull(cardDeleted);
+	}
+	
+	@Test
+	public void testGetCards(){
+		for (Card c : cardSet){
+			cardManager.add(c);
+		}
+		assertEquals(cardSet, cardManager.getCards());
+	}
 	
 //	@Test
 	public void testGetCardsBySymptom(){
@@ -89,7 +154,7 @@ public class CardManagerDbImplTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testRandomCards(){
 		List<Card> list = cardManager.randomCards(1L);
 		if (list.size() > 0){

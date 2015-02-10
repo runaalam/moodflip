@@ -219,4 +219,11 @@ public class MyCardsController {
 		}
 		return "redirect:/" + FOLDER;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, params="delete")
+	public String deleteFromPlaylist(Model model, @RequestParam(value="delete", required=false) long cardId, Principal principal){
+		User user = userManager.getUserByUsername(principal.getName());
+		boolean res = playlistManager.deleteItem(cardId, user.getId());
+		return "redirect:/" + FOLDER + "/myCards";
+	}
 }

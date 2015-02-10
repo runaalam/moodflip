@@ -19,6 +19,9 @@
 				<li <% if(url.startsWith("/card-game")){ %> class="active" <% } %>><a href="<c:url value="/card-game"/>">Card Game</a></li>
 				<li <% if(url.startsWith("/mood-tracking")){ %> class="active" <% } %>><a href="<c:url value="/mood-tracking"/>">Express Your Mood</a></li>
 				<li <% if(url.startsWith("/forums")){ %> class="active" <% } %>><a href="<c:url value="/forums" />">Forums</a></li>
+				<!--<sec:authorize access="isAuthenticated()">
+				<li <% if(url.startsWith("/friend")){ %> class="active" <% } %>><a href="<c:url value="/friend" />">Friends</a></li>
+				</sec:authorize>-->
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li <% if(url.startsWith("/personalisation")){ %> class="active" <% } %>><a href="<c:url value="/personalisation" />">Dashboard</a></li>
 				</sec:authorize>
@@ -39,7 +42,7 @@
 					</ul>
 				</li>
 				<li><a href="<c:url value="/user/profile"/>"><sec:authentication property="principal.username" /></a></li>
-				<li><p class="navbar-text" id="user_points"><span class="text-warning glyphicon glyphicon-star"/></p></li>
+				<li><a href="<c:url value="/card-game/playHistory"/>" id="user_points"><span class="glyphicon glyphicon-star" style="color: gold"/></a></li>
 				<li><a href="<c:url value="/logout"/>">Logout</a></li>
 				</sec:authorize>
 			</ul>
