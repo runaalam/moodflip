@@ -37,3 +37,18 @@ MoodFlip is a self-help web site consisting of a card game coupled with a built-
 * Spring config is in /src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml
 * Tests are in src/test/java.  DB config is separate from main project and is stored in src/test/resources.  Read wiki for more info.  
 * Deployment instructions: start server in STS and launch localhost:8080/moodflip/
+
+## Deploying Moodflip to cloud
+
+[Pivotal Web Services](https://run.pivotal.io/) (PWS) is the reference implementation of open source [Cloud Foundry](https://www.cloudfoundry.org/) (CF) and a commercial service with trial provision. PWS and CF is developed by [Pivotal](https://pivotal.io/), the company behind Spring Framework. 
+
+Instructions for deploying moodflip to PWS:
+1. Register fora account [here](https://run.pivotal.io/).
+2. Download and install cf command line tool from [here](https://docs.run.pivotal.io/cf-cli/install-go-cli.html)
+3. Goto your local moodflip project directory.
+4. Run in the terminal: `cf api api.run.pivotal.io`
+5. Run: `cf login` and authenticate with your username and password.
+6. Run: `mvn clean package` to get the war file in the target directory.
+7. Run: `cf push moodflip ‐p target/moodflip‐1.0.0‐BUILD‐SNAPSHOT.war`
+8. Browse to the url mentioned in the success message.In the above case it is:http://moodflip.cfapps.io
+9. You can also use the Eclipse/STS plugin for cloudfoundry if you want.
